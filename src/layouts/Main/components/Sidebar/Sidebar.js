@@ -17,13 +17,14 @@ import { Profile, SidebarNav } from './components';
 const useStyles = makeStyles(theme => ({
   drawer: {
     width: 240,
+    backgroundColor: '#263238',
     [theme.breakpoints.up('lg')]: {
       marginTop: 64,
       height: 'calc(100% - 64px)'
     }
   },
   root: {
-    backgroundColor: theme.palette.white,
+    backgroundColor: '#263238',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',

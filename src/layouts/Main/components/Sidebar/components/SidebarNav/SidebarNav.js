@@ -8,14 +8,16 @@ import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, Button, colors } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    backgroundColor: '#263238',
+  },
   item: {
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0
   },
   button: {
-    color: colors.blueGrey[800],
+    color: colors.blueGrey[300],
     padding: '10px 8px',
     justifyContent: 'flex-start',
     textTransform: 'none',
@@ -32,10 +34,10 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   active: {
-    color: theme.palette.primary.main,
+    color: '#00695f',
     fontWeight: theme.typography.fontWeightMedium,
     '& $icon': {
-      color: theme.palette.primary.main
+      color: '#00695f'
     }
   }
 }));
