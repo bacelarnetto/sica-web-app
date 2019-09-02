@@ -1,4 +1,4 @@
-import { Types } from '../actions/cidade';
+import { Types } from '../actions/categoria';
 
 const INITIAL_STATE = {list: []}
   
