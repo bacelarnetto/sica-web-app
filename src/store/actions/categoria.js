@@ -6,8 +6,7 @@ export const Types = {
 }
 
 export const Creators = {
-  buscaCategorias : () => ({
-  
+  buscaCategorias : () => ({  
     type:  Types.CATEGORIAS_FETCHED_PENDING,
     carregando: true,
     erro: false
