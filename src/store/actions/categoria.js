@@ -1,27 +1,31 @@
 export const Types = {
-  CATEGORIAS_FETCHED: 'list/CATEGORIAS_FETCHED',
-  CATEGORIAS_FETCHED_PENDING: 'list/CATEGORIAS_FETCHED_PENDING',
-  CATEGORIAS_FETCHED_SUCCESS: 'list/CATEGORIAS_FETCHED_SUCCESS',
-  CATEGORIAS_FETCHED_ERROR: 'list/CATEGORIAS_FETCHED_ERROR',
+  BUSCA_LIST_CATEGORIA: 'list/BUSCA_CATEGORIA',
+  BUSCA_LIST_CATEGORIA_START: 'list/BUSCA_CATEGORIA_START',
+  BUSCA_LIST_CATEGORIA_SUCCESS: 'list/BUSCA_CATEGORIA_SUCCESS',
+  BUSCA_LIST_CATEGORIA_ERROR: 'list/BUSCA_CATEGORIA_ERROR',
 }
 
 export const Creators = {
   buscaCategorias : () => ({  
-    type:  Types.CATEGORIAS_FETCHED_PENDING,
-    carregando: true,
+    type: Types.BUSCA_LIST_CATEGORIA,
+  }),
+
+  buscaCategoriasStart : () => ({  
+    type: Types.BUSCA_LIST_CATEGORIA_START,
+    loading: true,
     erro: false
   }),
 
-  buscaCategoriasSucess : (categorias) => ({
-    type:  Types.CATEGORIAS_FETCHED_SUCCESS,
-    categorias,
-    carregando: false,
+  buscaCategoriasSucess : (data) => ({
+    type: Types.BUSCA_LIST_CATEGORIA_SUCCESS,
+    data,
+    loading: false,
     erro: false
   }),
 
   buscaCategoriasError : () => ({
-    type:  Types.CATEGORIAS_FETCHED_ERROR,
-    carregando: false,
+    type: Types.BUSCA_LIST_CATEGORIA_ERROR,
+    loading: false,
     erro: true
   })
 

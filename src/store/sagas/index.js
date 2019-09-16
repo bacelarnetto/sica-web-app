@@ -1,8 +1,8 @@
 import { all } from 'redux-saga/effects';
-import { watchFetchCategorias } from './categoria';
+import { watchCategorias } from './categoria';
 
 export default function* rootSaga() {
   return yield all([
-    watchFetchCategorias()
+    watchCategorias()
   ])
 }

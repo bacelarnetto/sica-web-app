@@ -83,6 +83,11 @@ const Sidebar = props => {
       title: 'Settings',
       href: '/settings',
       icon: <SettingsIcon />
+    },
+    {
+      title: 'Categoria',
+      href: '/categoria',
+      icon: <SettingsIcon />
     }
   ];
 
