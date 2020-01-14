@@ -11,8 +11,7 @@ function* buscaMarcasSaga(action) {
     const totalPages = response.data.totalPages;
     const itemsCountPerPage = response.data.size;
     const totalElements = response.data.totalElements;
-    yield put(actions.buscaMarcasSucess(marcas, totalPages, itemsCountPerPage, totalElements ))
-    toastr.success('Sucesso', 'Operação Realizada com sucesso.')  
+    yield put(actions.buscaMarcasSucess(marcas, totalPages, itemsCountPerPage, totalElements )) 
   } catch (error) {
     yield put(actions.buscaMarcasError())
     toastr.error('Erro:', error.message)
@@ -21,9 +20,7 @@ function* buscaMarcasSaga(action) {
 }
 
 function* deleteMarcaSaga(action) {
-  console.log('aqui')
   yield put(actions.deleteMarcasStart())
-  console.log('aqui2' + action.itemSelected)
   try {    
     yield service.submitMarca(action.itemSelected,'delete');  
     yield put(actions.deleteMarcasSucess())
