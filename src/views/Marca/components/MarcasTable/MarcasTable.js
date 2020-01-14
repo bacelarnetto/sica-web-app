@@ -114,7 +114,7 @@ const MarcasTable = props => {
   //const itemsCountPerPage = useSelector( state  => state.marca.itemsCountPerPage );
   const totalElements = useSelector( state  => state.marca.totalElements );
   const loading = useSelector( state  => state.marca.loading );
-  const deleteSuccess = useSelector( state  => state.marca.deleteSuccess );
+
 
 
   const handleChange = event => {
@@ -165,7 +165,7 @@ const MarcasTable = props => {
     console.log('Exclusao:'+ id)
     dispatch(actions.deleteMarcas(id),[])
     event.preventDefault();
-    dispatch(actions.buscaMarcas(values, page, rowsPerPage, order, orderBy),[deleteSuccess])
+    dispatch(actions.buscaMarcas(values, page, rowsPerPage, order, orderBy),[])
     setOpen(false);
   };
 

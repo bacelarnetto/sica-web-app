@@ -23,7 +23,6 @@ export const MarcaService = {
   submitMarca: async (value, method) => {
     try {
       const id = value ? value : ''
-      console.log('-------->'+id)
       return await api[method](`/marca/${id}`, value)
     } catch (error) {
       console.error(error)
