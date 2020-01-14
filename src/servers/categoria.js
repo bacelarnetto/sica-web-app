@@ -1,17 +1,24 @@
 /* eslint-disable no-console */
 import api from './api';
+import { serializeQuery }  from './../common/util'
 
 export const CategoriaService = {
 
-  getCategoriasAsync: async () => {
+  findListPagination: async (query) => {
     try {
-      return await api.get('/categorias')
+      console.log(query)
+      return await api.get(`/categorias/pagination?${serializeQuery({
+        linesPerPage: query.linesPerPage,
+        page: query.page,
+        orderBy: query.orderBy,
+        direction: query.direction
+      })}`)
     } catch (error) {
       console.error(error)
     }
   },
 
-  submitCategoriaAsync: async (values, method) => {
+  submitCategoria: async (values, method) => {
     try {
       const id = values.id ? values.id : ''
       return await api[method](`/categorias/${id}`, values)

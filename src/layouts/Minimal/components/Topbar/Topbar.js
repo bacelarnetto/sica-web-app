@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,10 +30,20 @@ const Topbar = props => {
     >
       <Toolbar>
         <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
-          />
+          <Grid
+            alignItems="center"
+            container
+            direction="row"
+            justify="center"
+          >
+            <img
+              alt="Logo"
+              src="/images/logos/filter_hdrlandscapeterrain.svg"
+            />
+            <h4
+              className="MuiTypography-root MuiTypography-h4  MuiTypography-alignCenter"
+              style={{color: '#235244'}}
+            >SCA</h4></Grid>
         </RouterLink>
       </Toolbar>
     </AppBar>

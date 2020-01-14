@@ -5,9 +5,10 @@ import { RouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
-  Dashboard as DashboardView,
-  
+  Dashboard as DashboardView,  
   Categoria as CategoriaView,
+  Marca as MarcaView,
+  MarcaForm as MarcaFormView,
   ProductList as ProductListView,
   UserList as UserListView,
   Typography as TypographyView,
@@ -38,6 +39,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/categoria"
+      />
+      <RouteWithLayout
+        component={MarcaView}
+        exact
+        layout={MainLayout}
+        path="/marca"
+      />
+      <RouteWithLayout
+        component={MarcaFormView}
+        exact
+        layout={MainLayout}
+        path="/marca/:id"
       />
       <RouteWithLayout
         component={UserListView}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 
-import { CategoriasTable } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,15 +12,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Categoria = () => {
+const MarcaForm = () => {
   
   const classes = useStyles();
+
   return (
     <div className={classes.root}  >
-      <div className={classes.content} />
-      <CategoriasTable  />
+      <div className={classes.content} >
+       
+        teste
+       
+      </div>
     </div>
   );
 };
 
-export default Categoria ;
+
+
+export default MarcaForm ;

@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
 import categoria from './categoria';
+import marca from './marca';
+import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
-  categoria
+  toastr: toastrReducer,
+  categoria,
+  marca
 });
 
 export default rootReducer;

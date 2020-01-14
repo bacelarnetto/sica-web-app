@@ -13,6 +13,7 @@ import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
 import store from './store';
+import Messages from './common/messages'
 
 const browserHistory = createBrowserHistory();
 
@@ -29,7 +30,8 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
+        <Messages />
+        <ThemeProvider theme={theme}>          
           <Router history={browserHistory}>
             <Routes />
           </Router>

@@ -6,8 +6,14 @@ export const Types = {
 }
 
 export const Creators = {
-  buscaCategorias : () => ({  
+  buscaCategorias : (page, rowsPerPage, order, orderBy ) => ({  
     type: Types.BUSCA_LIST_CATEGORIA,
+    query: { 
+      page, 
+      linesPerPage: rowsPerPage, 
+      direction: order.toUpperCase(), 
+      orderBy
+    }
   }),
 
   buscaCategoriasStart : () => ({  
@@ -16,9 +22,12 @@ export const Creators = {
     erro: false
   }),
 
-  buscaCategoriasSucess : (data) => ({
+  buscaCategoriasSucess : (data, totalPages, itemsCountPerPage, totalElements) => ({
     type: Types.BUSCA_LIST_CATEGORIA_SUCCESS,
     data,
+    totalPages,
+    itemsCountPerPage,
+    totalElements,
     loading: false,
     erro: false
   }),
