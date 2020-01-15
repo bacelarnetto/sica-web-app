@@ -147,8 +147,6 @@ const MarcasTable = props => {
   const handleSubmit = event => {
     event.preventDefault();
     dispatch(actions.buscaMarcas(values, page, rowsPerPage, order, orderBy),[])
-
-    console.log(totalElements)
   }
 
   const handleClickOpen = value => {
@@ -162,10 +160,9 @@ const MarcasTable = props => {
   };
 
   const handleRemove = event => {
-    console.log('Exclusao:'+ id)
-    dispatch(actions.deleteMarcas(id),[])
     event.preventDefault();
-    dispatch(actions.buscaMarcas(values, page, rowsPerPage, order, orderBy),[])
+    console.log('Exclusao:'+ id)
+    dispatch(actions.deleteMarcas(id, values, page, rowsPerPage, order, orderBy),[])  
     setOpen(false);
   };
 

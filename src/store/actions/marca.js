@@ -43,9 +43,16 @@ export const Creators = {
     erro: true
   }),
 
-  deleteMarcas: itemSelected => ({
+  deleteMarcas: (itemSelected , filter, page, rowsPerPage, order, orderBy )=> ({
     type: Types.DELETE_MARCA,
     itemSelected,
+    query: { 
+      nome: filter.nome,
+      page, 
+      lines_per_page: rowsPerPage, 
+      direction: order.toUpperCase(), 
+      order_by: orderBy
+    }
   }),
 
   deleteMarcasStart : () => ({  

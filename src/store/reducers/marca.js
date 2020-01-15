@@ -10,57 +10,31 @@ const INITIAL_STATE = {
   erro: false
 }
   
-export default (state = INITIAL_STATE, action) => {
-      
+export default (state = INITIAL_STATE, action) => {      
   switch (action.type) {
+
+    case types.DELETE_MARCA_START:
+    case types.DELETE_MARCA_SUCCESS:// loading é true porque ainda tem que carregar a lista    
     case types.BUSCA_LIST_MARCA_START:
       return {
-        loading: true,
-        data: [],
-        totalPages: 0,
-        itemsCountPerPage: 0,
-        totalElements: 0,
-        erro: false
+        ...state,
+        loading: true
       };
-    
+
     case types.BUSCA_LIST_MARCA_SUCCESS:
       return {
+        ...state,
         loading: false,
         data: action.data,
         totalPages: action.totalPages,
         itemsCountPerPage: action.itemsCountPerPage,
         totalElements: action.totalElements,
-        erro: false
       };
     
+    case types.DELETE_MARCA_ERROR:
     case types.BUSCA_LIST_MARCA_ERROR:
       return {
-        loading: false,
-        data: [],
-        totalPages: 0,
-        itemsCountPerPage: 0,
-        totalElements: 0,
-        erro: true
-      };
-
-    case types.DELETE_MARCA_START:
-      return {
-        loading: true,
-        erro: false
-      };
-    
-    case types.DELETE_MARCA_SUCCESS:
-      return {
-        loading: true,
-        data: [],
-        totalPages: 0,
-        itemsCountPerPage: 0,
-        totalElements: 0,
-        erro: false
-      };
-
-    case types.DELETE_MARCA_ERROR:
-      return {
+        ...state,
         loading: false,
         erro: true
       };

@@ -22,9 +22,23 @@ function* buscaMarcasSaga(action) {
 function* deleteMarcaSaga(action) {
   yield put(actions.deleteMarcasStart())
   try {    
-    yield service.submitMarca(action.itemSelected,'delete');  
-    yield put(actions.deleteMarcasSucess())
-    toastr.success('Sucesso', 'Exclusão Realizada com sucesso.')  
+    const responseDelete = yield service.submitMarca(action.itemSelected+1+1,'delete'); 
+    console.log(responseDelete)
+    if(responseDelete != undefined && responseDelete != null &&
+    (responseDelete.status === 200|| responseDelete.status === 204)) {
+      yield put(actions.deleteMarcasSucess())
+      toastr.success('Sucesso', 'Exclusão Realizada com sucesso.') 
+      //busca a lista apos a exclusao
+      yield put(actions.buscaMarcasStart()) 
+      const responseList = yield service.findListPagination(action.query);
+      const marcas = responseList.data.content;
+      const totalPages = responseList.data.totalPages;
+      const itemsCountPerPage = responseList.data.size;
+      const totalElements = responseList.data.totalElements;
+      yield put(actions.buscaMarcasSucess(marcas, totalPages, itemsCountPerPage, totalElements ))
+    }else{
+      throw  new Error('Erro ao tentar realizar a exclusão'); // gera uma exceção
+    }
   } catch (error) {
     yield put(actions.deleteMarcasError())
     toastr.error('Erro:', error.message)

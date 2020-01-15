@@ -25,7 +25,7 @@ export const MarcaService = {
       const id = value ? value : ''
       return await api[method](`/marca/${id}`, value)
     } catch (error) {
-      console.error(error)
+      console.error('ddd'+error)
     }
   },
 
