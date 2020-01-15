@@ -22,10 +22,9 @@ function* buscaMarcasSaga(action) {
 function* deleteMarcaSaga(action) {
   yield put(actions.deleteMarcasStart())
   try {    
-    const responseDelete = yield service.submitMarca(action.itemSelected+1+1,'delete'); 
-    console.log(responseDelete)
+    const responseDelete = yield service.submitMarca(action.itemSelected,'delete'); 
     if(responseDelete != undefined && responseDelete != null &&
-    (responseDelete.status === 200|| responseDelete.status === 204)) {
+    (responseDelete.status === 200 || responseDelete.status === 204)) {
       yield put(actions.deleteMarcasSucess())
       toastr.success('Sucesso', 'Exclusão Realizada com sucesso.') 
       //busca a lista apos a exclusao
