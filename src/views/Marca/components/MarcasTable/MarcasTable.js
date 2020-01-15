@@ -72,11 +72,19 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignContent: 'center',
   },
-  buttonSearch: {
-    height: 20
-  },
-  btDelete:{
+  button:{
+    color:'#FFFFFF',
+    backgroundColor:'#235244',
+    '&:hover': {
+      //you want this to be the same as the backgroundColor above
+      backgroundColor: '#14352c'
+    }
+  },  
+  buttonDelete:{
     color: '#c62828'
+  },
+  buttonLabel:{
+    color: '#235244'
   },
   colAction:{
     textAlign: 'right'
@@ -115,8 +123,6 @@ const MarcasTable = props => {
   const totalElements = useSelector( state  => state.marca.totalElements );
   const loading = useSelector( state  => state.marca.loading );
 
-
-
   const handleChange = event => {
     setValues({
       ...values,
@@ -141,7 +147,6 @@ const MarcasTable = props => {
     let valorOrder =isAsc ? 'desc' : 'asc'
     setOrder(valorOrder);
     setOrderBy(property);
-    console.log( `${isAsc} - property -${property}, ${order}, ${orderBy}`);
   }
 
   const handleSubmit = event => {
@@ -161,7 +166,6 @@ const MarcasTable = props => {
 
   const handleRemove = event => {
     event.preventDefault();
-    console.log('Exclusao:'+ id)
     dispatch(actions.deleteMarcas(id, values, page, rowsPerPage, order, orderBy),[])  
     setOpen(false);
   };
@@ -251,11 +255,10 @@ const MarcasTable = props => {
                 item
                 md={6}
                 xs={12}
-              >
-            
+              >            
                 <Fab
                   aria-label="pesquisar"
-                  color="primary"
+                  className={classes.button}
                   type="submit"
                 >
                   <Search />
@@ -270,7 +273,7 @@ const MarcasTable = props => {
         <Link to="/marca/new">
           <Fab
             aria-label="add"
-            className={classes.margin}
+            className={classes.button}
             color="primary"
             size="medium"
             variant="extended"
@@ -307,7 +310,7 @@ const MarcasTable = props => {
                       <TableCell className={classes.colAction}>
                         <IconButton
                           aria-label="Excluir"
-                          className={classes.btDelete}
+                          className={classes.buttonDelete}
                           onClick={() => handleClickOpen(marca.id)}
                         >
                           <DeleteIcon />
@@ -315,7 +318,7 @@ const MarcasTable = props => {
                         <Link to={'marca/'+ marca.id}>
                           <IconButton
                             aria-label="Editar"
-                            color="primary"
+                            className={classes.buttonLabel}
                           >
                             <EditIcon />
                           </IconButton>
@@ -349,8 +352,6 @@ const MarcasTable = props => {
                       </TableCell>
                     </TableRow>
                   )}
-
-
                   
                 </TableBody>
               </Table>
@@ -385,13 +386,13 @@ const MarcasTable = props => {
         </DialogContent>
         <DialogActions>
           <Button
-            color="primary"
+            className={classes.buttonLabel}
             onClick={handleClose}
           >
             Não
           </Button>
           <Button
-            color="primary"
+            className={classes.buttonLabel}
             onClick={handleRemove}
           >
             Sim
