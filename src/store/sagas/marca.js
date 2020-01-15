@@ -23,10 +23,10 @@ function* deleteMarcaSaga(action) {
   yield put(actions.deleteMarcasStart())
   try {    
     const responseDelete = yield service.submitMarca(action.itemSelected,'delete'); 
-    if(responseDelete != undefined && responseDelete != null &&
+    if(responseDelete !== undefined && responseDelete !== null &&
     (responseDelete.status === 200 || responseDelete.status === 204)) {
       yield put(actions.deleteMarcasSucess())
-      toastr.success('Sucesso', 'Exclusão Realizada com sucesso.') 
+      toastr.success('Sucesso:', 'Exclusão realizada com sucesso.') 
       //busca a lista apos a exclusao
       yield put(actions.buscaMarcasStart()) 
       const responseList = yield service.findListPagination(action.query);
