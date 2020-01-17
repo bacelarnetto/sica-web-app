@@ -8,7 +8,7 @@ import {
   Dashboard as DashboardView,  
   Categoria as CategoriaView,
   Marca as MarcaView,
-  MarcaForm as MarcaFormView,
+  MarcaInsertEdit as MarcaInsertEditView,
   ProductList as ProductListView,
   UserList as UserListView,
   Typography as TypographyView,
@@ -47,7 +47,7 @@ const Routes = () => {
         path="/marca"
       />
       <RouteWithLayout
-        component={MarcaFormView}
+        component={MarcaInsertEditView}
         exact
         layout={MainLayout}
         path="/marca/:id"

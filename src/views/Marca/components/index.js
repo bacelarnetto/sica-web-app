@@ -1,1 +1,1 @@
-export { default as MarcasTable } from './MarcasTable';
+export { default as MarcaTable } from './MarcaTable';

@@ -15,6 +15,16 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     maxWidth: '100%',
     width: 560
+  },
+  videoTag:{  
+    borderColor:'#FFFFFF',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    marginTop: 50,
+    display: 'inline-block',
+    maxWidth: '100%',
+    width: 560 /* optional depending on what you want to do in your app */
+
   }
 }));
 
@@ -35,17 +45,24 @@ const NotFound = () => {
         >
           <div className={classes.content}>
             <Typography variant="h1">
-              404: The page you are looking for isn’t here
+              404: A página que você está procurando não está aqui
             </Typography>
             <Typography variant="subtitle2">
-              You either tried some shady route or you came here by mistake.
-              Whichever it is, try using the navigation
+            Você tentou alguma uma rota inexistente ou veio aqui por engano. 
+            Seja qual for, tente usar a navegação
             </Typography>
-            <img
-              alt="Under development"
-              className={classes.image}
-              src="/images/undraw_page_not_found_su7k.svg"
-            />
+    
+            <video
+              autoPlay
+              className={classes.videoTag}
+              loop
+              muted
+            >
+              <source
+                src="/images/404_1.mp4"
+                type="video/mp4"
+              />
+            </video>
           </div>
         </Grid>
       </Grid>

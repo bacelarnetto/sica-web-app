@@ -87,6 +87,9 @@ const useStyles = makeStyles(() => ({
     color: '#235244'
   },
   colAction:{
+    textAlign: 'center'
+  },
+  contentActionTop:{
     textAlign: 'right'
   },
   loadingContent:{
@@ -98,7 +101,7 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const MarcasTable = props => {
+const MarcaTable = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -171,9 +174,9 @@ const MarcasTable = props => {
   };
 
   const headCells = [
-    { id: 'id', numeric: false, disablePadding: false, label: 'Codigo' },
+    { id: 'acao', numeric: false, disablePadding: false, label: '' },
     { id: 'nome', numeric: false, disablePadding: false, label: 'Nome' } ,
-    { id: 'acao', numeric: false, disablePadding: false, label: '' }  
+     
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -269,7 +272,7 @@ const MarcasTable = props => {
         </form>
       </Card>
       <br/>
-      <div className={classes.colAction}>
+      <div className={classes.contentActionTop}>
         <Link to="/marca/new">
           <Fab
             aria-label="add"
@@ -304,10 +307,11 @@ const MarcasTable = props => {
                       className={classes.tableRow}
                       hover
                       key={marca.id}
-                    >
-                      <TableCell>{marca.id}</TableCell>                
-                      <TableCell>{marca.nome}</TableCell>
-                      <TableCell className={classes.colAction}>
+                    > 
+                      <TableCell
+                        className={classes.colAction}
+                        style={{ width: 160 }}
+                      >
                         <IconButton
                           aria-label="Excluir"
                           className={classes.buttonDelete}
@@ -323,7 +327,9 @@ const MarcasTable = props => {
                             <EditIcon />
                           </IconButton>
                         </Link>
-                      </TableCell>
+                      </TableCell>            
+                      <TableCell>{marca.nome}</TableCell>
+                     
                     </TableRow>
                   )))}
 
@@ -413,8 +419,8 @@ const useFetching = (dispatch, action) => {
   }, array)
 }
 
-MarcasTable.propTypes = {
+MarcaTable.propTypes = {
   className: PropTypes.string
 };
 
-export default MarcasTable;
+export default MarcaTable;

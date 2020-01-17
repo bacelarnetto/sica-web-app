@@ -11,4 +11,4 @@ export { default as UserList } from './UserList';
 export { default as Categoria } from './Categoria';
 
 export { default as Marca } from './Marca/Marca';
-export { default as MarcaForm } from './Marca/MarcaForm';
+export { default as MarcaInsertEdit} from './Marca/MarcaInsertEdit';

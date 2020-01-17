@@ -1,2 +1,2 @@
 export { default as Marca } from './Marca';
-export { default as MarcaForm } from './MarcaForm';
+export { default as MarcaInsertEdit } from './MarcaInsertEdit';

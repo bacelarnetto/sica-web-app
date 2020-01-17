@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 
-import { MarcasTable } from './components';
+import { MarcaTable } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +20,7 @@ const Marca = () => {
   return (
     <div className={classes.root}  >
       <div className={classes.content} >        
-        <MarcasTable  />      
+        <MarcaTable  />      
       </div>
     </div>
   );
