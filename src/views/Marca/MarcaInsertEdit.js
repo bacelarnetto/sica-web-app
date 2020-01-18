@@ -46,7 +46,6 @@ const MarcaInsertEdit = props => {
           <Link to="/marca">
             <Button
               className={classes.buttonVoltar}
-              href="#text-buttons"
             ><ArrowBackIcon/> Voltar</Button>            
           </Link>
         </div>    

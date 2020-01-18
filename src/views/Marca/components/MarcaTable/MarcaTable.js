@@ -118,7 +118,7 @@ const MarcaTable = props => {
 
   
   const dispatch = useDispatch();
-  useFetching(dispatch, actions.buscaMarcas(values, page, rowsPerPage, order, orderBy));
+  useFetching(dispatch, actions.buscaListMarcas(values, page, rowsPerPage, order, orderBy));
 
   const marcas = useSelector( state  => state.marca.data );
   //const totalPages = useSelector( state  => state.marca.totalPages );
@@ -135,18 +135,18 @@ const MarcaTable = props => {
 
   const handlePageChange = (event, page) => {
     setPage(page);
-    dispatch(actions.buscaMarcas(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListMarcas(values, page, rowsPerPage, order, orderBy),[])
   };
 
   const handleRowsPerPageChange = event => {
     setRowsPerPage(event.target.value);
     setPage(0);
-    dispatch(actions.buscaMarcas(values, page, event.target.value, order, orderBy),[])
+    dispatch(actions.buscaListMarcas(values, page, event.target.value, order, orderBy),[])
   };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';    
-    dispatch(actions.buscaMarcas(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
+    dispatch(actions.buscaListMarcas(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
     let valorOrder =isAsc ? 'desc' : 'asc'
     setOrder(valorOrder);
     setOrderBy(property);
@@ -154,7 +154,7 @@ const MarcaTable = props => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(actions.buscaMarcas(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListMarcas(values, page, rowsPerPage, order, orderBy),[])
   }
 
   const handleClickOpen = value => {

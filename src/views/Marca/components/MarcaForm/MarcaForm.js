@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -42,6 +43,12 @@ const MarcaForm = props => {
     });
   };
 
+  
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log('id='+ keyItem + ' nome=' + values.nome)
+  }
+
   return (
     <Card
       {...rest}
@@ -50,6 +57,7 @@ const MarcaForm = props => {
       <form
         autoComplete="off"
         noValidate
+        onSubmit={handleSubmit}
       >
         <CardHeader
           subheader={keyItem !== 'new' ? 'ALTERAÇÃO' : 'CADASTRO'}
@@ -61,22 +69,24 @@ const MarcaForm = props => {
             container
             spacing={3}
           >
+            { keyItem !== 'new' &&
             <Grid
               item
               md={2}
               xs={12}
             >
               <TextField
+                disabled
                 fullWidth
                 label="Cod."
                 margin="dense"
                 name="id"
                 onChange={handleChange}
                 required
-                value={values.id}
+                value={keyItem}
                 variant="outlined"
               />
-            </Grid>
+            </Grid>}
             <Grid
               item
               md={8}
@@ -102,10 +112,20 @@ const MarcaForm = props => {
           <Button
             className={classes.button}
             color="primary"
+            type="submit"
             variant="contained"
           >
             {keyItem !== 'new' ? 'Editar' : 'Salvar'}
           </Button>
+          <Link to="/marca">
+            <Button
+              className={classes.button}
+              color="primary"
+              variant="contained"
+            >
+            Cancelar
+            </Button>
+          </Link>
         </CardActions>
       </form>
     </Card>

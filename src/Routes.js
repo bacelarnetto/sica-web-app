@@ -6,15 +6,12 @@ import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
   Dashboard as DashboardView,  
-  Categoria as CategoriaView,
   Marca as MarcaView,
   MarcaInsertEdit as MarcaInsertEditView,
   ProductList as ProductListView,
   UserList as UserListView,
-  Typography as TypographyView,
   Icons as IconsView,
   Account as AccountView,
-  Settings as SettingsView,
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView
@@ -33,12 +30,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/dashboard"
-      />
-      <RouteWithLayout
-        component={CategoriaView}
-        exact
-        layout={MainLayout}
-        path="/categoria"
       />
       <RouteWithLayout
         component={MarcaView}
@@ -65,12 +56,6 @@ const Routes = () => {
         path="/products"
       />
       <RouteWithLayout
-        component={TypographyView}
-        exact
-        layout={MainLayout}
-        path="/typography"
-      />
-      <RouteWithLayout
         component={IconsView}
         exact
         layout={MainLayout}
@@ -81,12 +66,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/account"
-      />
-      <RouteWithLayout
-        component={SettingsView}
-        exact
-        layout={MainLayout}
-        path="/settings"
       />
       <RouteWithLayout
         component={SignUpView}

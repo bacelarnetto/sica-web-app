@@ -29,5 +29,13 @@ export const MarcaService = {
     }
   },
 
+  findMarcaById: async id => {
+    try {
+      return await api.get(`/marca/${id}`)
+    } catch (error) {
+      console.error(error)
+    }
+  },
+
   
 }
