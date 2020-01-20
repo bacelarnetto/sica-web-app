@@ -2,7 +2,13 @@
 import api from './api';
 //import api_node from './api_node';
 
-import { serializeQuery }  from './../common/util'
+import { serializeQuery, isEdit }  from './../common/util'
+
+const Method = {
+  DELETE: 'delete',
+  POST: 'post',
+  PUT: 'put',
+}
 
 export const MarcaService = {
 
@@ -20,9 +26,19 @@ export const MarcaService = {
     }
   },
 
-  submitMarca: async (value, method) => {
+  deleteMarca: async (value) => {
     try {
-      const id = value ? value : ''
+      const id = value;
+      return await api[Method.DELETE](`/marca/${id}`, value)
+    } catch (error) {
+      console.error(error)
+    }
+  },
+
+  submitMarca: async (value) => {
+    try {
+      const id = isEdit(value.id) ? value.id : ''
+      const method = isEdit(value.id) ? Method.PUT: Method.POST
       return await api[method](`/marca/${id}`, value)
     } catch (error) {
       console.error(error)

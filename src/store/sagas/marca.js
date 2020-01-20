@@ -3,6 +3,7 @@ import { Types as types, Creators as actions } from '../actions/marca';
 import { MarcaService as service }  from './../../servers/marca'
 import { toastr } from 'react-redux-toastr'
 
+
 function* buscaListMarcasSaga(action) {
   yield put(actions.buscaListMarcasStart())
   try {    
@@ -23,7 +24,7 @@ function* buscaMarcaSaga(action) {
   yield put(actions.buscaMarcaStart())
   try {    
     const response = yield service.findMarcaById(action.itemSelected);
-    const marca = response.data.content;
+    const marca = response.data;
     yield put(actions.buscaMarcaSucess(marca)) 
   } catch (error) {
     yield put(actions.buscaMarcaError())
@@ -35,7 +36,7 @@ function* buscaMarcaSaga(action) {
 function* deleteMarcaSaga(action) {
   yield put(actions.deleteMarcasStart())
   try {    
-    const responseDelete = yield service.submitMarca(action.itemSelected,'delete'); 
+    const responseDelete = yield service.deleteMarca(action.itemSelected); 
     if(responseDelete !== undefined && responseDelete !== null &&
     (responseDelete.status === 200 || responseDelete.status === 204)) {
       yield put(actions.deleteMarcasSucess())
@@ -58,6 +59,43 @@ function* deleteMarcaSaga(action) {
   }
 }
 
+
+function* editMarcaSaga(action) {
+  yield put(actions.editMarcaStart())
+  try {    
+    const response = yield service.submitMarca(action.marca); 
+    if(response !== undefined && response !== null &&
+    (response.status === 200 || response.status === 204)) {
+      yield put(actions.editMarcaSucess())
+      toastr.success('Sucesso:', 'Alteração realizada com sucesso.') 
+    }else{
+      throw  new Error('Erro ao tentar realizar a alteração'); // gera uma exceção
+    }
+  } catch (error) {
+    yield put(actions.editMarcaError())
+    toastr.error('Erro:', error.message)
+    console.error(error) // eslint-disable-line
+  }
+}
+
+function* insertMarcaSaga(action) {
+  yield put(actions.insertMarcaStart())
+  try {    
+    const response = yield service.submitMarca(action.marca); 
+    if(response !== undefined && response !== null &&
+    (response.status === 200 || response.status === 201)) {
+      yield put(actions.insertMarcaSucess())
+      toastr.success('Sucesso:', 'Cadastro realizado com sucesso.') 
+    }else{
+      throw  new Error('Erro ao tentar realizar o cadastro'); // gera uma exceção
+    }
+  } catch (error) {
+    yield put(actions.insertMarcaError())
+    toastr.error('Erro:', error.message)
+    console.error(error) // eslint-disable-line
+  }
+}
+
 export function* watchListMarcas() {
   yield takeLatest(types.BUSCA_LIST_MARCA, buscaListMarcasSaga)  
 }
@@ -68,4 +106,12 @@ export function* watchDeleteMarca() {
 
 export function* watchMarca() {
   yield takeLatest(types.BUSCA_MARCA, buscaMarcaSaga)  
+}
+
+export function* watchInsertMarca() {
+  yield takeLatest(types.INSERT_MARCA, insertMarcaSaga)
+}
+
+export function* watchEditMarca() {
+  yield takeLatest(types.EDIT_MARCA, editMarcaSaga)
 }

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,  useEffect } from 'react';
+import { useSelector,  useDispatch } from 'react-redux';
+
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -13,6 +15,8 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
+
+import { Creators as actions } from './../../../../store/actions/marca';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -31,9 +35,18 @@ const MarcaForm = props => {
 
   const classes = useStyles();
 
+  const isEdit = () => {
+    return  keyItem !== 'new'
+  }
+
+  const dispatch = useDispatch();  
+  useFetching(dispatch, actions.buscaMarca(keyItem), isEdit());
+  const marca = useSelector( state  => state.marca.marca );
+  console.log('--->' + marca.id +'-'+ marca.nome)
+
   const [values, setValues] = useState({
-    id: '',
-    nome: ''
+    id: isEdit() ? marca.id: '',
+    nome: isEdit() ? marca.nome : ''
   });
 
   const handleChange = event => {
@@ -42,11 +55,15 @@ const MarcaForm = props => {
       [event.target.name]: event.target.value
     });
   };
-
   
   const handleSubmit = event => {
     event.preventDefault();
-    console.log('id='+ keyItem + ' nome=' + values.nome)
+    if(isEdit()) {
+      dispatch(actions.editMarca(values),[])
+    }else{
+      dispatch(actions.insertMarca(values),[])
+      setValues({ id: '',  nome:'' });
+    }
   }
 
   return (
@@ -60,7 +77,7 @@ const MarcaForm = props => {
         onSubmit={handleSubmit}
       >
         <CardHeader
-          subheader={keyItem !== 'new' ? 'ALTERAÇÃO' : 'CADASTRO'}
+          subheader={isEdit() ? 'ALTERAÇÃO' : 'CADASTRO'}
           title="Marca"
         />
         <Divider />
@@ -69,7 +86,7 @@ const MarcaForm = props => {
             container
             spacing={3}
           >
-            { keyItem !== 'new' &&
+            { isEdit() &&
             <Grid
               item
               md={2}
@@ -83,7 +100,7 @@ const MarcaForm = props => {
                 name="id"
                 onChange={handleChange}
                 required
-                value={keyItem}
+                value={values.id}
                 variant="outlined"
               />
             </Grid>}
@@ -115,7 +132,7 @@ const MarcaForm = props => {
             type="submit"
             variant="contained"
           >
-            {keyItem !== 'new' ? 'Editar' : 'Salvar'}
+            {isEdit() ? 'Editar' : 'Salvar'}
           </Button>
           <Link to="/marca">
             <Button
@@ -131,6 +148,18 @@ const MarcaForm = props => {
     </Card>
   );
 };
+
+
+const useFetching = (dispatch, action, isEdit) => {
+  const array = [];
+  useEffect(() => {
+    if(isEdit){
+      dispatch(action);
+    }
+  }, array)
+}
+
+
 
 MarcaForm.propTypes = {
   className: PropTypes.string

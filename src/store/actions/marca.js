@@ -4,10 +4,10 @@ export const Types = {
   BUSCA_LIST_MARCA_SUCCESS: 'list/BUSCA_MARCA_SUCCESS',
   BUSCA_LIST_MARCA_ERROR: 'list/BUSCA_MARCA_ERROR',
 
-  BUSCA_MARCA: 'BUSCA_MARCA',
-  BUSCA_MARCA_START: 'BUSCA_MARCA_START',
-  BUSCA_MARCA_SUCCESS: 'BUSCA_MARCA_SUCCESS',
-  BUSCA_MARCA_ERROR: 'BUSCA_MARCA_ERROR',
+  BUSCA_MARCA: 'detail/BUSCA_MARCA',
+  BUSCA_MARCA_START: 'detail/BUSCA_MARCA_START',
+  BUSCA_MARCA_SUCCESS: 'detail/BUSCA_MARCA_SUCCESS',
+  BUSCA_MARCA_ERROR: 'detail/BUSCA_MARCA_ERROR',
 
   DELETE_MARCA: 'list/DELETE_MARCA',
   DELETE_MARCA_START: 'list/DELETE_MARCA_START',
@@ -95,8 +95,7 @@ export const Creators = {
   /** CADASTRAR A MARCAS **/
   insertMarca: marca => ({
     type: Types.INSERT_MARCA,
-    marca,
-    method: 'POST'
+    marca
   }),
 
   insertMarcaStart : () => ({  
@@ -118,10 +117,9 @@ export const Creators = {
   }),
 
   /** EDITAR A MARCA **/
-  editMarca: ( marca )=> ({
+  editMarca: marca => ({
     type: Types.EDIT_MARCA,
-    marca,
-    method: 'POST'
+    marca
   }),
 
   editMarcaStart : () => ({  
@@ -155,14 +153,14 @@ export const Creators = {
   }),
 
   buscaMarcaSucess : marca => ({
-    type: Types.BUSCA_LIST_MARCA_SUCCESS,
+    type: Types.BUSCA_MARCA_SUCCESS,
     marca,
     loading: false,
     erro: false
   }),
 
   buscaMarcaError : () => ({
-    type: Types.BUSCA_LIST_MARCA_ERROR,
+    type: Types.BUSCA_MARCA_ERROR,
     loading: false,
     erro: true
   }),

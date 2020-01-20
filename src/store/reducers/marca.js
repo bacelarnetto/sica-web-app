@@ -9,11 +9,14 @@ const INITIAL_STATE = {
   itemSelected: 0,
   erro: false,
   showMessage: '',
+  marca:''
 }
   
 export default (state = INITIAL_STATE, action) => {      
   switch (action.type) {
 
+    case types.INSERT_MARCA_START:
+    case types.EDIT_MARCA_START:
     case types.BUSCA_MARCA_START:
     case types.DELETE_MARCA_START:
     case types.DELETE_MARCA_SUCCESS:// loading é true porque ainda tem que carregar a lista    
@@ -21,6 +24,17 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true
+      };
+
+    case types.INSERT_MARCA_ERROR:
+    case types.EDIT_MARCA_ERROR:
+    case types.BUSCA_MARCA_ERROR:
+    case types.DELETE_MARCA_ERROR:
+    case types.BUSCA_LIST_MARCA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        erro: true
       };
 
     case types.BUSCA_LIST_MARCA_SUCCESS:
@@ -40,15 +54,13 @@ export default (state = INITIAL_STATE, action) => {
         marca: action.marca,
       };
 
-    case types.BUSCA_MARCA:
-    case types.DELETE_MARCA_ERROR:
-    case types.BUSCA_LIST_MARCA_ERROR:
+    case types.INSERT_MARCA_SUCCESS:
+    case types.EDIT_MARCA_SUCCESS:
       return {
         ...state,
         loading: false,
-        erro: true
       };
-    
+
     default: return state;
     
   }

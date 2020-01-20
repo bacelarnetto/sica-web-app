@@ -23,19 +23,16 @@ import {
   TextField,
   Grid,
   IconButton,
-  CircularProgress
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button
 } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 
-import {
-  Search
-} from '@material-ui/icons';
-
+import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
@@ -213,7 +210,6 @@ const MarcaTable = props => {
       </TableHead>
     );
   }
-
  
   return (
     <div>
@@ -264,7 +260,7 @@ const MarcaTable = props => {
                   className={classes.button}
                   type="submit"
                 >
-                  <Search />
+                  <SearchIcon />
                 </Fab>
               </Grid>              
             </Grid>

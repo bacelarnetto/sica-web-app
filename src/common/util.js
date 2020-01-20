@@ -3,3 +3,7 @@ export function serializeQuery(query) {
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
     .join('&');
 }
+
+export const isEdit = (value) => {
+  return  value !== ''
+}
