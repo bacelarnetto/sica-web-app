@@ -5,5 +5,7 @@ export function serializeQuery(query) {
 }
 
 export const isEdit = (value) => {
-  return  value !== ''
+  return  value !== '' && value !== 'new'
 }
+
+

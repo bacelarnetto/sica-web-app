@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { Creators as actions } from './../../../../store/actions/marca';
+import {  isEdit }  from './../../../../common/util';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -35,19 +36,26 @@ const MarcaForm = props => {
 
   const classes = useStyles();
 
-  const isEdit = () => {
-    return  keyItem !== 'new'
-  }
+  const [values, setValues] = useState({
+    id:  '',
+    nome: ''
+  });
+
+ 
 
   const dispatch = useDispatch();  
-  useFetching(dispatch, actions.buscaMarca(keyItem), isEdit());
+  useFetching(dispatch, actions.buscaMarca(keyItem), isEdit(keyItem));
   const marca = useSelector( state  => state.marca.marca );
-  console.log('--->' + marca.id +'-'+ marca.nome)
+  
+  useEffect(() => {
+    if(isEdit(keyItem)){
+      setValues({
+        id:  marca.id || '',
+        nome: marca.nome ||''
+      });
+    }
+  }, [marca, keyItem])
 
-  const [values, setValues] = useState({
-    id: isEdit() ? marca.id: '',
-    nome: isEdit() ? marca.nome : ''
-  });
 
   const handleChange = event => {
     setValues({
@@ -58,7 +66,7 @@ const MarcaForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if(isEdit()) {
+    if(isEdit(keyItem)) {
       dispatch(actions.editMarca(values),[])
     }else{
       dispatch(actions.insertMarca(values),[])
@@ -77,7 +85,7 @@ const MarcaForm = props => {
         onSubmit={handleSubmit}
       >
         <CardHeader
-          subheader={isEdit() ? 'ALTERAÇÃO' : 'CADASTRO'}
+          subheader={isEdit(keyItem) ? 'ALTERAÇÃO' : 'CADASTRO'}
           title="Marca"
         />
         <Divider />
@@ -86,7 +94,7 @@ const MarcaForm = props => {
             container
             spacing={3}
           >
-            { isEdit() &&
+            { isEdit(keyItem) &&
             <Grid
               item
               md={2}
@@ -132,7 +140,7 @@ const MarcaForm = props => {
             type="submit"
             variant="contained"
           >
-            {isEdit() ? 'Editar' : 'Salvar'}
+            {isEdit(keyItem) ? 'Editar' : 'Salvar'}
           </Button>
           <Link to="/marca">
             <Button
