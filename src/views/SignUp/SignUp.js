@@ -251,13 +251,13 @@ const SignUp = props => {
                   className={classes.title}
                   variant="h2"
                 >
-                  Create new account
+                  Criar uma nova conta
                 </Typography>
                 <Typography
                   color="textSecondary"
                   gutterBottom
                 >
-                  Use your email to create new account
+                  Use seu email para criar uma nova conta.
                 </Typography>
                 <TextField
                   className={classes.textField}

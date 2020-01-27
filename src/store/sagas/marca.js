@@ -1,8 +1,7 @@
-import { takeLatest, put } from 'redux-saga/effects'
+import { takeLatest, takeEvery, put, all } from 'redux-saga/effects'
 import { Types as types, Creators as actions } from '../actions/marca';
 import { MarcaService as service }  from './../../servers/marca'
 import { toastr } from 'react-redux-toastr'
-
 
 function* buscaListMarcasSaga(action) {
   yield put(actions.buscaListMarcasStart())
@@ -96,22 +95,12 @@ function* insertMarcaSaga(action) {
   }
 }
 
-export function* watchListMarcas() {
-  yield takeLatest(types.BUSCA_LIST_MARCA, buscaListMarcasSaga)  
-}
-
-export function* watchDeleteMarca() {
-  yield takeLatest(types.DELETE_MARCA, deleteMarcaSaga)
-}
-
 export function* watchMarca() {
-  yield takeLatest(types.BUSCA_MARCA, buscaMarcaSaga)  
-}
-
-export function* watchInsertMarca() {
-  yield takeLatest(types.INSERT_MARCA, insertMarcaSaga)
-}
-
-export function* watchEditMarca() {
-  yield takeLatest(types.EDIT_MARCA, editMarcaSaga)
+  yield all([
+    takeEvery(types.BUSCA_MARCA, buscaMarcaSaga) ,
+    takeLatest(types.INSERT_MARCA, insertMarcaSaga),
+    takeLatest(types.DELETE_MARCA, deleteMarcaSaga),
+    takeLatest(types.EDIT_MARCA, editMarcaSaga),
+    takeEvery(types.BUSCA_LIST_MARCA, buscaListMarcasSaga) 
+  ]);
 }

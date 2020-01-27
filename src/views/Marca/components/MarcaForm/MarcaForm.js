@@ -3,7 +3,7 @@ import { useSelector,  useDispatch } from 'react-redux';
 
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link  as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -41,7 +41,7 @@ const MarcaForm = props => {
     nome: ''
   });
 
- 
+  const [showErrors, setShowErrors] = useState(false);
 
   const dispatch = useDispatch();  
   useFetching(dispatch, actions.buscaMarca(keyItem), isEdit(keyItem));
@@ -66,11 +66,16 @@ const MarcaForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if(isEdit(keyItem)) {
-      dispatch(actions.editMarca(values),[])
-    }else{
-      dispatch(actions.insertMarca(values),[])
-      setValues({ id: '',  nome:'' });
+    if (!values.nome) {
+      setShowErrors(true);
+    } else {
+      if(isEdit(keyItem)) {
+        dispatch(actions.editMarca(values),[])
+      }else{
+        dispatch(actions.insertMarca(values),[])
+        setValues({ id: '',  nome:'' });        
+      }
+      setShowErrors(false);
     }
   }
 
@@ -118,8 +123,9 @@ const MarcaForm = props => {
               xs={12}
             >
               <TextField
+                error={!values.nome && showErrors}
                 fullWidth
-                helperText="Por favor, preencha o nome."
+                helperText={!values.nome && showErrors && 'Por favor, preencha o nome.'}
                 label="Nome"
                 margin="dense"
                 name="nome"
@@ -142,7 +148,7 @@ const MarcaForm = props => {
           >
             {isEdit(keyItem) ? 'Editar' : 'Salvar'}
           </Button>
-          <Link to="/marca">
+          <RouterLink to="/marca">
             <Button
               className={classes.button}
               color="primary"
@@ -150,13 +156,12 @@ const MarcaForm = props => {
             >
             Cancelar
             </Button>
-          </Link>
+          </RouterLink >
         </CardActions>
       </form>
     </Card>
   );
 };
-
 
 const useFetching = (dispatch, action, isEdit) => {
   const array = [];
@@ -166,8 +171,6 @@ const useFetching = (dispatch, action, isEdit) => {
     }
   }, array)
 }
-
-
 
 MarcaForm.propTypes = {
   className: PropTypes.string

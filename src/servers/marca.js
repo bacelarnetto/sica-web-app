@@ -3,33 +3,29 @@ import api from './api';
 //import api_node from './api_node';
 
 import { serializeQuery, isEdit }  from './../common/util'
+import globalTypes from './../common/constants/GlobalTypes'
 
-const Method = {
-  DELETE: 'delete',
-  POST: 'post',
-  PUT: 'put',
-}
 
 export const MarcaService = {
 
   findListPagination: async (query) => {
     try {
-      return await api.get(`/marca/list-page?${serializeQuery({
+      return await api.get(globalTypes.url.ATIVO_MARCA_LIST + serializeQuery({
         name: query.nome,
         lines_per_page: query.lines_per_page,
         page: query.page,
         order_by: query.order_by,
         direction: query.direction
-      })}`)
+      }))
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
   },
 
   deleteMarca: async (value) => {
     try {
       const id = value;
-      return await api[Method.DELETE](`/marca/${id}`, value)
+      return await api[globalTypes.method.DELETE](globalTypes.url.ATIVO_MARCA + id, value)
     } catch (error) {
       console.error(error)
     }
@@ -38,16 +34,16 @@ export const MarcaService = {
   submitMarca: async (value) => {
     try {
       const id = isEdit(value.id) ? value.id : ''
-      const method = isEdit(value.id) ? Method.PUT: Method.POST
-      return await api[method](`/marca/${id}`, value)
+      const method = isEdit(value.id) ? globalTypes.method.PUT: globalTypes.method.POST
+      return await api[method](globalTypes.url.ATIVO_MARCA + id, value)
     } catch (error) {
       console.error(error)
     }
   },
 
-  findMarcaById: async id => {
+  findMarcaById: async (id )=> {
     try {
-      return await api.get(`/marca/${id}`)
+      return await api.get(globalTypes.url.ATIVO_MARCA + id)
     } catch (error) {
       console.error(error)
     }

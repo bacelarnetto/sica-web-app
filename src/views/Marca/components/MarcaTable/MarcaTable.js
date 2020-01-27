@@ -1,7 +1,7 @@
 import React, { useState,  useEffect } from 'react';
 import { useSelector,  useDispatch } from 'react-redux';
 
-import { Link } from 'react-router-dom';
+import { Link as RouterLink} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -239,7 +239,6 @@ const MarcaTable = props => {
               >
                 <TextField
                   fullWidth
-                  helperText="Por favor especifique o primeiro nome"
                   label="Nome:"
                   margin="dense"
                   name="nome"
@@ -269,7 +268,7 @@ const MarcaTable = props => {
       </Card>
       <br/>
       <div className={classes.contentActionTop}>
-        <Link to="/marca/new">
+        < RouterLink to="/marca/new">
           <Fab
             aria-label="add"
             className={classes.button}
@@ -280,7 +279,7 @@ const MarcaTable = props => {
             <AddIcon />
           Cadastrar
           </Fab>
-        </Link>
+        </ RouterLink>
       </div>
       <br/>
       <Card
@@ -315,14 +314,14 @@ const MarcaTable = props => {
                         >
                           <DeleteIcon />
                         </IconButton>
-                        <Link to={'marca/'+ marca.id}>
+                        < RouterLink to={'marca/'+ marca.id}>
                           <IconButton
                             aria-label="Editar"
                             className={classes.buttonLabel}
                           >
                             <EditIcon />
                           </IconButton>
-                        </Link>
+                        </ RouterLink>
                       </TableCell>            
                       <TableCell>{marca.nome}</TableCell>
                      

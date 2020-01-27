@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { useDispatch,  useSelector } from 'react-redux';
+
+import { Link as RouterLink, withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
-  IconButton,
   TextField,
   Link,
-  Typography
+  Typography,
+  CircularProgress
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+import { Creators as actions } from './../../store/actions/auth';
 
 const schema = {
   email: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: { allowEmpty: false, message: 'é necessário' },
     email: true,
     length: {
       maximum: 64
     }
   },
-  password: {
-    presence: { allowEmpty: false, message: 'is required' },
+  senha: {
+    presence: { allowEmpty: false, message: 'é necessário' },
     length: {
       maximum: 128
     }
@@ -45,12 +46,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   quote: {
-    backgroundColor: theme.palette.neutral,
+    backgroundColor: '#263238',
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auth.jpg)',
+    // backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -121,12 +122,33 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   },
   signInButton: {
-    margin: theme.spacing(2, 0)
+    margin: theme.spacing(2, 0),
+    backgroundColor:'#235244',
+    '&:hover': {
+      //you want this to be the same as the backgroundColor above
+      backgroundColor: '#14352c'
+    }
+  },
+  loadingContent:{
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent:'center',
+    width:'100%'
+  },
+  messageAlertErro:{
+    padding: '10px',
+    color: '#610B0B',
+    backgroundColor: '#F8E0E0',
+    borderRadius: 4,
+    border: '1px solid #F6CECE',
   }
 }));
 
-const SignIn = props => {
-  const { history } = props;
+const SignIn = () => {
+
+
+  const dispatch = useDispatch(); 
 
   const classes = useStyles();
 
@@ -147,10 +169,6 @@ const SignIn = props => {
     }));
   }, [formState.values]);
 
-  const handleBack = () => {
-    history.goBack();
-  };
-
   const handleChange = event => {
     event.persist();
 
@@ -170,10 +188,37 @@ const SignIn = props => {
     }));
   };
 
+  const authRedirectPath = useSelector( state  => state.auth.authRedirectPath );
+  const isAuthenticated = useSelector( state  => state.auth.token !== null ); 
+  const loading = useSelector( state  => state.auth.loading );
+  const errorMessage = useSelector( state  => state.auth.error );
+
+
   const handleSignIn = event => {
     event.preventDefault();
-    history.push('/');
+    dispatch(actions.auth( formState.values.email, formState.values.senha, true)
+      ,[authRedirectPath, isAuthenticated, loading, errorMessage])    
   };
+
+  useEffect(() => {
+    dispatch( actions.setAuthRedirectPath( '/' ) )
+  }, [])
+
+  let authRedirect = null;
+  if ( isAuthenticated ) {
+    authRedirect = <Redirect to={authRedirectPath} />
+  }
+
+  let errorMessageRedirect = null;
+  if ( errorMessage ) {
+    errorMessageRedirect =
+    <div >
+      <Typography
+        className={classes.messageAlertErro}
+        variant="body1"
+      >{errorMessage}</Typography>
+    </div>
+  }
 
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
@@ -195,21 +240,20 @@ const SignIn = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                they sold out High Life.
+                SCA <br />Sistema de Controle Ambiental
               </Typography>
               <div className={classes.person}>
                 <Typography
                   className={classes.name}
                   variant="body1"
                 >
-                  Takamaru Ayako
+                  Seja bem vindo!
                 </Typography>
                 <Typography
                   className={classes.bio}
                   variant="body2"
                 >
-                  Manager at inVision
+                  PUC Minas
                 </Typography>
               </div>
             </div>
@@ -222,119 +266,85 @@ const SignIn = props => {
           xs={12}
         >
           <div className={classes.content}>
-            <div className={classes.contentHeader}>
-              <IconButton onClick={handleBack}>
-                <ArrowBackIcon />
-              </IconButton>
-            </div>
             <div className={classes.contentBody}>
-              <form
-                className={classes.form}
-                onSubmit={handleSignIn}
-              >
-                <Typography
-                  className={classes.title}
-                  variant="h2"
+              {authRedirect}
+             
+              { !loading && (
+                <form
+                  className={classes.form}
+                  onSubmit={handleSignIn}
                 >
-                  Sign in
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Sign in with social media
-                </Typography>
-                <Grid
-                  className={classes.socialButtons}
-                  container
-                  spacing={2}
-                >
-                  <Grid item>
-                    <Button
-                      color="primary"
-                      onClick={handleSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      <FacebookIcon className={classes.socialIcon} />
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      onClick={handleSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      <GoogleIcon className={classes.socialIcon} />
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Typography
-                  align="center"
-                  className={classes.sugestion}
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  or login with email address
-                </Typography>
-                <TextField
-                  className={classes.textField}
-                  error={hasError('email')}
-                  fullWidth
-                  helperText={
-                    hasError('email') ? formState.errors.email[0] : null
-                  }
-                  label="Email address"
-                  name="email"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.email || ''}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  error={hasError('password')}
-                  fullWidth
-                  helperText={
-                    hasError('password') ? formState.errors.password[0] : null
-                  }
-                  label="Password"
-                  name="password"
-                  onChange={handleChange}
-                  type="password"
-                  value={formState.values.password || ''}
-                  variant="outlined"
-                />
-                <Button
-                  className={classes.signInButton}
-                  color="primary"
-                  disabled={!formState.isValid}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
-                  Sign in now
-                </Button>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don't have an account?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/sign-up"
-                    variant="h6"
+                  {errorMessageRedirect}
+                  <Typography
+                    className={classes.title}
+                    variant="h2"
                   >
-                    Sign up
-                  </Link>
-                </Typography>
-              </form>
+                  Login 
+                  </Typography>
+                  <TextField
+                    className={classes.textField}
+                    error={hasError('email')}
+                    fullWidth
+                    helperText={
+                      hasError('email') ? formState.errors.email[0] : null
+                    }
+                    label="Endereço de e-mail"
+                    name="email"
+                    onChange={handleChange}
+                    type="text"
+                    value={formState.values.email || ''}
+                    variant="outlined"
+                  />
+                  <TextField
+                    className={classes.textField}
+                    error={hasError('senha')}
+                    fullWidth
+                    helperText={
+                      hasError('senha') ? formState.errors.senha[0] : null
+                    }
+                    label="Senha"
+                    name="senha"
+                    onChange={handleChange}
+                    type="password"
+                    value={formState.values.senha || ''}
+                    variant="outlined"
+                  />
+                  <Button
+                    className={classes.signInButton}
+                    color="primary"
+                    disabled={!formState.isValid}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                  >
+                  Entrar
+                  </Button>
+                  <Typography
+                    color="textSecondary"
+                    variant="body1"
+                  >
+                  Não possui uma conta?{' '}
+                    <Link
+                      component={RouterLink}
+                      to="/sign-up"
+                      variant="h6"
+                    >
+                    Inscrever-se
+                    </Link>
+                  </Typography>
+                </form>
+              )}
+              { loading &&  (
+                <div className={classes.loadingContent}>
+                  <CircularProgress size={100} />
+                </div> 
+              )}
             </div>
+            
           </div>
         </Grid>
+        
       </Grid>
     </div>
   );

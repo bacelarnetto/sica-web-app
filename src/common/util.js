@@ -8,4 +8,11 @@ export const isEdit = (value) => {
   return  value !== '' && value !== 'new'
 }
 
+export const updateObject = (oldObject, updatedProperties) => {
+  return {
+    ...oldObject,
+    ...updatedProperties
+  };
+};
+
 

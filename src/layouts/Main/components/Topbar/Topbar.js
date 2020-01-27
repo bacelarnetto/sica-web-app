@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink,  NavLink  } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -21,7 +21,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   signOutButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    color: '#888888'
+
   }
 }));
 
@@ -65,13 +67,15 @@ const Topbar = props => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
-            className={classes.signOutButton}
-            color="inherit"
-          >
-            <InputIcon />
-          </IconButton>
-        </Hidden>
+          < NavLink to="/Logout">
+            <IconButton
+              className={classes.signOutButton}
+              color="inherit"
+            >
+              <InputIcon />
+            </IconButton>
+          </ NavLink >
+        </Hidden>        
         <Hidden lgUp>
           <IconButton
             color="inherit"
@@ -79,7 +83,7 @@ const Topbar = props => {
           >
             <MenuIcon />
           </IconButton>
-        </Hidden>
+        </Hidden>        
       </Toolbar>
     </AppBar>
   );

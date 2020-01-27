@@ -9,3 +9,5 @@ export { default as UserList } from './UserList';
 
 export { default as Marca } from './Marca/Marca';
 export { default as MarcaInsertEdit} from './Marca/MarcaInsertEdit';
+
+export { default as Logout} from './Logout';
