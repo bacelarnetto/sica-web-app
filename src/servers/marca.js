@@ -18,7 +18,7 @@ export const MarcaService = {
         direction: query.direction
       }))
     } catch (error) {
-      console.log(error)
+      console.error('Erro: ' + JSON.stringify(error.response.data))
     }
   },
 
@@ -27,7 +27,7 @@ export const MarcaService = {
       const id = value;
       return await api[globalTypes.method.DELETE](globalTypes.url.ATIVO_MARCA + id, value)
     } catch (error) {
-      console.error(error)
+      console.error('Erro: ' + JSON.stringify(error.response.data))
     }
   },
 
@@ -37,7 +37,7 @@ export const MarcaService = {
       const method = isEdit(value.id) ? globalTypes.method.PUT: globalTypes.method.POST
       return await api[method](globalTypes.url.ATIVO_MARCA + id, value)
     } catch (error) {
-      console.error(error)
+      console.error('Erro: ' + JSON.stringify(error.response.data))
     }
   },
 
@@ -45,7 +45,7 @@ export const MarcaService = {
     try {
       return await api.get(globalTypes.url.ATIVO_MARCA + id)
     } catch (error) {
-      console.error(error)
+      console.error('Erro: ' + JSON.stringify(error.response.data))
     }
   },
 

@@ -10,11 +10,11 @@ export const AuthService = {
     try {
       return await api[globalTypes.method.POST](globalTypes.url.LOGIN, value)
     } catch (error) {
-      console.error(error)
-      if(error.response.status === 401 || error.status === 403){
-        throw  new Error('Erro ao tentar realizar o login. Senha ou email estão errados.'); 
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+      if(error.response.status === 401 || error.response.status === 403){
+        throw  new Error('Não foi possível realizar o login. '+ error.response.data.message); 
       } else{
-        throw  new Error('Erro ao tentar realizar o login.'); 
+        throw  new Error('Não foi possível realizar o login. ', error.response.data.message); 
       }    
     }
   },

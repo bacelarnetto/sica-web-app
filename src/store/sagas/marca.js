@@ -49,7 +49,7 @@ function* deleteMarcaSaga(action) {
       const totalElements = responseList.data.totalElements;
       yield put(actions.buscaListMarcasSucess(marcas, totalPages, itemsCountPerPage, totalElements ))
     }else{
-      throw  new Error('Erro ao tentar realizar a exclusão'); // gera uma exceção
+      throw new Error('Erro ao tentar realizar a exclusão'); // gera uma exceção
     }
   } catch (error) {
     yield put(actions.deleteMarcasError())
@@ -68,7 +68,7 @@ function* editMarcaSaga(action) {
       yield put(actions.editMarcaSucess())
       toastr.success('Sucesso:', 'Alteração realizada com sucesso.') 
     }else{
-      throw  new Error('Erro ao tentar realizar a alteração'); // gera uma exceção
+      throw new Error('Erro ao tentar realizar a alteração'); // gera uma exceção
     }
   } catch (error) {
     yield put(actions.editMarcaError())
@@ -86,7 +86,7 @@ function* insertMarcaSaga(action) {
       yield put(actions.insertMarcaSucess())
       toastr.success('Sucesso:', 'Cadastro realizado com sucesso.') 
     }else{
-      throw  new Error('Erro ao tentar realizar o cadastro'); // gera uma exceção
+      throw new Error('Erro ao tentar realizar o cadastro'); // gera uma exceção
     }
   } catch (error) {
     yield put(actions.insertMarcaError())
