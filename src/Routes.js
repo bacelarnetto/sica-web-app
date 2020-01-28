@@ -90,15 +90,15 @@ const Routes = () => {
           layout={MainLayout}
           path="/account"
         />
+        <Route
+          component={Logout}
+          path="/logout"
+        />
         <RouteWithLayout
           component={NotFoundView}
           exact
           layout={MinimalLayout}
           path="/not-found"
-        />
-        <Route
-          component={Logout}
-          path="/logout"
         />
         <Redirect to="/not-found" />
       </Switch>

@@ -6,7 +6,9 @@ const url = {
   BASE: 'http://localhost:8080/gateway',
   LOGIN: '/auth/login',
   ATIVO_MARCA_LIST: '/ativo/marca/list-page?',
-  ATIVO_MARCA: '/ativo/marca/'
+  ATIVO_MARCA: '/ativo/marca/',
+  ATIVO_INSUMO_LIST: '/ativo/insumo/list-page?',
+  ATIVO_INSUMO: '/ativo/insumo/',
 }
 
 const method = {
