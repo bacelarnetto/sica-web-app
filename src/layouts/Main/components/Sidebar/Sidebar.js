@@ -67,6 +67,11 @@ const Sidebar = props => {
       title: 'Marca',
       href: '/marca',
       icon: <SettingsIcon />,
+    },
+    {
+      title: 'Insumo',
+      href: '/Insumo',
+      icon: <SettingsIcon />,
     }
   ];
 

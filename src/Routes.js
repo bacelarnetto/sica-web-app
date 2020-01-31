@@ -9,8 +9,12 @@ import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
   Dashboard as DashboardView,  
+
   Marca as MarcaView,
   MarcaInsertEdit as MarcaInsertEditView,
+  Insumo as InsumoView,
+  InsumoInsertEdit as InsumoInsertEditView,
+
   ProductList as ProductListView,
   UserList as UserListView,
   Icons as IconsView,
@@ -66,6 +70,20 @@ const Routes = () => {
           layout={MainLayout}
           path="/marca/:id"
         />
+
+        <RouteWithLayout
+          component={InsumoView}
+          exact
+          layout={MainLayout}
+          path="/insumo"
+        />
+        <RouteWithLayout
+          component={InsumoInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/insumo/:id"
+        />
+
         <RouteWithLayout
           component={UserListView}
           exact
@@ -100,7 +118,7 @@ const Routes = () => {
           layout={MinimalLayout}
           path="/not-found"
         />
-        <Redirect to="/not-found" />
+        <Redirect to="/" />
       </Switch>
     );
 

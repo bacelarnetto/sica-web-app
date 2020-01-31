@@ -9,6 +9,7 @@ const url = {
   ATIVO_MARCA: '/ativo/marca/',
   ATIVO_INSUMO_LIST: '/ativo/insumo/list-page?',
   ATIVO_INSUMO: '/ativo/insumo/',
+  ATIVO_TIPOS_INSUMO: '/ativo/insumo/types',
 }
 
 const method = {
