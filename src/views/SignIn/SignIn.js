@@ -202,6 +202,7 @@ const SignIn = () => {
 
   useEffect(() => {
     dispatch( actions.setAuthRedirectPath( '/' ) )
+    /* eslint-disable-next-line */
   }, [])
 
   let authRedirect = null;

@@ -406,11 +406,11 @@ const MarcaTable = props => {
 };
 
 
-
 const useFetching = (dispatch, action) => {
   const array = [];
   useEffect(() => {
     dispatch(action);
+    /* eslint-disable-next-line */
   }, array)
 }
 

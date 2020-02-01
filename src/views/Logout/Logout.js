@@ -6,9 +6,9 @@ import { Creators as actions } from './../../store/actions/auth';
 const Logout = () => {
   
   const dispatch = useDispatch(); 
-
   useEffect(() => {
     dispatch(actions.logout())
+    /* eslint-disable-next-line */
   }, [])
 
   return <Redirect to="/"/>;

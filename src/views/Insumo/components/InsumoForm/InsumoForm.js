@@ -169,6 +169,7 @@ const useFetching = (dispatch, action, isEdit) => {
     if(isEdit){
       dispatch(action);
     }
+    /* eslint-disable-next-line */
   }, array)
 }
 
