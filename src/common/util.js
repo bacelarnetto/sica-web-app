@@ -5,7 +5,7 @@ export function serializeQuery(query) {
 }
 
 export const isEdit = (value) => {
-  return  value !== '' && value !== 'new'
+  return  value !== '' && value !== 'new' && value !== undefined
 }
 
 export const updateObject = (oldObject, updatedProperties) => {

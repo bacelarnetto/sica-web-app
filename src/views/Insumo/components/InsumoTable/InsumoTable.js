@@ -104,7 +104,7 @@ const InsumoTable = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    nome: ''
+    descricao: ''
   })
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -170,7 +170,7 @@ const InsumoTable = props => {
 
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
-    { id: 'nome', numeric: false, disablePadding: false, label: 'Nome' } ,
+    { id: 'descricao', numeric: false, disablePadding: false, label: 'Nome' } ,
      
   ];
   /* eslint-disable react/prop-types */
@@ -239,10 +239,10 @@ const InsumoTable = props => {
                   fullWidth
                   label="Nome:"
                   margin="dense"
-                  name="nome"
+                  name="descricao"
                   onChange={handleChange}
                   required
-                  value={values.nome}
+                  value={values.descricao}
                   variant="outlined"
                 />
               </Grid>  
@@ -321,7 +321,7 @@ const InsumoTable = props => {
                           </IconButton>
                         </ RouterLink>
                       </TableCell>            
-                      <TableCell>{insumo.nome}</TableCell>
+                      <TableCell>{insumo.descricao}</TableCell>
                      
                     </TableRow>
                   )))}

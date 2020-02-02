@@ -193,7 +193,6 @@ const SignIn = () => {
   const loading = useSelector( state  => state.auth.loading );
   const errorMessage = useSelector( state  => state.auth.error );
 
-
   const handleSignIn = event => {
     event.preventDefault();
     dispatch(actions.auth( formState.values.email, formState.values.senha, true)

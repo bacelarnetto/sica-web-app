@@ -10,7 +10,7 @@ export const MarcaService = {
 
   findListPagination: async (query) => {
     try {
-      return await api.get(globalTypes.url.ATIVO_MARCA_LIST + serializeQuery({
+      return await api.get(globalTypes.url.ATIVO_MARCA_LIST_PAGE + serializeQuery({
         name: query.nome,
         lines_per_page: query.lines_per_page,
         page: query.page,
@@ -41,7 +41,7 @@ export const MarcaService = {
     }
   },
 
-  findMarcaById: async (id )=> {
+  findMarcaById: async (id ) => {
     try {
       return await api.get(globalTypes.url.ATIVO_MARCA + id)
     } catch (error) {
@@ -49,5 +49,12 @@ export const MarcaService = {
     }
   },
 
-  
+  findAllMarca: async () => {
+    try {
+      return await api.get(globalTypes.url.ATIVO_MARCA_LIST)
+    } catch (error) {
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+    }
+  },
+ 
 }

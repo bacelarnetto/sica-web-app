@@ -10,7 +10,7 @@ export const InsumoService = {
   findListPagination: async (query) => {
     try {
       return await api.get(globalTypes.url.ATIVO_INSUMO_LIST + serializeQuery({
-        description: query.nome,
+        description: query.description,
         lines_per_page: query.lines_per_page,
         page: query.page,
         order_by: query.order_by,
@@ -48,9 +48,17 @@ export const InsumoService = {
     }
   },
 
-  findTypeInsumo: async () => {
+  findTypesInsumo: async () => {
     try {
-      return await api.get(globalTypes.url.ATIVO_INSUMO_LIST)
+      return await api.get(globalTypes.url.ATIVO_INSUMO_TIPOS)
+    } catch (error) {
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+    }
+  },
+
+  findStatusInsumo: async () => {
+    try {
+      return await api.get(globalTypes.url.ATIVO_INSUMO_STATUS)
     } catch (error) {
       console.error('Erro: ' + JSON.stringify(error.response.data))
     }

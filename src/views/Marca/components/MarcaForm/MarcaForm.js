@@ -13,6 +13,7 @@ import {
   Divider,
   Grid,
   Button,
+  CircularProgress,
   TextField
 } from '@material-ui/core';
 
@@ -29,6 +30,12 @@ const useStyles = makeStyles(() => ({
       backgroundColor: '#14352c'
     }
   },  
+  loadingContent:{
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent:'center'
+  }
 }));
 
 const MarcaForm = props => {
@@ -46,6 +53,7 @@ const MarcaForm = props => {
   const dispatch = useDispatch();  
   useFetching(dispatch, actions.buscaMarca(keyItem), isEdit(keyItem));
   const marca = useSelector( state  => state.marca.marca );
+  const loading = useSelector( state  => state.marca.loading );
   
   useEffect(() => {
     if(isEdit(keyItem)){
@@ -88,13 +96,18 @@ const MarcaForm = props => {
         autoComplete="off"
         noValidate
         onSubmit={handleSubmit}
-      >
+      >                 
         <CardHeader
           subheader={isEdit(keyItem) ? 'ALTERAÇÃO' : 'CADASTRO'}
-          title="Marca"
+          title="Marca" 
         />
         <Divider />
         <CardContent>
+          { loading && (    
+            <div className={classes.loadingContent}>
+              <CircularProgress />
+            </div>
+          )}
           <Grid
             container
             spacing={3}
@@ -143,6 +156,7 @@ const MarcaForm = props => {
           <Button
             className={classes.button}
             color="primary"
+            disabled={loading}
             type="submit"
             variant="contained"
           >

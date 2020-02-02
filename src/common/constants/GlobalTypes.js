@@ -4,12 +4,19 @@
 
 const url = {
   BASE: 'http://localhost:8080/gateway',
+
   LOGIN: '/auth/login',
-  ATIVO_MARCA_LIST: '/ativo/marca/list-page?',
+
+  ATIVO_MARCA_LIST_PAGE: '/ativo/marca/list-page?',
+  ATIVO_MARCA_LIST: '/ativo/marca/list',
   ATIVO_MARCA: '/ativo/marca/',
+
   ATIVO_INSUMO_LIST: '/ativo/insumo/list-page?',
   ATIVO_INSUMO: '/ativo/insumo/',
-  ATIVO_TIPOS_INSUMO: '/ativo/insumo/types',
+  ATIVO_INSUMO_TIPOS: '/ativo/insumo/types',
+  ATIVO_INSUMO_STATUS: '/ativo/insumo/status',
+
+  USER: '/auth/user/',
 }
 
 const method = {

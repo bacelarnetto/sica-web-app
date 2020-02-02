@@ -9,17 +9,20 @@ const INITIAL_STATE = {
   itemSelected: 0,
   erro: false,
   showMessage: '',
-  insumo:''
+  insumo:'',
+  typesInsumo:[],
+  marcas:[],
+  status:[],
 }
   
 export default (state = INITIAL_STATE, action) => {      
   switch (action.type) {
 
     case types.INSERT_INSUMO_START:
-    case types.EDIT_INSUMO_START:
-    case types.BUSCA_INSUMO_START:
+    case types.EDIT_INSUMO_START:    
     case types.DELETE_INSUMO_START:
     case types.DELETE_INSUMO_SUCCESS:// loading é true porque ainda tem que carregar a lista    
+    case types.BUSCA_DETAIL_INSUMO_START:
     case types.BUSCA_LIST_INSUMO_START:
       return {
         ...state,
@@ -27,9 +30,9 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case types.INSERT_INSUMO_ERROR:
-    case types.EDIT_INSUMO_ERROR:
-    case types.BUSCA_INSUMO_ERROR:
+    case types.EDIT_INSUMO_ERROR:    
     case types.DELETE_INSUMO_ERROR:
+    case types.BUSCA_DETAIL_INSUMO_ERROR:
     case types.BUSCA_LIST_INSUMO_ERROR:
       return {
         ...state,
@@ -47,11 +50,14 @@ export default (state = INITIAL_STATE, action) => {
         totalElements: action.totalElements,
       };
 
-    case types.BUSCA_INSUMO_SUCCESS:
+    case types.BUSCA_DETAIL_INSUMO_SUCCESS:
       return {
         ...state,
         loading: false,
         insumo: action.insumo,
+        typesInsumo: action.typesInsumo,
+        marcas: action.marcas,
+        status: action.status,
       };
 
     case types.INSERT_INSUMO_SUCCESS:

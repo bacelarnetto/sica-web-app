@@ -1,7 +1,11 @@
 import { takeLatest, takeEvery, put, all } from 'redux-saga/effects'
+import { toastr } from 'react-redux-toastr'
+
 import { Types as types, Creators as actions } from '../actions/insumo';
 import { InsumoService as service }  from './../../servers/insumo'
-import { toastr } from 'react-redux-toastr'
+import { MarcaService as marcaService }  from './../../servers/marca'
+
+import {  isEdit }  from './../../common/util';
 
 function* buscaListInsumosSaga(action) {
   yield put(actions.buscaListInsumosStart())
@@ -19,14 +23,23 @@ function* buscaListInsumosSaga(action) {
   }
 }
 
-function* buscaInsumoSaga(action) {
-  yield put(actions.buscaInsumoStart())
+function* buscaDetailInsumoSaga(action) {
+  yield put(actions.buscaDetailInsumoStart())
   try {    
-    const response = yield service.findInsumoById(action.itemSelected);
-    const insumo = response.data;
-    yield put(actions.buscaInsumoSucess(insumo)) 
+    let insumo = null
+    if (isEdit(action.itemSelected)){
+      let rspInsumo = yield service.findInsumoById(action.itemSelected);
+      insumo = rspInsumo.data;
+    }
+    let rspTypes = yield service.findTypesInsumo();
+    const types = rspTypes.data;
+    let rspMarcas = yield marcaService.findAllMarca();    
+    const marcas = rspMarcas.data;  
+    let rspStatus = yield service.findStatusInsumo();    
+    const status = rspStatus.data;   
+    yield put(actions.buscaDetailInsumoSucess(insumo, types, marcas, status)) 
   } catch (error) {
-    yield put(actions.buscaInsumoError())
+    yield put(actions.buscaDetailInsumoError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
@@ -62,7 +75,7 @@ function* deleteInsumoSaga(action) {
 function* editInsumoSaga(action) {
   yield put(actions.editInsumoStart())
   try {    
-    const response = yield service.submitInsumo(action.Insumo); 
+    const response = yield service.submitInsumo(action.insumo); 
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 204)) {
       yield put(actions.editInsumoSucess())
@@ -80,7 +93,7 @@ function* editInsumoSaga(action) {
 function* insertInsumoSaga(action) {
   yield put(actions.insertInsumoStart())
   try {    
-    const response = yield service.submitInsumo(action.Insumo); 
+    const response = yield service.submitInsumo(action.insumo); 
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 201)) {
       yield put(actions.insertInsumoSucess())
@@ -97,10 +110,10 @@ function* insertInsumoSaga(action) {
 
 export function* watchInsumo() {
   yield all([
-    takeEvery(types.BUSCA_INSUMO, buscaInsumoSaga) ,
+    takeEvery(types.BUSCA_LIST_INSUMO, buscaListInsumosSaga),
+    takeEvery(types.BUSCA_DETAIL_INSUMO, buscaDetailInsumoSaga) ,
     takeLatest(types.INSERT_INSUMO, insertInsumoSaga),
     takeLatest(types.DELETE_INSUMO, deleteInsumoSaga),
-    takeLatest(types.EDIT_INSUMO, editInsumoSaga),
-    takeEvery(types.BUSCA_LIST_INSUMO, buscaListInsumosSaga) 
+    takeLatest(types.EDIT_INSUMO, editInsumoSaga),   
   ]);
 }

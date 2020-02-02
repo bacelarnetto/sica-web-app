@@ -13,8 +13,15 @@ import {
   Divider,
   Grid,
   Button,
-  TextField
+  CircularProgress,
+  TextField,
 } from '@material-ui/core';
+
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import { Creators as actions } from './../../../../store/actions/insumo';
 import {  isEdit }  from './../../../../common/util';
@@ -29,6 +36,12 @@ const useStyles = makeStyles(() => ({
       backgroundColor: '#14352c'
     }
   },  
+  loadingContent:{
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent:'center'
+  }  
 }));
 
 const InsumoForm = props => {
@@ -38,20 +51,34 @@ const InsumoForm = props => {
 
   const [values, setValues] = useState({
     id:  '',
-    nome: ''
+    descricao: '',
+    tipo: 'sel',
+    marca: 'sel',
+    status:'sel', 
   });
+
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
 
   const [showErrors, setShowErrors] = useState(false);
 
   const dispatch = useDispatch();  
-  useFetching(dispatch, actions.buscaInsumo(keyItem), isEdit(keyItem));
+  useFetching(dispatch, actions.buscaDetailInsumo(keyItem));
   const insumo = useSelector( state  => state.insumo.insumo );
+  const types = useSelector( state  => state.insumo.typesInsumo );
+  const marcas = useSelector( state  => state.insumo.marcas );
+  const status= useSelector( state  => state.insumo.status );
+  const loading = useSelector( state  => state.insumo.loading );
   
   useEffect(() => {
     if(isEdit(keyItem)){
       setValues({
         id:  insumo.id || '',
-        nome: insumo.nome ||''
+        descricao: insumo.descricao ||'',
+    
       });
     }
   }, [insumo, keyItem])
@@ -66,14 +93,21 @@ const InsumoForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if (!values.nome) {
+    if (!values.descricao || !values.tipo || values.tipo === 'sel' 
+      || values.marca === 'sel'||  values.status=== 'sel' || !selectedDate  ) {
       setShowErrors(true);
     } else {
       if(isEdit(keyItem)) {
         dispatch(actions.editInsumo(values),[])
-      }else{
-        dispatch(actions.insertInsumo(values),[])
-        setValues({ id: '',  nome:'' });        
+      }else{  
+        dispatch(actions.insertInsumo(values, selectedDate),[])
+        setValues({   
+          id:  '',
+          descricao: '',
+          tipo: 'sel',
+          marca: 'sel',
+          status:'sel',           
+        });        
       }
       setShowErrors(false);
     }
@@ -95,6 +129,11 @@ const InsumoForm = props => {
         />
         <Divider />
         <CardContent>
+          { loading && (    
+            <div className={classes.loadingContent}>
+              <CircularProgress />
+            </div>
+          )}
           <Grid
             container
             spacing={3}
@@ -123,18 +162,142 @@ const InsumoForm = props => {
               xs={12}
             >
               <TextField
-                error={!values.nome && showErrors}
+                error={!values.descricao && showErrors}
                 fullWidth
-                helperText={!values.nome && showErrors && 'Por favor, preencha o nome.'}
+                helperText={!values.descricao && showErrors && 'Por favor, preencha o nome.'}
                 label="Nome"
                 margin="dense"
-                name="nome"
+                name="descricao"
                 onChange={handleChange}
                 required
-                value={values.nome}
-                variant="outlined"
+                value={values.descricao}
               />
             </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={values.tipo === 'sel' && showErrors}
+                fullWidth
+                helperText={values.tipo === 'sel' && showErrors && 'Por favor, selecione um tipo.'}
+                label="Tipo"
+                margin="dense"
+                name="tipo"
+                onChange={handleChange}
+                required
+                // eslint-disable-next-line react/jsx-sort-props
+                select
+                SelectProps={{ native: true }}
+                value={values.tipo}
+              >
+                <option
+                  value="sel"
+                >
+                  Selecione
+                </option>
+                {types.map(option => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.nome}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={values.marca === 'sel' && showErrors}
+                fullWidth
+                helperText={values.marca === 'sel' && showErrors && 'Por favor, selecione uma marca.'}
+                label="Marca"
+                margin="dense"
+                name="marca"
+                onChange={handleChange}
+                required
+                // eslint-disable-next-line react/jsx-sort-props
+                select
+                SelectProps={{ native: true }}
+                value={values.marca}
+                
+              >
+                <option
+                  value="sel"
+                >
+                  Selecione
+                </option>
+                {marcas.map(option => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.nome}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={values.status === 'sel' && showErrors}
+                fullWidth
+                helperText={values.status === 'sel' && showErrors && 'Por favor, selecione um status.'}
+                label="Status"
+                margin="dense"
+                name="status"
+                onChange={handleChange}
+                required
+                // eslint-disable-next-line react/jsx-sort-props
+                select
+                SelectProps={{ native: true }}
+                value={values.status}
+                
+              >
+                <option
+                  value="sel"
+                >
+                  Selecione
+                </option>
+                {status.map(option => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.nome}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>
+            
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid
+                item
+                md={6}
+                xs={12}
+              >
+                <KeyboardDatePicker
+                  error={!selectedDate  && showErrors}
+                  format="dd/MM/yyyy"
+                  fullWidth
+                  helperText={!selectedDate && showErrors && 'Por favor, preencha a data.'}
+                  id="date-picker-dialog"
+                  KeyboardButtonProps={{ 'aria-label': 'change date', }} 
+                  label="Data de Aquisição"
+                  margin="dense"
+                  onChange={handleDateChange}
+                  value={selectedDate}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
             
           </Grid>
         </CardContent>
@@ -148,10 +311,11 @@ const InsumoForm = props => {
           >
             {isEdit(keyItem) ? 'Editar' : 'Salvar'}
           </Button>
-          <RouterLink to="/nsumo">
+          <RouterLink to="/insumo">
             <Button
               className={classes.button}
               color="primary"
+              disabled={loading}
               variant="contained"
             >
             Cancelar
@@ -163,12 +327,10 @@ const InsumoForm = props => {
   );
 };
 
-const useFetching = (dispatch, action, isEdit) => {
+const useFetching = (dispatch, action) => {
   const array = [];
   useEffect(() => {
-    if(isEdit){
-      dispatch(action);
-    }
+    dispatch(action);   
     /* eslint-disable-next-line */
   }, array)
 }

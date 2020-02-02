@@ -1,13 +1,15 @@
+import moment from 'moment';
+
 export const Types = {
   BUSCA_LIST_INSUMO: 'list/BUSCA_INSUMO',
   BUSCA_LIST_INSUMO_START: 'list/BUSCA_INSUMO_START',
   BUSCA_LIST_INSUMO_SUCCESS: 'list/BUSCA_INSUMO_SUCCESS',
   BUSCA_LIST_INSUMO_ERROR: 'list/BUSCA_INSUMO_ERROR',
 
-  BUSCA_INSUMO: 'detail/BUSCA_INSUMO',
-  BUSCA_INSUMO_START: 'detail/BUSCA_INSUMO_START',
-  BUSCA_INSUMO_SUCCESS: 'detail/BUSCA_INSUMO_SUCCESS',
-  BUSCA_INSUMO_ERROR: 'detail/BUSCA_INSUMO_ERROR',
+  BUSCA_DETAIL_INSUMO: 'detail/BUSCA_INSUMO',
+  BUSCA_DETAIL_INSUMO_START: 'detail/BUSCA_INSUMO_START',
+  BUSCA_DETAIL_INSUMO_SUCCESS: 'detail/BUSCA_INSUMO_SUCCESS',
+  BUSCA_DETAIL_INSUMO_ERROR: 'detail/BUSCA_INSUMO_ERROR',
 
   DELETE_INSUMO: 'list/DELETE_INSUMO',
   DELETE_INSUMO_START: 'list/DELETE_INSUMO_START',
@@ -31,7 +33,7 @@ export const Creators = {
   buscaListInsumos : (filter, page, rowsPerPage, order, orderBy ) => ({  
     type: Types.BUSCA_LIST_INSUMO,
     query: { 
-      nome: filter.nome,
+      description: filter.descricao,
       page, 
       lines_per_page: rowsPerPage, 
       direction: order.toUpperCase(), 
@@ -66,7 +68,7 @@ export const Creators = {
     type: Types.DELETE_INSUMO,
     itemSelected,
     query: { 
-      nome: filter.nome,
+      nome: filter.descricao,
       page, 
       lines_per_page: rowsPerPage, 
       direction: order.toUpperCase(), 
@@ -93,9 +95,19 @@ export const Creators = {
   }),
 
   /** CADASTRAR A INSUMOS **/
-  insertInsumo: insumo => ({
+  insertInsumo: (result, dataCompra) => ({
     type: Types.INSERT_INSUMO,
-    insumo
+    insumo: { 
+      dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
+      descricao: result.descricao,
+      marca: {
+        id: result.marca
+      },
+      status: result.status,
+      tipo: {
+        id: result.tipo
+      }   
+    }
   }),
 
   insertInsumoStart : () => ({  
@@ -140,27 +152,30 @@ export const Creators = {
     erro: true
   }),
 
-  /** BUSCA A UM INSUMO **/
-  buscaInsumo : itemSelected  => ({  
-    type: Types.BUSCA_INSUMO,
+  /** BUSCA A DETALHE DO INSUMO **/
+  buscaDetailInsumo : itemSelected  => ({  
+    type: Types.BUSCA_DETAIL_INSUMO,
     itemSelected 
   }),
 
-  buscaInsumoStart : () => ({  
-    type: Types.BUSCA_INSUMO_START,
+  buscaDetailInsumoStart : () => ({  
+    type: Types.BUSCA_DETAIL_INSUMO_START,
     loading: true,
     erro: false
   }),
 
-  buscaInsumoSucess : insumo => ({
-    type: Types.BUSCA_INSUMO_SUCCESS,
+  buscaDetailInsumoSucess : (insumo , typesInsumo, marcas, status)=> ({
+    type: Types.BUSCA_DETAIL_INSUMO_SUCCESS,
     insumo,
+    typesInsumo,
+    marcas,
+    status,
     loading: false,
     erro: false
   }),
 
-  buscaInsumoError : () => ({
-    type: Types.BUSCA_INSUMO_ERROR,
+  buscaDetailInsumoError : () => ({
+    type: Types.BUSCA_DETAIL_INSUMO_ERROR,
     loading: false,
     erro: true
   }),
