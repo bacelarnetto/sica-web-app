@@ -6,7 +6,7 @@ import globalTypes from './../common/constants/GlobalTypes'
 
 
 export const UserService = {
-  authUser: async (email) => {
+  getUser: async (email) => {
     try {
       return await api.get(globalTypes.url.USER + email)
     } catch (error) {

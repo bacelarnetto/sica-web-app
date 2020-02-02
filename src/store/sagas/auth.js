@@ -7,6 +7,7 @@ export function* logoutSaga() {
   yield call([localStorage, 'removeItem'], 'token');
   yield call([localStorage, 'removeItem'], 'expirationDate');
   yield call([localStorage, 'removeItem'], 'userId');
+  yield call([localStorage, 'removeItem'], 'username');
   yield put(actions.logoutSucceed());
 }
 
@@ -28,7 +29,8 @@ export function* authUserSaga(action) {
     );
     yield localStorage.setItem('token', response.headers.authorization );
     yield localStorage.setItem('expirationDate', expirationDate);
-    yield localStorage.setItem('userId', response.headers.user_id);
+    yield localStorage.setItem('userId', response.headers.user_id); 
+    yield localStorage.setItem('username', action.email);  
     yield put(
       actions.authSuccess(response.headers.authorization, response.headers.user_id)
     );

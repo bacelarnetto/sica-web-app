@@ -16,7 +16,7 @@ const url = {
   ATIVO_INSUMO_TIPOS: '/ativo/insumo/types',
   ATIVO_INSUMO_STATUS: '/ativo/insumo/status',
 
-  USER: '/auth/user/',
+  USER: '/auth/user',
 }
 
 const method = {
