@@ -46,12 +46,12 @@ function* buscaDetailInsumoSaga(action) {
 }
 
 function* deleteInsumoSaga(action) {
-  yield put(actions.deleteInsumosStart())
+  yield put(actions.deleteInsumoStart())
   try {    
     const responseDelete = yield service.deleteInsumo(action.itemSelected); 
     if(responseDelete !== undefined && responseDelete !== null &&
     (responseDelete.status === 200 || responseDelete.status === 204)) {
-      yield put(actions.deleteInsumosSucess())
+      yield put(actions.deleteInsumoSucess())
       toastr.success('Sucesso:', 'Exclusão realizada com sucesso.') 
       //busca a lista apos a exclusao
       yield put(actions.buscaListInsumosStart()) 
@@ -65,7 +65,7 @@ function* deleteInsumoSaga(action) {
       throw new Error('Erro ao tentar realizar a exclusão'); // gera uma exceção
     }
   } catch (error) {
-    yield put(actions.deleteInsumosError())
+    yield put(actions.deleteInsumoError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }

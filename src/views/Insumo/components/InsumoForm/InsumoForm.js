@@ -21,6 +21,9 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers';
+
+import moment from 'moment';
+import ptBrLocale from 'date-fns/locale/pt-BR';
 import DateFnsUtils from '@date-io/date-fns';
 
 import { Creators as actions } from './../../../../store/actions/insumo';
@@ -75,11 +78,34 @@ const InsumoForm = props => {
   
   useEffect(() => {
     if(isEdit(keyItem)){
-      setValues({
-        id:  insumo.id || '',
-        descricao: insumo.descricao ||'',
-    
-      });
+
+      if(insumo !== null && insumo !== '' &&  insumo !== undefined ){
+      
+        let codTipo = 
+                    insumo.tipo !== null && 
+                    insumo.tipo !== '' && 
+                    insumo.tipo !== undefined ? insumo.tipo.id : ''
+
+        let codMarca = 
+                      insumo.marca !== null && 
+                      insumo.marca !== '' && 
+                      insumo.marca !== undefined ? insumo.marca.id :''
+
+        let codStatus = 
+                      insumo.status !== null && 
+                      insumo.status !== '' && 
+                      insumo.status !== undefined ? insumo.status.codigo :''
+      
+        setValues({
+          id:  insumo.id || '',
+          descricao: insumo.descricao ||'',
+          tipo: codTipo,
+          marca: codMarca,
+          status: codStatus,    
+        });
+        const dateFormt = moment(insumo.dataCompra).format('DD/MM/YYYY');
+        setSelectedDate(new Date(dateFormt))
+      }
     }
   }, [insumo, keyItem])
 
@@ -98,7 +124,7 @@ const InsumoForm = props => {
       setShowErrors(true);
     } else {
       if(isEdit(keyItem)) {
-        dispatch(actions.editInsumo(values),[])
+        dispatch(actions.editInsumo(values, selectedDate),[])
       }else{  
         dispatch(actions.insertInsumo(values, selectedDate),[])
         setValues({   
@@ -158,7 +184,7 @@ const InsumoForm = props => {
             </Grid>}
             <Grid
               item
-              md={8}
+              md={10}
               xs={12}
             >
               <TextField
@@ -171,6 +197,7 @@ const InsumoForm = props => {
                 onChange={handleChange}
                 required
                 value={values.descricao}
+                variant="outlined"
               />
             </Grid>
             <Grid
@@ -191,6 +218,7 @@ const InsumoForm = props => {
                 select
                 SelectProps={{ native: true }}
                 value={values.tipo}
+                variant="outlined"
               >
                 <option
                   value="sel"
@@ -225,7 +253,7 @@ const InsumoForm = props => {
                 select
                 SelectProps={{ native: true }}
                 value={values.marca}
-                
+                variant="outlined"
               >
                 <option
                   value="sel"
@@ -260,7 +288,7 @@ const InsumoForm = props => {
                 select
                 SelectProps={{ native: true }}
                 value={values.status}
-                
+                variant="outlined"
               >
                 <option
                   value="sel"
@@ -278,20 +306,26 @@ const InsumoForm = props => {
               </TextField>
             </Grid>
             
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider
+              locale={ptBrLocale}
+              utils={DateFnsUtils}
+            >
               <Grid
                 item
                 md={6}
                 xs={12}
               >
                 <KeyboardDatePicker
+                  cancelLabel="Cancelar"
                   error={!selectedDate  && showErrors}
                   format="dd/MM/yyyy"
                   fullWidth
                   helperText={!selectedDate && showErrors && 'Por favor, preencha a data.'}
-                  id="date-picker-dialog"
-                  KeyboardButtonProps={{ 'aria-label': 'change date', }} 
+                  id="date-picker-dialog" 
+                  inputVariant="outlined"
+                  KeyboardButtonProps={{ 'aria-label': 'change date', }}
                   label="Data de Aquisição"
+                  locale="pt-br"
                   margin="dense"
                   onChange={handleDateChange}
                   value={selectedDate}

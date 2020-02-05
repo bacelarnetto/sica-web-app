@@ -94,7 +94,8 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent:'center'
-  }
+  },
+  
 
 }));
 
@@ -142,7 +143,7 @@ const InsumoTable = props => {
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';    
     dispatch(actions.buscaListInsumos(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
-    let valorOrder =isAsc ? 'desc' : 'asc'
+    let valorOrder = isAsc ? 'desc' : 'asc'
     setOrder(valorOrder);
     setOrderBy(property);
   }
@@ -168,10 +169,26 @@ const InsumoTable = props => {
     setOpen(false);
   };
 
+  const colorStatus = id => {
+    let color = ''
+    if (id === 1){
+      color = '#107B2D'
+    } else if (id === 2){
+      color = '#BA1717'
+    } else {
+      color ='#C68441'
+    }
+    return color
+  }
+
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
     { id: 'descricao', numeric: false, disablePadding: false, label: 'Nome' } ,
-     
+    { id: 'dataCompra', numeric: false, disablePadding: false, label: 'Data de Aquisição' } ,
+    { id: 'dataHoraCadastro', numeric: false, disablePadding: false, label: 'Data de cadastro' } ,
+    { id: 'marca', numeric: false, disablePadding: false, label: 'Marca' } ,
+    { id: 'tipo', numeric: false, disablePadding: false, label: 'Tipo' } ,
+    { id: 'status', numeric: false, disablePadding: false, label: 'Status' } ,     
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -322,7 +339,13 @@ const InsumoTable = props => {
                         </ RouterLink>
                       </TableCell>            
                       <TableCell>{insumo.descricao}</TableCell>
-                     
+                      <TableCell>{insumo.dataCompra}</TableCell>
+                      <TableCell>{insumo.dataHoraCadastro}</TableCell>
+                      <TableCell>{insumo.marca.nome}</TableCell>
+                      <TableCell>{insumo.tipo.nome}</TableCell>
+                      <TableCell
+                        style={{color: colorStatus(insumo.status.codigo), fontWeight: 'bold'}}
+                      >{insumo.status.descricao}</TableCell>                     
                     </TableRow>
                   )))}
 
@@ -331,7 +354,7 @@ const InsumoTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={3} >
+                      <TableCell colSpan={7} >
                         <div className={classes.loadingContent}>
                           <CircularProgress />
                         </div>
@@ -344,7 +367,7 @@ const InsumoTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={3} >
+                      <TableCell colSpan={7} >
                         <div className={classes.loadingContent}>
                           <h5>Nenhum registro encontrado!</h5>
                         </div>

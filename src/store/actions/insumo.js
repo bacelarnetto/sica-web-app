@@ -68,7 +68,7 @@ export const Creators = {
     type: Types.DELETE_INSUMO,
     itemSelected,
     query: { 
-      nome: filter.descricao,
+      description: filter.descricao,
       page, 
       lines_per_page: rowsPerPage, 
       direction: order.toUpperCase(), 
@@ -129,9 +129,20 @@ export const Creators = {
   }),
 
   /** EDITAR A INSUMO **/
-  editInsumo: insumo => ({
+  editInsumo: (result, dataCompra) => ({
     type: Types.EDIT_INSUMO,
-    insumo
+    insumo: { 
+      id: result.id,
+      dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
+      descricao: result.descricao,
+      marca: {
+        id: result.marca
+      },
+      status: result.status,
+      tipo: {
+        id: result.tipo
+      }   
+    }
   }),
 
   editInsumoStart : () => ({  
