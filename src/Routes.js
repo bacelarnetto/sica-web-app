@@ -14,6 +14,8 @@ import {
   MarcaInsertEdit as MarcaInsertEditView,
   Insumo as InsumoView,
   InsumoInsertEdit as InsumoInsertEditView,
+  Fornecedor as FornecedorView,
+  FornecedorInsertEdit as FornecedorInsertEditView,
 
   ProductList as ProductListView,
   UserList as UserListView,
@@ -85,6 +87,19 @@ const Routes = () => {
         />
 
         <RouteWithLayout
+          component={FornecedorView}
+          exact
+          layout={MainLayout}
+          path="/fornecedor"
+        />
+        <RouteWithLayout
+          component={FornecedorInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/fornecedor/:id"
+        />
+
+        <RouteWithLayout
           component={UserListView}
           exact
           layout={MainLayout}
@@ -118,7 +133,7 @@ const Routes = () => {
           layout={MinimalLayout}
           path="/not-found"
         />
-        <Redirect to="/insumo/1" />
+        <Redirect to="/" />
       </Switch>
     );
 

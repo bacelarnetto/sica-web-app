@@ -11,5 +11,7 @@ export { default as Marca } from './Marca/Marca';
 export { default as MarcaInsertEdit} from './Marca/MarcaInsertEdit';
 export { default as Insumo } from './Insumo/Insumo';
 export { default as InsumoInsertEdit} from './Insumo/InsumoInsertEdit';
+export { default as Fornecedor } from './Fornecedor/Fornecedor';
+export { default as FornecedorInsertEdit} from './Fornecedor/FornecedorInsertEdit';
 
 export { default as Logout} from './Logout';

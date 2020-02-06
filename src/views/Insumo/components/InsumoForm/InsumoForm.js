@@ -23,6 +23,7 @@ import {
 } from '@material-ui/pickers';
 
 import moment from 'moment';
+
 import ptBrLocale from 'date-fns/locale/pt-BR';
 import DateFnsUtils from '@date-io/date-fns';
 

@@ -16,6 +16,10 @@ const url = {
   ATIVO_INSUMO_TIPOS: '/ativo/insumo/types',
   ATIVO_INSUMO_STATUS: '/ativo/insumo/status',
 
+  ATIVO_FORNECEDOR_LIST_PAGE: '/ativo/fornecedor/list-page?',
+  ATIVO_FORNECEDOR_LIST: '/ativo/fornecedor/list',
+  ATIVO_FORNECEDOR: '/ativo/fornecedor/',
+
   USER: '/auth/user',
 }
 

@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 export const Types = {
   BUSCA_LIST_INSUMO: 'list/BUSCA_INSUMO',
   BUSCA_LIST_INSUMO_START: 'list/BUSCA_INSUMO_START',
