@@ -1,6 +1,6 @@
 import { takeLatest, takeEvery, put, all } from 'redux-saga/effects'
-import { Types as types, Creators as actions } from '../actions/Fornecedor';
-import { FornecedorService as service }  from './../../servers/Fornecedor'
+import { Types as types, Creators as actions } from '../actions/fornecedor';
+import { FornecedorService as service }  from './../../servers/fornecedor'
 import { toastr } from 'react-redux-toastr'
 
 function* buscaListFornecedoresSaga(action) {
@@ -23,8 +23,8 @@ function* buscaFornecedorSaga(action) {
   yield put(actions.buscaFornecedorStart())
   try {    
     const response = yield service.findFornecedorById(action.itemSelected);
-    const Fornecedor = response.data;
-    yield put(actions.buscaFornecedorSucess(Fornecedor)) 
+    const fornecedor = response.data;
+    yield put(actions.buscaFornecedorSucess(fornecedor)) 
   } catch (error) {
     yield put(actions.buscaFornecedorError())
     toastr.error('Erro:', error.message)
@@ -62,7 +62,7 @@ function* deleteFornecedorSaga(action) {
 function* editFornecedorSaga(action) {
   yield put(actions.editFornecedorStart())
   try {    
-    const response = yield service.submitFornecedor(action.Fornecedor); 
+    const response = yield service.submitFornecedor(action.fornecedor); 
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 204)) {
       yield put(actions.editFornecedorSucess())
@@ -80,7 +80,7 @@ function* editFornecedorSaga(action) {
 function* insertFornecedorSaga(action) {
   yield put(actions.insertFornecedorStart())
   try {    
-    const response = yield service.submitFornecedor(action.Fornecedor); 
+    const response = yield service.submitFornecedor(action.fornecedor); 
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 201)) {
       yield put(actions.insertFornecedorSucess())

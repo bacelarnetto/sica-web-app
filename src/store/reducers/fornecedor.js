@@ -51,7 +51,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        marca: action.fornecedor,
+        fornecedor: action.fornecedor,
       };
 
     case types.INSERT_FORNECEDOR_SUCCESS:

@@ -166,7 +166,7 @@ const FornecedorTable = props => {
 
   const handleRemove = event => {
     event.preventDefault();
-    dispatch(actions.deleteFornecedores(id, values, page, rowsPerPage, order, orderBy),[])  
+    dispatch(actions.deleteFornecedor(id, values, page, rowsPerPage, order, orderBy),[])  
     setOpen(false);
   };
 
