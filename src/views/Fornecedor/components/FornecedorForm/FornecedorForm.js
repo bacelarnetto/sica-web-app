@@ -16,9 +16,11 @@ import {
   CircularProgress,
   TextField
 } from '@material-ui/core';
+import InputMask from 'react-input-mask'
 
 import { Creators as actions } from './../../../../store/actions/fornecedor';
 import {  isEdit }  from './../../../../common/util';
+import validation from './../../../../common/validationUtil';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -44,8 +46,15 @@ const FornecedorForm = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    id:  '',
-    nome: ''
+    id: '',
+    nome: '',
+    email: '',
+    bairro: '',
+    cidade: '',
+    endereco: '',
+    numero: '',
+    telefone: '',
+    uf: ''  
   });
 
   const [showErrors, setShowErrors] = useState(false);
@@ -59,7 +68,14 @@ const FornecedorForm = props => {
     if(isEdit(keyItem)){
       setValues({
         id:  fornecedor.id || '',
-        nome: fornecedor.nome ||''
+        nome: fornecedor.nome ||'',
+        email: fornecedor.email ||'',    
+        bairro: fornecedor.bairro || '',
+        cidade: fornecedor.cidade || '',
+        endereco: fornecedor.endereco || '',
+        numero: fornecedor.numero || '',
+        telefone: fornecedor.telefone || '',
+        uf: fornecedor.uf || ''   
       });
     }
   }, [fornecedor, keyItem])
@@ -74,14 +90,31 @@ const FornecedorForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if (!values.nome) {
+    if (validation.required(values.nome.trim()) 
+      || validation.email(values.email) 
+      || validation.required(values.endereco.trim()) 
+      || validation.required(values.bairro.trim())
+      || validation.number(values.numero.trim())
+      || validation.required(values.uf.trim())
+      || validation.required(values.cidade.trim())
+    ) {
       setShowErrors(true);
     } else {
       if(isEdit(keyItem)) {
         dispatch(actions.editFornecedor(values),[])
       }else{
         dispatch(actions.insertFornecedor(values),[])
-        setValues({ id: '',  nome:'' });        
+        setValues({  
+          id: '',
+          nome: '',
+          email: '',
+          bairro: '',
+          cidade: '',
+          endereco: '',
+          numero: '',
+          telefone: '',
+          uf: '' 
+        });        
       }
       setShowErrors(false);
     }
@@ -136,9 +169,9 @@ const FornecedorForm = props => {
               xs={12}
             >
               <TextField
-                error={!values.nome && showErrors}
+                error={validation.required(values.nome.trim()) && showErrors}
                 fullWidth
-                helperText={!values.nome && showErrors && 'Por favor, preencha o nome.'}
+                helperText={showErrors && validation.required(values.nome.trim())}
                 label="Nome"
                 margin="dense"
                 name="nome"
@@ -148,6 +181,141 @@ const FornecedorForm = props => {
                 variant="outlined"
               />
             </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={validation.email(values.email) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.email(values.email)}
+                label="E-mail"
+                margin="dense"
+                name="email"
+                onChange={handleChange}
+                required
+                type="email"
+                value={values.email}
+                variant="outlined"
+              />
+            </Grid>
+           
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.endereco.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.endereco.trim())}
+                label="Endereço"
+                margin="dense"
+                name="endereco"
+                onChange={handleChange}
+                required
+                value={values.endereco}
+                variant="outlined"
+              />
+            </Grid>                       
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.bairro.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.bairro.trim())}
+                label="Bairro"
+                margin="dense"
+                name="bairro"
+                onChange={handleChange}
+                required
+                value={values.bairro}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={3}
+              xs={12}
+            >
+              <TextField
+                error={validation.number(values.numero.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.number(values.numero.trim())}
+                label="Numero"
+                margin="dense"
+                name="numero"
+                onChange={handleChange}
+                required
+                value={values.numero}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={3}
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.uf.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.uf.trim())}
+                label="Uf"
+                margin="dense"
+                name="uf"
+                onChange={handleChange}
+                required
+                value={values.uf}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.cidade.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.cidade.trim())}
+                label="Cidade"
+                margin="dense"
+                name="cidade"
+                onChange={handleChange}
+                required
+                value={values.cidade}
+                variant="outlined"
+              />
+            </Grid>
+
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              
+
+              <InputMask
+                mask="(99) 99999-9999"
+                onChange={handleChange}
+                value={values.telefone}
+              >
+                {(inputProps) => 
+                  <TextField
+                    {...inputProps}
+                    fullWidth
+                    label="Telefone"
+                    margin="dense"
+                    name="telefone"
+                    variant="outlined"
+                  />}
+              </InputMask>
+            </Grid>
+
             
           </Grid>
         </CardContent>

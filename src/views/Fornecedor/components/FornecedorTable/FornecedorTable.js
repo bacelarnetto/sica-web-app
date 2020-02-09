@@ -36,6 +36,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { Creators as actions } from './../../../../store/actions/fornecedor';
 
@@ -172,8 +173,14 @@ const FornecedorTable = props => {
 
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
-    { id: 'nome', numeric: false, disablePadding: false, label: 'Nome' } ,
-     
+    { id: 'nome', numeric: false, disablePadding: false, label: 'Nome' } ,    
+    { id: 'endereco', numeric: false, disablePadding: false, label: 'Endereco' } ,
+    { id: 'numero', numeric: true, disablePadding: false, label: 'Numero' } ,
+    { id: 'bairro', numeric: false, disablePadding: false, label: 'Bairro' } ,
+    { id: 'cidade', numeric: false, disablePadding: false, label: 'Cidade' } ,
+    { id: 'uf', numeric: false, disablePadding: false, label: 'Endereco' } , 
+    { id: 'email', numeric: false, disablePadding: false, label: 'Email' } ,    
+    { id: 'telefone', numeric: false, disablePadding: false, label: 'Telefone:' } ,     
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -303,27 +310,45 @@ const FornecedorTable = props => {
                       hover
                       key={fornecedor.id}
                     > 
-                      <TableCell
-                        className={classes.colAction}
-                        style={{ width: 160 }}
-                      >
-                        <IconButton
-                          aria-label="Excluir"
-                          className={classes.buttonDelete}
-                          onClick={() => handleClickOpen(fornecedor.id)}
+                      <TableCell style={{ width: 165 }}>
+                        <div
+                          className={classes.colAction}
+                          style={{ width: 150 }}
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                        < RouterLink to={'fornecedor/'+ fornecedor.id}>
                           <IconButton
-                            aria-label="Editar"
-                            className={classes.buttonLabel}
+                            aria-label="Excluir"
+                            className={classes.buttonDelete}
+                            onClick={() => handleClickOpen(fornecedor.id)}
                           >
-                            <EditIcon />
+                            <DeleteIcon />
                           </IconButton>
-                        </ RouterLink>
+                          < RouterLink to={'fornecedor/'+ fornecedor.id}>
+                            <IconButton
+                              aria-label="Editar"
+                              className={classes.buttonLabel}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </ RouterLink>
+
+                          <IconButton
+                            aria-label="Pedido"
+                      
+                      
+                          >
+                            <ShoppingCartIcon />
+                          </IconButton>
+                          
+                        </div>
                       </TableCell>            
                       <TableCell>{fornecedor.nome}</TableCell>
+                      <TableCell>{fornecedor.endereco}</TableCell>
+                      <TableCell>{fornecedor.numero}</TableCell>
+                      <TableCell>{fornecedor.bairro}</TableCell>
+                      <TableCell>{fornecedor.cidade}</TableCell>
+                      <TableCell>{fornecedor.uf}</TableCell>
+                      <TableCell>{fornecedor.email}</TableCell>
+                      <TableCell ><div style={{ width: 120 }}>{fornecedor.telefone}</div></TableCell> 
                      
                     </TableRow>
                   )))}

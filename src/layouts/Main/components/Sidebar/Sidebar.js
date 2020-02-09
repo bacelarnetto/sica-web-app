@@ -8,6 +8,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
 
 
 import { Profile, SidebarNav } from './components';
@@ -65,17 +67,17 @@ const Sidebar = props => {
     {
       title: 'Marca',
       href: '/marca',
-      icon: <SettingsIcon />,
+      icon: <BrandingWatermarkIcon/>,
     },
     {
       title: 'Insumo',
       href: '/Insumo',
-      icon: <SettingsIcon />,
+      icon: <ShoppingBasketIcon />,
     },
     {
       title: 'Fornecedor',
       href: '/Fornecedor',
-      icon: <SettingsIcon />,
+      icon: <LocalShippingIcon />,
     }
   ];
 

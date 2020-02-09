@@ -1,5 +1,9 @@
 //https://redux-form.com/7.4.2/examples/fieldlevelvalidation/
-const required = value => (value || typeof value === 'number' ? undefined : 'Preenchimento obrigatório')
+const required = value => (
+  value ||
+  typeof value === 'number' || 
+  value.length !== 0   ?     undefined : 'Preenchimento obrigatório'
+)
 
 const maxLength = max => value =>
   value && value.length > max ? `Deve ter no máximo ${max} caracteres ou menos` : undefined
@@ -12,7 +16,8 @@ export const minLength = min => value =>
 export const minLength2 = minLength(2)
 
 const number = value =>
-  value && isNaN(Number(value)) ? 'Deve ser um número' : undefined
+  (value || typeof value === 'number' ? undefined : 'Preenchimento obrigatório')||
+  (value && isNaN(Number(value)) ? 'Deve ser um número' : undefined)
 
 const minValue = min => value =>
   value && value < min ? `Deve ser pelo menos ${min}` : undefined
@@ -20,9 +25,10 @@ const minValue = min => value =>
 const minValue13 = minValue(13)
 
 const email = value =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Endereço de email invalido'
-    : undefined
+  (value || typeof value === 'number' ? undefined : 'Preenchimento obrigatório')||
+ ( value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+   ? 'Endereço de email invalido'
+   : undefined)
 
 const tooYoung = value =>
   value && value < 13

@@ -36,6 +36,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
+import BuildIcon from '@material-ui/icons/Build';
 
 import { Creators as actions } from './../../../../store/actions/insumo';
 
@@ -319,24 +320,32 @@ const InsumoTable = props => {
                       key={insumo.id}
                     > 
                       <TableCell
-                        className={classes.colAction}
-                        style={{ width: 160 }}
+                        style={{ width: 165 }}
                       >
-                        <IconButton
-                          aria-label="Excluir"
-                          className={classes.buttonDelete}
-                          onClick={() => handleClickOpen(insumo.id)}
+                        <div
+                          className={classes.colAction}
+                          style={{ width: 150 }}
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                        < RouterLink to={'insumo/'+ insumo.id}>
                           <IconButton
-                            aria-label="Editar"
-                            className={classes.buttonLabel}
+                            aria-label="Excluir"
+                            className={classes.buttonDelete}
+                            onClick={() => handleClickOpen(insumo.id)}
                           >
-                            <EditIcon />
+                            <DeleteIcon />
                           </IconButton>
-                        </ RouterLink>
+                          < RouterLink to={'insumo/'+ insumo.id}>
+                            <IconButton
+                              aria-label="Editar"
+                              className={classes.buttonLabel}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </ RouterLink>
+
+                          <IconButton>
+                            <BuildIcon />
+                          </IconButton>
+                        </div>
                       </TableCell>            
                       <TableCell>{insumo.descricao}</TableCell>
                       <TableCell>{insumo.dataCompra}</TableCell>

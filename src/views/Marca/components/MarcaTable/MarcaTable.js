@@ -173,7 +173,6 @@ const MarcaTable = props => {
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
     { id: 'nome', numeric: false, disablePadding: false, label: 'Nome' } ,
-     
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -303,25 +302,27 @@ const MarcaTable = props => {
                       hover
                       key={marca.id}
                     > 
-                      <TableCell
-                        className={classes.colAction}
-                        style={{ width: 160 }}
-                      >
-                        <IconButton
-                          aria-label="Excluir"
-                          className={classes.buttonDelete}
-                          onClick={() => handleClickOpen(marca.id)}
+                      <TableCell  style={{ width: 120 }}>
+                        <div
+                          className={classes.colAction}
+                          style={{ width: 110 }}
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                        < RouterLink to={'marca/'+ marca.id}>
                           <IconButton
-                            aria-label="Editar"
-                            className={classes.buttonLabel}
+                            aria-label="Excluir"
+                            className={classes.buttonDelete}
+                            onClick={() => handleClickOpen(marca.id)}
                           >
-                            <EditIcon />
+                            <DeleteIcon />
                           </IconButton>
-                        </ RouterLink>
+                          < RouterLink to={'marca/'+ marca.id}>
+                            <IconButton
+                              aria-label="Editar"
+                              className={classes.buttonLabel}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </ RouterLink>
+                        </div>
                       </TableCell>            
                       <TableCell>{marca.nome}</TableCell>
                      
