@@ -330,14 +330,13 @@ const FornecedorTable = props => {
                               <EditIcon />
                             </IconButton>
                           </ RouterLink>
-
-                          <IconButton
-                            aria-label="Pedido"
-                      
-                      
-                          >
-                            <ShoppingCartIcon />
-                          </IconButton>
+                          < RouterLink to={'pedidos/fornecedor/'+ fornecedor.id}>
+                            <IconButton
+                              aria-label="Pedido"                      
+                            >
+                              <ShoppingCartIcon />
+                            </IconButton>
+                          </ RouterLink>
                           
                         </div>
                       </TableCell>            
@@ -358,7 +357,7 @@ const FornecedorTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={3} >
+                      <TableCell colSpan={9} >
                         <div className={classes.loadingContent}>
                           <CircularProgress />
                         </div>
@@ -371,8 +370,8 @@ const FornecedorTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={3} >
-                        <div className={classes.loadingContent}>
+                      <TableCell colSpan={9} >
+                        <div >
                           <h5>Nenhum registro encontrado!</h5>
                         </div>
                       </TableCell>

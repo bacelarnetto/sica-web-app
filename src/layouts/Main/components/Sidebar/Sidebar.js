@@ -71,12 +71,12 @@ const Sidebar = props => {
     },
     {
       title: 'Insumo',
-      href: '/Insumo',
+      href: '/insumo',
       icon: <ShoppingBasketIcon />,
     },
     {
       title: 'Fornecedor',
-      href: '/Fornecedor',
+      href: '/fornecedor',
       icon: <LocalShippingIcon />,
     }
   ];

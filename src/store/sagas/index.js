@@ -4,6 +4,7 @@ import  { watchMarca } from './marca';
 import { watchAuth } from './auth';
 import { watchInsumo } from './insumo';
 import { watchFornecedor } from './fornecedor';
+import { watchPedido } from './pedido';
 
 export default function* rootSaga() {
   return yield all([
@@ -11,5 +12,6 @@ export default function* rootSaga() {
     watchAuth(),
     watchInsumo(),
     watchFornecedor(),
+    watchPedido(),
   ])
 }

@@ -3,7 +3,19 @@ import { Link as RouterLink,  NavLink  } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, Grid } from '@material-ui/core';
+import { 
+  AppBar, 
+  Toolbar, 
+  Badge, 
+  Hidden, 
+  IconButton,
+  Grid,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
@@ -29,10 +41,19 @@ const useStyles = makeStyles(theme => ({
 
 const Topbar = props => {
   const { className, onSidebarOpen, ...rest } = props;
+  const [open, setOpen] = useState(false);
 
   const classes = useStyles();
 
   const [notifications] = useState([]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <AppBar
@@ -67,14 +88,15 @@ const Topbar = props => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          < NavLink to="/Logout">
-            <IconButton
-              className={classes.signOutButton}
-              color="inherit"
-            >
-              <InputIcon />
-            </IconButton>
-          </ NavLink >
+          
+          <IconButton
+            className={classes.signOutButton}
+            color="inherit"
+            onClick={() => handleClickOpen()}
+          >
+            <InputIcon />
+          </IconButton>
+         
         </Hidden>        
         <Hidden lgUp>
           <IconButton
@@ -85,6 +107,37 @@ const Topbar = props => {
           </IconButton>
         </Hidden>        
       </Toolbar>
+
+      <Dialog
+        aria-describedby="alert-dialog-slide-description"
+        aria-labelledby="alert-dialog-slide-title"
+        keepMounted
+        onClose={handleClose}
+        open={open}
+      >
+        <DialogTitle id="alert-dialog-slide-title">{'Sair'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Tem certeza que deseja sair?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className={classes.buttonLabel}
+            onClick={handleClose}
+          >
+            Não
+          </Button>
+          < NavLink to="/Logout">
+            <Button
+              className={classes.buttonLabel}
+            >
+            Sim
+            </Button>
+          </NavLink>
+        </DialogActions>
+      </Dialog>
+
     </AppBar>
   );
 };

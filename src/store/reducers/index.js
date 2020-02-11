@@ -3,6 +3,7 @@ import marca from './marca';
 import auth from './auth';
 import insumo from './insumo';
 import fornecedor from './fornecedor';
+import pedido from './pedido';
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   marca,
   insumo,  
   fornecedor,
+  pedido,
 });
 
 export default rootReducer;

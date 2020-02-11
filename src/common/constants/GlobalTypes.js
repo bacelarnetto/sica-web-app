@@ -20,6 +20,10 @@ const url = {
   ATIVO_FORNECEDOR_LIST: '/ativo/fornecedor/list',
   ATIVO_FORNECEDOR: '/ativo/fornecedor/',
 
+  ATIVO_PEDIDO_LIST_PAGE: '/ativo/pedido/list-page?',
+  ATIVO_PEDIDO_LIST: '/ativo/pedido/list',
+  ATIVO_PEDIDO: '/ativo/pedido/',
+
   USER: '/auth/user',
 }
 

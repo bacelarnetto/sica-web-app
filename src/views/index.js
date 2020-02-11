@@ -13,5 +13,8 @@ export { default as Insumo } from './Insumo/Insumo';
 export { default as InsumoInsertEdit} from './Insumo/InsumoInsertEdit';
 export { default as Fornecedor } from './Fornecedor/Fornecedor';
 export { default as FornecedorInsertEdit} from './Fornecedor/FornecedorInsertEdit';
+export { default as Pedido} from './Pedido/Pedido';
+export { default as PedidoInsertEdit} from './Pedido/PedidoInsertEdit';
+
 
 export { default as Logout} from './Logout';

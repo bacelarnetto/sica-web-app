@@ -16,6 +16,8 @@ import {
   InsumoInsertEdit as InsumoInsertEditView,
   Fornecedor as FornecedorView,
   FornecedorInsertEdit as FornecedorInsertEditView,
+  Pedido as PedidoView,
+  PedidoInsertEdit as PedidoInsertEditView,
 
   ProductList as ProductListView,
   UserList as UserListView,
@@ -97,6 +99,19 @@ const Routes = () => {
           exact
           layout={MainLayout}
           path="/fornecedor/:id"
+        />
+        <RouteWithLayout
+          component={PedidoView}
+          exact
+          layout={MainLayout}
+          path="/pedidos/fornecedor/:id_fornecedor"
+        />
+
+        <RouteWithLayout
+          component={PedidoInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/pedidos/fornecedor/:id_fornecedor/pedido/:id_pedido"
         />
 
         <RouteWithLayout

@@ -11,9 +11,11 @@ import {
   TextField,
   Link,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Box
 } from '@material-ui/core';
 
+import ErrorIcon from '@material-ui/icons/Error';
 import { Creators as actions } from './../../store/actions/auth';
 
 const schema = {
@@ -137,11 +139,8 @@ const useStyles = makeStyles(theme => ({
     width:'100%'
   },
   messageAlertErro:{
-    padding: '10px',
-    color: '#610B0B',
-    backgroundColor: '#F8E0E0',
+    padding: '10px',   
     borderRadius: 3,
-    border: '1px solid #F6CECE',
   }
 }));
 
@@ -212,12 +211,38 @@ const SignIn = () => {
   let errorMessageRedirect = null;
   if ( errorMessage ) {
     errorMessageRedirect =
-    <div >
-      <Typography
+   
+      <Box
+        bgcolor="error.main"
         className={classes.messageAlertErro}
-        variant="body1"
-      >{errorMessage}</Typography>
-    </div>
+        color="error.contrastText"
+      >
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            md={1}
+            xs={1}
+          >
+            <ErrorIcon/>
+          </Grid>
+          <Grid
+            item
+            md={11}
+            xs={11}
+          >
+            <Typography
+              style={{color:'#FFFFFF', paddingTop:'3px'}}
+              variant="body1"
+            >{errorMessage}</Typography>
+          </Grid> 
+        </Grid>
+          
+      </Box>
+     
+    
   }
 
   const hasError = field =>
