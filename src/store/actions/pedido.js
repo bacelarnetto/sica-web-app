@@ -93,9 +93,14 @@ export const Creators = {
   }),
 
   /** CADASTRAR A PEDIDOS **/
-  insertPedido: pedido => ({
+  insertPedido: (idFornecedorSelected, dataItens) => ({
     type: Types.INSERT_PEDIDO,
-    pedido
+    pedido:{
+      fornecedor: {
+        id: idFornecedorSelected
+      },
+      itens: dataItens
+    }
   }),
 
   insertPedidoStart : () => ({  
@@ -153,9 +158,10 @@ export const Creators = {
     erro: false
   }),
 
-  buscaPedidoSucess : pedido => ({
+  buscaPedidoSucess : (pedido, tiposInsumos) => ({
     type: Types.BUSCA_PEDIDO_SUCCESS,
     pedido,
+    tiposInsumos,
     loading: false,
     erro: false
   }),

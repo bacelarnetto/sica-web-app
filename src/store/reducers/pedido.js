@@ -11,7 +11,8 @@ const INITIAL_STATE = {
   erro: false,
   showMessage: '',
   pedido: '',
-  fornedor: ''
+  fornedor: '',
+  tiposInsumos: {}
 }
   
 export default (state = INITIAL_STATE, action) => {      
@@ -54,6 +55,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         pedido: action.pedido,
+        tiposInsumos: action.tiposInsumos
       };
 
     case types.INSERT_PEDIDO_SUCCESS:

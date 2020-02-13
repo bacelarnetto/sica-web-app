@@ -26,7 +26,7 @@ import Check from '@material-ui/icons/Check';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import FilterList from '@material-ui/icons/FilterList';
 import FirstPage from '@material-ui/icons/FirstPage';
@@ -72,15 +72,32 @@ const PedidoForm = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    id:  '',
-    nomeFornecedor: '',
+    idPedido:  '',
+    nomeFornecedor: ''
+  });
+
+  const [stateTable, setStateTable] = useState({
+    columns: [
+      { title: 'Nome', field: 'descricao' },
+      { title: 'Marca', field: 'marca' },
+      { title: 'Quantidade', field: 'quantidade', type: 'numeric' },
+      {
+        title: 'Tipo',
+        field: 'tipoInsumo',
+        lookup: {},
+      },
+    ],
+    data: [],
+
   });
 
   const [showErrors, setShowErrors] = useState(false);
 
   const dispatch = useDispatch();  
   useFetching(dispatch, actions.buscaPedido(keyPedido, keyFornecedor));
+  
   const pedido = useSelector( state  => state.pedido.pedido );
+  const tiposInsumos = useSelector( state  => state.pedido.tiposInsumos );
   const loading = useSelector( state  => state.pedido.loading );
   
   useEffect(() => {    
@@ -92,12 +109,26 @@ const PedidoForm = props => {
     pedido.fornecedor.nome !== '' && 
     pedido.fornecedor.nome !== undefined ? pedido.fornecedor.nome: ''
     setValues({
-      id:  pedido.id || '',
+      idPedido:  pedido.id || '',
       nomeFornecedor: nameFronecedor ||'',
-    });    
-  }, [pedido])
+    }); 
+    setStateTable({
+      columns: [
+        { title: 'Nome', field: 'descricao' },
+        { title: 'Marca', field: 'marca' },
+        { title: 'Quantidade', field: 'quantidade', type: 'numeric' },
+        {
+          title: 'Tipo',
+          field: 'tipoInsumo',
+          lookup: tiposInsumos|| {},
+        },
+      ],
+      data: [],
+    })   
+  }, [pedido, tiposInsumos])
 
-
+ 
+  
   const handleChange = event => {
     setValues({
       ...values,
@@ -105,43 +136,36 @@ const PedidoForm = props => {
     });
   };
   
-  const handleSubmit = event => {
-    event.preventDefault();
-    if (!values.nome) {
-      setShowErrors(true);
-    } else {
-      if(isEdit(keyPedido)) {
-        dispatch(actions.editPedido(values),[])
-      }else{
-        dispatch(actions.insertPedido(values),[])
-        setValues({ id: '',   nomeFornecedor:'' });        
+  const handleSubmit = isSubmit => {
+    if(isSubmit){
+      if (stateTable.data === [] || stateTable.data.length == 0) {
+        setShowErrors(true);
+      } else {
+        if(isEdit(keyPedido)) {
+          dispatch(actions.editPedido(values),[])
+        }else{
+          dispatch(actions.insertPedido(keyFornecedor, stateTable.data),[])
+         
+          setStateTable({
+            columns: [
+              { title: 'Nome', field: 'descricao' },
+              { title: 'Marca', field: 'marca' },
+              { title: 'Quantidade', field: 'quantidade', type: 'numeric' },
+              {
+                title: 'Tipo',
+                field: 'tipoInsumo',
+                lookup: tiposInsumos|| {},
+              },
+            ],
+            data: [],
+          })         
+        }
+        setShowErrors(false);
       }
-      setShowErrors(false);
     }
   }
 
-  const [stateTable, setStateTable] = useState({
-    columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
-    ],
-    data: [
-      { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-      {
-        name: 'Zerya Betül',
-        surname: 'Baran',
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
 
-  });
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox
@@ -159,7 +183,7 @@ const PedidoForm = props => {
       ref={ref}
       style={{color: '#c62828'}}
     />),
-    Delete: forwardRef((props, ref) => <DeleteOutline
+    Delete: forwardRef((props, ref) => <Delete
       {...props}
       ref={ref}
       style={{color: '#c62828'}}
@@ -228,28 +252,24 @@ const PedidoForm = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <form
-          autoComplete="off"
-          noValidate
-          onSubmit={handleSubmit}
-        >                 
-          <CardHeader
-            subheader={isEdit(keyPedido) ? 'ALTERAÇÃO' : 'CADASTRO'}
-            title="Pedido" 
-          />
-          <Divider />
-          <CardContent>
-            { loading && (    
-              <div className={classes.loadingContent}>                
-                <CircularProgress />              
-              </div>
-            )}
-            <Grid
-              container
-              spacing={3}
-            >
+                  
+        <CardHeader
+          subheader={isEdit(keyPedido) ? 'ALTERAÇÃO' : 'CADASTRO'}
+          title="Pedido" 
+        />
+        <Divider />
+        <CardContent>
+          { loading && (    
+            <div className={classes.loadingContent}>                
+              <CircularProgress />              
+            </div>
+          )}
+          <Grid
+            container
+            spacing={3}
+          >
       
-              { isEdit(keyPedido) &&
+            { isEdit(keyPedido) &&
             <Grid
               item
               md={2}
@@ -263,100 +283,105 @@ const PedidoForm = props => {
                 name="id"
                 onChange={handleChange}
                 required
-                value={values.id}
+                value={values.idPedido}
                 variant="outlined"
               />
             </Grid>}       
-            </Grid>
-            <br/>
-            <MaterialTable
-              columns={stateTable.columns}
-              data={stateTable.data}
-              editable={{
-                onRowAdd: newData =>
-                  new Promise(resolve => {
-                    setTimeout(() => {
-                      resolve();
+          </Grid>
+          <br/>
+          <MaterialTable
+            columns={stateTable.columns}
+            data={stateTable.data}
+            editable={{
+              onRowAdd: newData =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve();
+                    setStateTable(prevState => {
+                      const data = [...prevState.data];
+                      data.push(newData);
+                      return { ...prevState, data };
+                    });
+                  }, 600);
+                }),
+              onRowUpdate: (newData, oldData) =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve();
+                    if (oldData) {
                       setStateTable(prevState => {
                         const data = [...prevState.data];
-                        data.push(newData);
+                        data[data.indexOf(oldData)] = newData;
                         return { ...prevState, data };
                       });
-                    }, 600);
-                  }),
-                onRowUpdate: (newData, oldData) =>
-                  new Promise(resolve => {
-                    setTimeout(() => {
-                      resolve();
-                      if (oldData) {
-                        setStateTable(prevState => {
-                          const data = [...prevState.data];
-                          data[data.indexOf(oldData)] = newData;
-                          return { ...prevState, data };
-                        });
-                      }
-                    }, 600);
-                  }),
-                onRowDelete: oldData =>
-                  new Promise(resolve => {
-                    setTimeout(() => {
-                      resolve();
-                      setStateTable(prevState => {
-                        const data = [...prevState.data];
-                        data.splice(data.indexOf(oldData), 1);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  }),
-              }}
-              icons={tableIcons}
-              localization={{
-                body: {
-                  emptyDataSourceMessage: 'Nenhum registro encontrado!',
-                  addTooltip: 'Adicionar',
-                  deleteTooltip: 'Remover',
-                  editTooltip: 'Alterar',
-                },
-                header: {
-                  actions: ''
-                },
-                toolbar: {
-                  searchTooltip: 'Pesquisar',
-                  searchPlaceholder: 'Pesquisar'
-                },
+                    }
+                  }, 600);
+                }),
+              onRowDelete: oldData =>
+                new Promise(resolve => {
+                  setTimeout(() => {
+                    resolve();
+                    setStateTable(prevState => {
+                      const data = [...prevState.data];
+                      data.splice(data.indexOf(oldData), 1);
+                      return { ...prevState, data };
+                    });
+                  }, 600);
+                }),
+            }}
+            icons={tableIcons}
+            localization={{
+              body: {
+                emptyDataSourceMessage: 'Nenhum registro encontrado!',
+                addTooltip: 'Adicionar',
+                deleteTooltip: 'Remover',
+                editTooltip: 'Alterar',
+                editRow:{
+                  cancelTooltip:'Cancelar',
+                  saveTooltip:'Confirmar',
+                  deleteText:'Tem certeza de que deseja excluir esta linha?'
+                }
+              },
+              header: {
+                actions: ''
+              },
+              toolbar: {
+                searchTooltip: 'Pesquisar',
+                searchPlaceholder: 'Pesquisar'
+              },
       
-              }}
-              options={{
-                paging: false
-              }}
-              title={`Fornecedor: ${values.nomeFornecedor}`}
+            }}
+            options={{
+              paging: false
+            }}
+            title={`Fornecedor: ${values.nomeFornecedor}`}
               
             
-            />
+          />
      
-          </CardContent>
-          <Divider />
-          <CardActions>
+        </CardContent>
+        <Divider />
+        <CardActions>
+          <Button
+            className={classes.button}
+            color="primary"
+            disabled={loading}
+            onClick={() => handleSubmit(true)}
+            variant="contained"
+          >
+            {isEdit(keyPedido) ? 'Editar' : 'Salvar'}
+          </Button>
+          <RouterLink to="/pedido">
             <Button
               className={classes.button}
               color="primary"
-              disabled={loading}
-              type="submit"
               variant="contained"
             >
-              {isEdit(keyPedido) ? 'Editar' : 'Salvar'}
-            </Button>
-            <RouterLink to="/pedido">
-              <Button
-                className={classes.button}
-                color="primary"
-                variant="contained"
-              >
             Cancelar
-              </Button>
-            </RouterLink >
-          </CardActions>
-        </form>
+            </Button>
+          </RouterLink >
+        </CardActions>
+        
       </Card>
 
     </div>

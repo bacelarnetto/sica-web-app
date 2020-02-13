@@ -1,7 +1,8 @@
 import { takeLatest, takeEvery, put, all } from 'redux-saga/effects'
 import { Types as types, Creators as actions } from '../actions/pedido';
 import { PedidoService as service }  from './../../servers/pedido'
-import { FornecedorService as serviceFornecedor }  from './../../servers/fornecedor'
+import { FornecedorService as fornecedorService }  from './../../servers/fornecedor'
+import { InsumoService as insumoService }  from './../../servers/insumo'
 import { toastr } from 'react-redux-toastr'
 import { isEdit }  from './../../common/util'
 
@@ -29,12 +30,14 @@ function* buscaPedidoSaga(action) {
       const response =  yield service.findPedidoById(action.idPedidoSelected);
       pedido = response.data;
     } else {
-      const responseFornec =  yield serviceFornecedor.findFornecedorById(action.idFornecedorSelected);
+      const responseFornec =  yield fornecedorService.findFornecedorById(action.idFornecedorSelected);
       const fornecedor = responseFornec.data;
-      pedido = new Object();
+      pedido = {};
       pedido.fornecedor = fornecedor;      
     }
-    yield put(actions.buscaPedidoSucess(pedido)) 
+    let rspTypes = yield insumoService.findTypesInsumo();
+    var tiposInsumos = rspTypes.data.reduce((obj, item) => ((obj[item.id] = item.nome), obj),{});
+    yield put(actions.buscaPedidoSucess(pedido, tiposInsumos)) 
   } catch (error) {
     yield put(actions.buscaPedidoError())
     toastr.error('Erro:', error.message)

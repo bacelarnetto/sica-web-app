@@ -148,7 +148,7 @@ const FornecedorForm = props => {
             { isEdit(keyItem) &&
             <Grid
               item
-              md={2}
+              md={3}
               xs={12}
             >
               <TextField
@@ -165,7 +165,7 @@ const FornecedorForm = props => {
             </Grid>}
             <Grid
               item
-              md={8}
+              md={9}
               xs={12}
             >
               <TextField
@@ -183,7 +183,7 @@ const FornecedorForm = props => {
             </Grid>
             <Grid
               item
-              md={6}
+              md={4}
               xs={12}
             >
               <TextField
@@ -203,7 +203,7 @@ const FornecedorForm = props => {
            
             <Grid
               item
-              md={6}
+              md={8}
               xs={12}
             >
               <TextField
@@ -221,7 +221,7 @@ const FornecedorForm = props => {
             </Grid>                       
             <Grid
               item
-              md={6}
+              md={9}
               xs={12}
             >
               <TextField
@@ -257,24 +257,6 @@ const FornecedorForm = props => {
             </Grid>
             <Grid
               item
-              md={3}
-              xs={12}
-            >
-              <TextField
-                error={validation.required(values.uf.trim()) && showErrors}
-                fullWidth
-                helperText={showErrors && validation.required(values.uf.trim())}
-                label="Uf"
-                margin="dense"
-                name="uf"
-                onChange={handleChange}
-                required
-                value={values.uf}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
               md={6}
               xs={12}
             >
@@ -291,13 +273,31 @@ const FornecedorForm = props => {
                 variant="outlined"
               />
             </Grid>
+            <Grid
+              item
+              md={2}
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.uf.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.uf.trim())}
+                label="Uf"
+                margin="dense"
+                name="uf"
+                onChange={handleChange}
+                required
+                value={values.uf}
+                variant="outlined"
+              />
+            </Grid>
+            
 
             <Grid
               item
-              md={6}
+              md={4}
               xs={12}
-            >
-              
+            >             
 
               <InputMask
                 mask="(99) 99999-9999"
