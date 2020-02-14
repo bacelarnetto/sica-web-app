@@ -43,7 +43,7 @@ const PedidoInsertEdit = props => {
           className={classes.contentActionTop}
           style={{ marginBottom: '10px'}}
         >
-          <Link to="/marca">
+          <Link to={`/pedidos/fornecedor/${id_fornecedor}`}>
             <Button
               className={classes.buttonVoltar}
             ><ArrowBackIcon/> Voltar</Button>            

@@ -18,6 +18,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import { toastr } from 'react-redux-toastr'
 
 
 import AddBox from '@material-ui/icons/AddBox';
@@ -91,8 +92,6 @@ const PedidoForm = props => {
 
   });
 
-  const [showErrors, setShowErrors] = useState(false);
-
   const dispatch = useDispatch();  
   useFetching(dispatch, actions.buscaPedido(keyPedido, keyFornecedor));
   
@@ -126,9 +125,7 @@ const PedidoForm = props => {
       data: [],
     })   
   }, [pedido, tiposInsumos])
-
  
-  
   const handleChange = event => {
     setValues({
       ...values,
@@ -138,8 +135,8 @@ const PedidoForm = props => {
   
   const handleSubmit = isSubmit => {
     if(isSubmit){
-      if (stateTable.data === [] || stateTable.data.length == 0) {
-        setShowErrors(true);
+      if (stateTable.data === [] || stateTable.data.length === 0) {
+        toastr.error('Erro:', 'Por favor, adicione um item a lista')
       } else {
         if(isEdit(keyPedido)) {
           dispatch(actions.editPedido(values),[])
@@ -160,7 +157,7 @@ const PedidoForm = props => {
             data: [],
           })         
         }
-        setShowErrors(false);
+
       }
     }
   }
@@ -371,7 +368,7 @@ const PedidoForm = props => {
           >
             {isEdit(keyPedido) ? 'Editar' : 'Salvar'}
           </Button>
-          <RouterLink to="/pedido">
+          <RouterLink to={`/pedidos/fornecedor/${keyFornecedor}`}>
             <Button
               className={classes.button}
               color="primary"

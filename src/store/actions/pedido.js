@@ -28,14 +28,14 @@ export const Types = {
 export const Creators = {
   
   /** BUSCA A LISTA DE PEDIDOS **/
-  buscaListPedidos : (filter, page, rowsPerPage, order, orderBy ) => ({  
+  buscaListPedidos : (id_fornecedor, page, rowsPerPage ) => ({  
     type: Types.BUSCA_LIST_PEDIDOS,
     query: { 
-      id_fornecedor: filter.id_fornecedor,
+      id_fornecedor,
       page, 
-      lines_per_page: rowsPerPage, 
-      direction: order.toUpperCase(), 
-      order_by: orderBy
+      lines_per_page: rowsPerPage,
+      direction: 'ASC', 
+      order_by: 'instante'
     }
   }),
 
@@ -62,15 +62,15 @@ export const Creators = {
   }),
 
   /** DELETA A PEDIDO DA LISTA **/
-  deletePedido: (itemSelected , filter, page, rowsPerPage, order, orderBy )=> ({
+  deletePedido: (itemSelected , filter, page, rowsPerPage)=> ({
     type: Types.DELETE_PEDIDO,
     itemSelected,
     query: { 
       id_fornecedor: filter.id_fornecedor,
       page, 
       lines_per_page: rowsPerPage, 
-      direction: order.toUpperCase(), 
-      order_by: orderBy
+      direction: 'ASC', 
+      order_by: 'instante'
     }
   }),
 

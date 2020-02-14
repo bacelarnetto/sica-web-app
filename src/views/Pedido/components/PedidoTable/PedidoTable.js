@@ -22,6 +22,7 @@ import {
   Typography,
   TablePagination,
   IconButton,
+  CircularProgress,
 } from '@material-ui/core';
 
 import Table from '@material-ui/core/Table';
@@ -112,8 +113,7 @@ const useStyles = makeStyles(theme => ({
 
 const PedidoTable = props => {
   const { className,  keyFornecedor,...rest } = props;
-  console.log('fornecedor='+ keyFornecedor)
-
+  
   const classes = useStyles();
 
   const [values, setValues] = useState({
@@ -121,14 +121,12 @@ const PedidoTable = props => {
   })
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('id'); 
   const [open, setOpen] = useState(false);
   const [id, setId] = useState('');
 
   
   const dispatch = useDispatch();
-  useFetching(dispatch, actions.buscaListPedidos(values, page, rowsPerPage, order, orderBy));
+  useFetching(dispatch, actions.buscaListPedidos(keyFornecedor, page, rowsPerPage));
 
   const pedidos = useSelector( state  => state.pedido.data );
   const totalElements = useSelector( state  => state.pedido.totalElements );
@@ -143,28 +141,16 @@ const PedidoTable = props => {
 
   const handlePageChange = (event, page) => {
     setPage(page);
-    dispatch(actions.buscaListPedidos(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListPedidos(keyFornecedor, page, rowsPerPage),[])
   };
 
   const handleRowsPerPageChange = event => {
     setRowsPerPage(event.target.value);
     setPage(0);
-    dispatch(actions.buscaListPedidos(values, page, event.target.value, order, orderBy),[])
+    dispatch(actions.buscaListPedidos(keyFornecedor, page, event.target.value),[])
   };
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';    
-    dispatch(actions.buscaListPedidos(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
-    let valorOrder =isAsc ? 'desc' : 'asc'
-    setOrder(valorOrder);
-    setOrderBy(property);
-  }
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    dispatch(actions.buscaListPedidos(values, page, rowsPerPage, order, orderBy),[])
-  }
-
+  
   const handleClickOpen = value => {
     setId(value)
     setOpen(true);
@@ -177,7 +163,7 @@ const PedidoTable = props => {
 
   const handleRemove = event => {
     event.preventDefault();
-    dispatch(actions.deletePedidos(id, values, page, rowsPerPage, order, orderBy),[])  
+    dispatch(actions.deletePedidos(id, values, page, rowsPerPage),[])  
     setOpen(false);
   };
 
@@ -188,7 +174,7 @@ const PedidoTable = props => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleNotExpandedChange = panel => () => {
+  const handleNotExpandedChange = () => () => {
     setExpanded(false);
   };
  
@@ -212,79 +198,95 @@ const PedidoTable = props => {
       </div>
       <br/>
       
+      { !loading && (pedidos.map(pedido => (
         
-      <ExpansionPanel
-        expanded={expanded === 'panel1'}
-        onChange={handleExpandedChange('panel1')}
-      >
-        <ExpansionPanelSummary
-          aria-controls="panel1bh-content"
-          expandIcon={<ExpandMoreIcon />}
-          id="panel1bh-header"
+        <ExpansionPanel
+          expanded={expanded === `panel${pedido.id}`}
+          key={pedido.id}
+          onChange={handleExpandedChange(`panel${pedido.id}`)}
         >
-          
+          <ExpansionPanelSummary
+            aria-controls="panel1bh-content"
+            expandIcon={<ExpandMoreIcon />}
+            id="panel1bh-header"
+          >          
   
-          <Typography className={classes.heading}>Cod.: 1&nbsp;&nbsp;-&nbsp;&nbsp; Fornecedor: ABC</Typography>
-          <Typography className={classes.secondaryHeading}>01/09/2020 11:45</Typography>
-          <Typography className={classes.headingStatus}> &nbsp;&nbsp;PEDENTE</Typography>
+            <Typography className={classes.heading}>Cod.: {pedido.id}&nbsp;&nbsp;-&nbsp;&nbsp; Fornecedor: ABC</Typography>
+            <Typography className={classes.secondaryHeading}>{pedido.instante}</Typography>
+            <Typography className={classes.headingStatus}> &nbsp;&nbsp;{pedido.status}</Typography>
  
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
 
-          <PerfectScrollbar
+            <PerfectScrollbar
             //component={Paper}
-            style={{width:'100%'}}
-          >
-            <Table
-              aria-label="a dense table"
-              size="small"
+              style={{width:'100%'}}
             >
-              <TableHead>
-                <TableRow>
-                  <TableCell>Nome</TableCell>
-                  <TableCell>Marca</TableCell>
-                  <TableCell>Tipo</TableCell>
-                  <TableCell align="right">Quantidade</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+              <Table
+                aria-label="a dense table"
+                size="small"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Nome</TableCell>
+                    <TableCell>Marca</TableCell>
+                    <TableCell>Tipo</TableCell>
+                    <TableCell align="right">Quantidade</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                
-                <TableRow key="1">
-                  <TableCell
-                    component="th"
-                    scope="row"
-                  >
+                  <TableRow key="1">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                    >
                     teste
-                  </TableCell>
-                  <TableCell >teste</TableCell>
-                  <TableCell >teste</TableCell>
-                  <TableCell align="right">teste</TableCell>
-                </TableRow>
+                    </TableCell>
+                    <TableCell >teste</TableCell>
+                    <TableCell >teste</TableCell>
+                    <TableCell align="right">teste</TableCell>
+                  </TableRow>
                
-              </TableBody>
-            </Table>
-          </PerfectScrollbar>
-
-
+                </TableBody>
+              </Table>
+            </PerfectScrollbar>
           
-        </ExpansionPanelDetails>
-        <ExpansionPanelActions>
-          <IconButton
-            aria-label="Excluir"
-            className={classes.buttonDelete}
-          >
-            <DeleteIcon />
-          </IconButton>
+          </ExpansionPanelDetails>
+          <ExpansionPanelActions>
+            <IconButton
+              aria-label="Excluir"
+              className={classes.buttonDelete}
+            >
+              <DeleteIcon />
+            </IconButton>
                
-          <IconButton
-            aria-label="Editar"
-            className={classes.buttonLabel}
-            onChange={handleNotExpandedChange()}
-          >
-            <EditIcon />
-          </IconButton>
-        </ExpansionPanelActions>
-      </ExpansionPanel>
+            <IconButton
+              aria-label="Editar"
+              className={classes.buttonLabel}
+              onChange={handleNotExpandedChange()}
+            >
+              <EditIcon />
+            </IconButton>
+          </ExpansionPanelActions>
+        </ExpansionPanel>
+      )))}
+
+      { loading && (
+
+        <div className={classes.loadingContent}>
+          <CircularProgress />
+        </div>
+    
+      )}
+
+      { (totalElements === 0 && !loading) && (
+
+        <div className={classes.loadingContent}>
+          <h5>Nenhum registro encontrado!</h5>
+        </div>
+
+      )}
 
       <Card
         {...rest}
