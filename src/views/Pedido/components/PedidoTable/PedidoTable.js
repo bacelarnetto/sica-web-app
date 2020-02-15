@@ -18,7 +18,6 @@ import {
   CardHeader,
   CardActions,
   CardContent,
-  Divider,
   Typography,
   TablePagination,
   IconButton,
@@ -167,7 +166,6 @@ const PedidoTable = props => {
     setOpen(false);
   };
 
-
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandedChange = panel => (event, isExpanded) => {
@@ -178,6 +176,33 @@ const PedidoTable = props => {
     setExpanded(false);
   };
  
+  const colorStatus = id => {
+    let color = ''
+    if (id === 1){
+      //Enviado
+      color = '#0080ff'
+    } else if (id === 2){
+      //Confirmação de Recebimento
+      color = '#B8FF33'
+    } else if (id === 3) {
+      //Pendente
+      color = '#ff8000'
+    } else if (id === 4 ){
+      //Em transporte
+      color = '#8000ff'
+    } else if (id === 5 ){
+      //Efetivado
+      color = '#107B2D'
+    } else if (id === 6 ){
+      //Cancelado
+      color = '#BA1717'
+    } else{
+      // Cancelado pelo Fornecedor
+      color = '#BA1717'
+    }
+    return color
+  }
+
   return (
     <div>
 
@@ -197,6 +222,15 @@ const PedidoTable = props => {
         </ RouterLink>
       </div>
       <br/>
+      <Card
+        {...rest}
+        className={clsx(classes.root, className)}
+      >
+        <CardHeader
+          subheader="Lista"
+          title="Pedidos"
+        />
+      </Card>
       
       { !loading && (pedidos.map(pedido => (
         
@@ -209,12 +243,13 @@ const PedidoTable = props => {
             aria-controls="panel1bh-content"
             expandIcon={<ExpandMoreIcon />}
             id="panel1bh-header"
-          >          
-  
-            <Typography className={classes.heading}>Cod.: {pedido.id}&nbsp;&nbsp;-&nbsp;&nbsp; Fornecedor: ABC</Typography>
+          > 
+            <Typography className={classes.heading}>Pedido: {pedido.id}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; Fornecedor: ABC</Typography>
             <Typography className={classes.secondaryHeading}>{pedido.instante}</Typography>
-            <Typography className={classes.headingStatus}> &nbsp;&nbsp;{pedido.status}</Typography>
- 
+            <Typography
+              className={classes.headingStatus}
+              style={{color: colorStatus(pedido.statusPedidoEnum.codigo), fontWeight: 'bold'}}
+            > &nbsp;&nbsp;&nbsp;&nbsp;{pedido.statusPedidoEnum.descricao}</Typography> 
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
 
@@ -235,19 +270,19 @@ const PedidoTable = props => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-               
-                  <TableRow key="1">
-                    <TableCell
-                      component="th"
-                      scope="row"
-                    >
-                    teste
-                    </TableCell>
-                    <TableCell >teste</TableCell>
-                    <TableCell >teste</TableCell>
-                    <TableCell align="right">teste</TableCell>
-                  </TableRow>
-               
+                  {pedido.itens.map(item => (
+                    <TableRow key={item.id}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                      >
+                        {item.descricao}
+                      </TableCell>
+                      <TableCell >{item.marca}</TableCell>
+                      <TableCell >{item.tipoInsumo.nome}</TableCell>
+                      <TableCell align="right">{item.quantidade}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </PerfectScrollbar>
@@ -273,19 +308,30 @@ const PedidoTable = props => {
       )))}
 
       { loading && (
-
-        <div className={classes.loadingContent}>
-          <CircularProgress />
-        </div>
-    
+        <Card
+          {...rest}
+          className={clsx(classes.root, className)}
+        >
+          <CardContent>
+            <div className={classes.loadingContent}>
+              <CircularProgress />
+            </div>
+          </CardContent>
+        </Card>
       )}
+     
 
       { (totalElements === 0 && !loading) && (
-
-        <div className={classes.loadingContent}>
-          <h5>Nenhum registro encontrado!</h5>
-        </div>
-
+        <Card
+          {...rest}
+          className={clsx(classes.root, className)}
+        >
+          <CardContent>
+            <div className={classes.loadingContent}>
+              <Typography variant="body1" >Nenhum registro encontrado!</Typography>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       <Card

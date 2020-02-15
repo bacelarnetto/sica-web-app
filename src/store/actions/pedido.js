@@ -34,7 +34,7 @@ export const Creators = {
       id_fornecedor,
       page, 
       lines_per_page: rowsPerPage,
-      direction: 'ASC', 
+      direction: 'DESC', 
       order_by: 'instante'
     }
   }),
@@ -69,7 +69,7 @@ export const Creators = {
       id_fornecedor: filter.id_fornecedor,
       page, 
       lines_per_page: rowsPerPage, 
-      direction: 'ASC', 
+      direction: 'DESC', 
       order_by: 'instante'
     }
   }),
@@ -96,9 +96,7 @@ export const Creators = {
   insertPedido: (idFornecedorSelected, dataItens) => ({
     type: Types.INSERT_PEDIDO,
     pedido:{
-      fornecedor: {
-        id: idFornecedorSelected
-      },
+      idFornecedor:idFornecedorSelected,
       itens: dataItens
     }
   }),

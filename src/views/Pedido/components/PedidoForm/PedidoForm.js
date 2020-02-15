@@ -145,7 +145,7 @@ const PedidoForm = props => {
          
           setStateTable({
             columns: [
-              { title: 'Nome', field: 'descricao' },
+              { title: 'Nome', field: 'descricao', },
               { title: 'Marca', field: 'marca' },
               { title: 'Quantidade', field: 'quantidade', type: 'numeric' },
               {
@@ -161,8 +161,6 @@ const PedidoForm = props => {
       }
     }
   }
-
-
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox
