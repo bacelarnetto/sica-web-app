@@ -12,6 +12,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+
 import {
   Fab,
   Card,
@@ -250,7 +251,7 @@ const PedidoTable = props => {
             expandIcon={<ExpandMoreIcon />}
             id="panel1bh-header"
           > 
-            <Typography className={classes.heading}>Pedido: {pedido.id}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; Fornecedor: ABC</Typography>
+            <Typography className={classes.heading}>Pedido: {pedido.id}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; Fornecedor: {pedido.fornecedor.nome}</Typography>
             <Typography className={classes.secondaryHeading}>{pedido.instante}</Typography>
             <Typography
               className={classes.headingStatus}
@@ -302,14 +303,15 @@ const PedidoTable = props => {
             >
               <DeleteIcon />
             </IconButton>
-               
-            <IconButton
-              aria-label="Editar"
-              className={classes.buttonLabel}
-              onChange={handleNotExpandedChange()}
-            >
-              <EditIcon />
-            </IconButton>
+            < RouterLink to={`/pedidos/fornecedor/${keyFornecedor}/pedido/${pedido.id}`}>
+              <IconButton
+                aria-label="Editar"
+                className={classes.buttonLabel}
+                onChange={handleNotExpandedChange()}
+              >
+                <EditIcon />
+              </IconButton>
+            </ RouterLink>
           </ExpansionPanelActions>
         </ExpansionPanel>
       )))}
