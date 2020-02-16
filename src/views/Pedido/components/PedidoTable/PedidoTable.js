@@ -22,6 +22,12 @@ import {
   TablePagination,
   IconButton,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button
 } from '@material-ui/core';
 
 import Table from '@material-ui/core/Table';
@@ -162,7 +168,7 @@ const PedidoTable = props => {
 
   const handleRemove = event => {
     event.preventDefault();
-    dispatch(actions.deletePedidos(id, values, page, rowsPerPage),[])  
+    dispatch(actions.deletePedido(id, keyFornecedor, page, rowsPerPage),[])  
     setOpen(false);
   };
 
@@ -292,6 +298,7 @@ const PedidoTable = props => {
             <IconButton
               aria-label="Excluir"
               className={classes.buttonDelete}
+              onClick={() => handleClickOpen(pedido.id)}
             >
               <DeleteIcon />
             </IconButton>
@@ -350,6 +357,35 @@ const PedidoTable = props => {
           />
         </CardActions>
       </Card>
+
+      <Dialog
+        aria-describedby="alert-dialog-slide-description"
+        aria-labelledby="alert-dialog-slide-title"
+        keepMounted
+        onClose={handleClose}
+        open={open}
+      >
+        <DialogTitle id="alert-dialog-slide-title">{'Exclusão'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Deseja excluir esse registro?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className={classes.buttonLabel}
+            onClick={handleClose}
+          >
+            Não
+          </Button>
+          <Button
+            className={classes.buttonLabel}
+            onClick={handleRemove}
+          >
+            Sim
+          </Button>
+        </DialogActions>
+      </Dialog>
 
     </div>
   );

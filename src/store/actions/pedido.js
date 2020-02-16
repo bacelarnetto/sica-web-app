@@ -62,11 +62,11 @@ export const Creators = {
   }),
 
   /** DELETA A PEDIDO DA LISTA **/
-  deletePedido: (itemSelected , filter, page, rowsPerPage)=> ({
+  deletePedido: (itemSelected , id_fornecedor, page, rowsPerPage)=> ({
     type: Types.DELETE_PEDIDO,
     itemSelected,
     query: { 
-      id_fornecedor: filter.id_fornecedor,
+      id_fornecedor,
       page, 
       lines_per_page: rowsPerPage, 
       direction: 'DESC', 

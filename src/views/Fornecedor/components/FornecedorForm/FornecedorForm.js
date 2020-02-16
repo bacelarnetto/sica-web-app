@@ -21,6 +21,7 @@ import InputMask from 'react-input-mask'
 import { Creators as actions } from './../../../../store/actions/fornecedor';
 import {  isEdit }  from './../../../../common/util';
 import validation from './../../../../common/validationUtil';
+import estados  from './../../../../common/UF';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -54,8 +55,10 @@ const FornecedorForm = props => {
     endereco: '',
     numero: '',
     telefone: '',
-    uf: ''  
+    uf: 'sel'  
   });
+
+  const UFs = estados;
 
   const [showErrors, setShowErrors] = useState(false);
   
@@ -75,7 +78,7 @@ const FornecedorForm = props => {
         endereco: fornecedor.endereco || '',
         numero: fornecedor.numero || '',
         telefone: fornecedor.telefone || '',
-        uf: fornecedor.uf || ''   
+        uf: fornecedor.uf || 'sel'   
       });
     }
   }, [fornecedor, keyItem])
@@ -95,7 +98,7 @@ const FornecedorForm = props => {
       || validation.required(values.endereco.trim()) 
       || validation.required(values.bairro.trim())
       || validation.number(values.numero.trim())
-      || validation.required(values.uf.trim())
+      || values.uf === 'sel' 
       || validation.required(values.cidade.trim())
     ) {
       setShowErrors(true);
@@ -113,7 +116,7 @@ const FornecedorForm = props => {
           endereco: '',
           numero: '',
           telefone: '',
-          uf: '' 
+          uf: 'sel' 
         });        
       }
       setShowErrors(false);
@@ -275,27 +278,46 @@ const FornecedorForm = props => {
             </Grid>
             <Grid
               item
-              md={2}
+              md={3}
               xs={12}
-            >
+            >        
+
               <TextField
-                error={validation.required(values.uf.trim()) && showErrors}
+                error={values.uf === 'sel' && showErrors}
                 fullWidth
-                helperText={showErrors && validation.required(values.uf.trim())}
-                label="Uf"
+                helperText={values.uf === 'sel' && showErrors && 'Por favor, selecione um UF.'}
+                label="UF"
                 margin="dense"
                 name="uf"
                 onChange={handleChange}
                 required
+                // eslint-disable-next-line react/jsx-sort-props
+                select
+                SelectProps={{ native: true }}
                 value={values.uf}
                 variant="outlined"
-              />
+              >
+                <option
+                  value="sel"
+                >
+                  Selecione
+                </option>
+                {UFs.map(option => (
+                  <option
+                    key={option.key}
+                    value={option.key}
+                  >
+                    {option.value}
+                  </option>
+                ))}
+              </TextField>
+
             </Grid>
             
 
             <Grid
               item
-              md={4}
+              md={3}
               xs={12}
             >             
 

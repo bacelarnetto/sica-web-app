@@ -178,7 +178,7 @@ const FornecedorTable = props => {
     { id: 'numero', numeric: true, disablePadding: false, label: 'Numero' } ,
     { id: 'bairro', numeric: false, disablePadding: false, label: 'Bairro' } ,
     { id: 'cidade', numeric: false, disablePadding: false, label: 'Cidade' } ,
-    { id: 'uf', numeric: false, disablePadding: false, label: 'Endereco' } , 
+    { id: 'uf', numeric: false, disablePadding: false, label: 'UF' } , 
     { id: 'email', numeric: false, disablePadding: false, label: 'Email' } ,    
     { id: 'telefone', numeric: false, disablePadding: false, label: 'Telefone:' } ,     
   ];
