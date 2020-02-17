@@ -55,5 +55,13 @@ export const PedidoService = {
       console.error('Erro: ' + JSON.stringify(error.response.data))
     }
   },
+
+  findStatusPedido: async () => {
+    try {
+      return await api.get(globalTypes.url.ATIVO_PEDIDO_STATUS)
+    } catch (error) {
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+    }
+  },
  
 }

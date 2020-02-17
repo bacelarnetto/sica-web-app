@@ -16,7 +16,6 @@ import {
   Button,
   CircularProgress,
   TextField,
-  Typography
 } from '@material-ui/core';
 import { toastr } from 'react-redux-toastr'
 
@@ -72,9 +71,12 @@ const PedidoForm = props => {
 
   const classes = useStyles();
 
+  const [showErrors, setShowErrors] = useState(false);
+
   const [values, setValues] = useState({
     idPedido:  '',
-    nomeFornecedor: ''
+    nomeFornecedor: '',
+    status:'sel',
   });
 
   const [stateTable, setStateTable] = useState({
@@ -97,19 +99,25 @@ const PedidoForm = props => {
   
   const pedido = useSelector( state  => state.pedido.pedido );
   const tiposInsumos = useSelector( state  => state.pedido.tiposInsumos );
+  const status= useSelector( state  => state.pedido.status );
   const loading = useSelector( state  => state.pedido.loading );
   
   useEffect(() => {    
-    let nameFronecedor = 
-    pedido.fornecedor !== null &&    
-    pedido.fornecedor !== '' &&
-    pedido.fornecedor !== undefined &&
-    pedido.fornecedor.nome !== null && 
-    pedido.fornecedor.nome !== '' && 
-    pedido.fornecedor.nome !== undefined ? pedido.fornecedor.nome: ''
+    let nameFronecedor = pedido.nomeFornecedor !== null && 
+                        pedido.nomeFornecedor !== '' && 
+                        pedido.nomeFornecedor !== undefined  ? pedido.nomeFornecedor: ''
+    let itens = pedido.itens !== null &&    
+                pedido.itens !== '' &&
+                pedido.itens !== undefined && 
+                pedido.itens !== []  ? pedido.itens : []
+    let codStatus = 
+          pedido.codStatus !== null && 
+          pedido.codStatus !== '' && 
+          pedido.codStatus !== undefined ? pedido.codStatus :''
     setValues({
       idPedido:  pedido.id || '',
       nomeFornecedor: nameFronecedor ||'',
+      status: codStatus || 'sel', 
     }); 
     setStateTable({
       columns: [
@@ -122,7 +130,7 @@ const PedidoForm = props => {
           lookup: tiposInsumos|| {},
         },
       ],
-      data: [],
+      data: itens,
     })   
   }, [pedido, tiposInsumos])
  
@@ -137,12 +145,13 @@ const PedidoForm = props => {
     if(isSubmit){
       if (stateTable.data === [] || stateTable.data.length === 0) {
         toastr.error('Erro:', 'Por favor, adicione um item a lista')
+      } else if(values.status === 'sel'&& isEdit(keyPedido)){
+        setShowErrors(true);
       } else {
         if(isEdit(keyPedido)) {
-          dispatch(actions.editPedido(values),[])
-        }else{
-          dispatch(actions.insertPedido(keyFornecedor, stateTable.data),[])
-         
+          dispatch(actions.editPedido(keyPedido, values.status, stateTable.data),[])
+        } else {
+          dispatch(actions.insertPedido(keyFornecedor, stateTable.data),[])                   
           setStateTable({
             columns: [
               { title: 'Nome', field: 'descricao', },
@@ -155,7 +164,14 @@ const PedidoForm = props => {
               },
             ],
             data: [],
-          })         
+          })    
+
+          setValues({   
+            ... values,
+            status:'sel',           
+          }); 
+
+          setShowErrors(false);
         }
 
       }
@@ -260,12 +276,11 @@ const PedidoForm = props => {
               <br/><br/>            
             </div>
           )}
+          { isEdit(keyPedido) &&
           <Grid
             container
             spacing={3}
-          >
-      
-            { isEdit(keyPedido) &&
+          >          
             <Grid
               item
               md={2}
@@ -282,8 +297,43 @@ const PedidoForm = props => {
                 value={values.idPedido}
                 variant="outlined"
               />
-            </Grid>}       
-          </Grid>
+            </Grid>  
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                error={values.status === 'sel' && showErrors}
+                fullWidth
+                helperText={values.status === 'sel' && showErrors && 'Por favor, selecione um status.'}
+                label="Status"
+                margin="dense"
+                name="status"
+                onChange={handleChange}
+                required
+                // eslint-disable-next-line react/jsx-sort-props
+                select
+                SelectProps={{ native: true }}
+                value={values.status}
+                variant="outlined"
+              >
+                <option
+                  value="sel"
+                >
+                  Selecione
+                </option>
+                {status.map(option => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                  >
+                    {option.descricao}
+                  </option>
+                ))}
+              </TextField>
+            </Grid>     
+          </Grid>}
           <br/>
           <MaterialTable
             columns={stateTable.columns}

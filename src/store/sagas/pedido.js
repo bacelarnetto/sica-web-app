@@ -35,9 +35,11 @@ function* buscaPedidoSaga(action) {
       pedido = {};
       pedido.fornecedor = fornecedor;      
     }
+    let rspStatus = yield service.findStatusPedido();    
+    const status = rspStatus.data;
     let rspTypes = yield insumoService.findTypesInsumo();
     var tiposInsumos = rspTypes.data.reduce((obj, item) => ((obj[item.id] = item.nome), obj),{});// eslint-disable-line
-    yield put(actions.buscaPedidoSucess(pedido, tiposInsumos)) 
+    yield put(actions.buscaPedidoSucess(pedido, tiposInsumos, status)) 
   } catch (error) {
     yield put(actions.buscaPedidoError())
     toastr.error('Erro:', error.message)

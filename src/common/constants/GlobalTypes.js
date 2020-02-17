@@ -23,6 +23,7 @@ const url = {
   ATIVO_PEDIDO_LIST_PAGE: '/ativo/pedido/list-page?',
   ATIVO_PEDIDO_LIST: '/ativo/pedido/list',
   ATIVO_PEDIDO: '/ativo/pedido/',
+  ATIVO_PEDIDO_STATUS: '/ativo/pedido/status',
 
   USER: '/auth/user',
 }

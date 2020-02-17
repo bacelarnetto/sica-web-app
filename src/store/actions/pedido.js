@@ -120,10 +120,14 @@ export const Creators = {
   }),
 
   /** EDITAR A PEDIDO **/
-  editPedido: pedido => ({
+  editPedido: (idPedidoSelected, status, dataItens) => ({
     type: Types.EDIT_PEDIDO,
-    pedido
-  }),
+    pedido:{
+      id: idPedidoSelected,
+      codStatus: status,
+      itens: dataItens
+    }
+  } ),
 
   editPedidoStart : () => ({  
     type: Types.EDIT_PEDIDO_START,
@@ -156,10 +160,11 @@ export const Creators = {
     erro: false
   }),
 
-  buscaPedidoSucess : (pedido, tiposInsumos) => ({
+  buscaPedidoSucess : (pedido, tiposInsumos, status) => ({
     type: Types.BUSCA_PEDIDO_SUCCESS,
     pedido,
     tiposInsumos,
+    status,
     loading: false,
     erro: false
   }),
