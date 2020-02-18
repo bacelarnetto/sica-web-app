@@ -7,9 +7,10 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import SettingsIcon from '@material-ui/icons/Settings';
+import WavesIcon from '@material-ui/icons/Waves';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
 
 import { Profile, SidebarNav } from './components';
@@ -50,14 +51,9 @@ const Sidebar = props => {
       icon: <DashboardIcon />
     },
     {
-      title: 'Users',
-      href: '/users',
+      title: 'Moradores',
+      href: '/morador',
       icon: <PeopleIcon />
-    },
-    {
-      title: 'Products',
-      href: '/products',
-      icon: <ShoppingBasketIcon />
     },
     {
       title: 'Account',
@@ -75,9 +71,19 @@ const Sidebar = props => {
       icon: <ShoppingBasketIcon />,
     },
     {
+      title: 'Agendamento',
+      href: '/agendamento',
+      icon: <ScheduleIcon/>,
+    },
+    {
       title: 'Fornecedor',
       href: '/fornecedor',
       icon: <LocalShippingIcon />,
+    },
+    {
+      title: 'Barragem',
+      href: '/barragem',
+      icon: <WavesIcon />,
     }
   ];
 

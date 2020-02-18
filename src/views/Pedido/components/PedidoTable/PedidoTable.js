@@ -41,6 +41,7 @@ import Paper from '@material-ui/core/Paper';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 import { Creators as actions } from './../../../../store/actions/pedido';
@@ -122,9 +123,6 @@ const PedidoTable = props => {
   
   const classes = useStyles();
 
-  const [values, setValues] = useState({
-    nome: ''
-  })
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
@@ -137,13 +135,6 @@ const PedidoTable = props => {
   const pedidos = useSelector( state  => state.pedido.data );
   const totalElements = useSelector( state  => state.pedido.totalElements );
   const loading = useSelector( state  => state.pedido.loading );
-
-  const handleChange = event => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
 
   const handlePageChange = (event, page) => {
     setPage(page);
@@ -214,6 +205,7 @@ const PedidoTable = props => {
     <div>
 
       <br/>
+  
       <div className={classes.contentActionTop}>
         < RouterLink to={`/pedidos/fornecedor/${keyFornecedor}/pedido/new`}>
           <Fab
@@ -227,6 +219,12 @@ const PedidoTable = props => {
           Cadastrar
           </Fab>
         </ RouterLink>
+        &nbsp;&nbsp;&nbsp;
+        <RouterLink to="/fornecedor">
+          <Button
+            className={classes.buttonVoltar}
+          ><ArrowBackIcon/> Voltar</Button>            
+        </RouterLink>
       </div>
       <br/>
       <Card
@@ -357,6 +355,22 @@ const PedidoTable = props => {
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={[5, 10, 25]}
           />
+        </CardActions>
+      </Card>
+      <Card
+        {...rest}
+        className={clsx(classes.root, className)}
+      >        
+        <CardActions> 
+          <RouterLink to="/fornecedor">
+            <Button
+              className={classes.button}
+              color="primary"
+              variant="contained"
+            >
+        Cancelar
+            </Button>
+          </RouterLink >
         </CardActions>
       </Card>
 

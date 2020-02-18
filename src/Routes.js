@@ -112,26 +112,7 @@ const Routes = () => {
           exact
           layout={MainLayout}
           path="/pedidos/fornecedor/:id_fornecedor/pedido/:id_pedido"
-        />
-
-        <RouteWithLayout
-          component={UserListView}
-          exact
-          layout={MainLayout}
-          path="/users"
-        />
-        <RouteWithLayout
-          component={ProductListView}
-          exact
-          layout={MainLayout}
-          path="/products"
-        />
-        <RouteWithLayout
-          component={IconsView}
-          exact
-          layout={MainLayout}
-          path="/icons"
-        />
+        />  
         <RouteWithLayout
           component={AccountView}
           exact
