@@ -4,6 +4,7 @@ import auth from './auth';
 import insumo from './insumo';
 import fornecedor from './fornecedor';
 import pedido from './pedido';
+import manutencao from './manutencao';
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   insumo,  
   fornecedor,
   pedido,
+  manutencao,
 });
 
 export default rootReducer;

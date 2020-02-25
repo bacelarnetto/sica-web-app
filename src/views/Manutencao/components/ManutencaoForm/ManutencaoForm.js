@@ -15,21 +15,24 @@ import {
   Button,
   CircularProgress,
   TextField,
+  Typography,
 } from '@material-ui/core';
+
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers';
 
-import { Creators as actions } from './../../../../store/actions/insumo';
-import {  isEdit }  from './../../../../common/util';
-
-
 import moment from 'moment';
-import MomentUtils from '@date-io/moment';
-import 'moment/locale/pt-br';
-moment.locale('pt-br');
+
+import ptBrLocale from 'date-fns/locale/pt-BR';
+import DateFnsUtils from '@date-io/date-fns';
+
+import { Creators as actions } from './../../../../store/actions/manutencao';
+import {  isEdit }  from './../../../../common/util';
+import validation from './../../../../common/validationUtil';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -41,6 +44,14 @@ const useStyles = makeStyles(() => ({
       backgroundColor: '#14352c'
     }
   },  
+  textArea:{
+    '&:focus': {
+      //you want this to be the same as the backgroundColor above
+      borderColor: '#235244',
+      borderWidth: 3
+  
+    }
+  },
   loadingContent:{
     display: 'flex',
     alignItems: 'center',
@@ -49,18 +60,17 @@ const useStyles = makeStyles(() => ({
   }  
 }));
 
-const InsumoForm = props => {
-  const { className, keyItem, ...rest } = props;
-  const locale = 'pt-br'
+const ManutencaoForm = props => {
+  const { className, keyManutencao, keyInsumo, ...rest } = props;
+
   const classes = useStyles();
-  
+
   const [values, setValues] = useState({
     id:  '',
+    solicitante: '',
     descricao: '',
-    tipo: 'sel',
-    marca: 'sel',
-    status:'sel', 
   });
+
 
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
@@ -71,70 +81,47 @@ const InsumoForm = props => {
   const [showErrors, setShowErrors] = useState(false);
 
   const dispatch = useDispatch();  
-  useFetching(dispatch, actions.buscaDetailInsumo(keyItem));
-  const insumo = useSelector( state  => state.insumo.insumo );
-  const types = useSelector( state  => state.insumo.typesInsumo );
-  const marcas = useSelector( state  => state.insumo.marcas );
-  const status= useSelector( state  => state.insumo.status );
-  const loading = useSelector( state  => state.insumo.loading );
+  useFetching(dispatch, actions.buscaDetailManutencao(keyManutencao));
+  const manutencao = useSelector( state  => state.manutencao.manutencao );
+  const types = useSelector( state  => state.manutencao.typesManutencao );
+  const loading = useSelector( state  => state.manutencao.loading );
   
   useEffect(() => {
-    if(isEdit(keyItem)){
-
-      if(insumo !== null && insumo !== '' &&  insumo !== undefined ){
-      
-        let codTipo = 
-                    insumo.tipo !== null && 
-                    insumo.tipo !== '' && 
-                    insumo.tipo !== undefined ? insumo.tipo.id : ''
-
-        let codMarca = 
-                      insumo.marca !== null && 
-                      insumo.marca !== '' && 
-                      insumo.marca !== undefined ? insumo.marca.id :''
-
-        let codStatus = 
-                      insumo.status !== null && 
-                      insumo.status !== '' && 
-                      insumo.status !== undefined ? insumo.status.codigo :''
-      
+    if(isEdit(keyManutencao)){
+      if(manutencao !== null && manutencao !== '' &&  manutencao !== undefined ){      
         setValues({
-          id:  insumo.id || '',
-          descricao: insumo.descricao ||'',
-          tipo: codTipo,
-          marca: codMarca,
-          status: codStatus,    
+          id:  manutencao.id || '',
+          solicitante: manutencao.solicitante ||'', 
         });
-        const dateFormt = moment(insumo.dataCompra,'DD/MM/YYYY').locale(locale);
-        setSelectedDate(dateFormt)
+        const dateFormt = moment(manutencao.dataCompra).format('DD/MM/YYYY');
+        setSelectedDate(new Date(dateFormt))
       }
     }
-  }, [insumo, keyItem])
+  }, [manutencao, keyManutencao])
 
 
   const handleChange = event => {
     setValues({
       ...values,
       [event.target.name]: event.target.value
-    });
+    });   
   };
+
   
   const handleSubmit = event => {
     event.preventDefault();
-    if (!values.descricao || !values.tipo || values.tipo === 'sel' 
-      || values.marca === 'sel'||  values.status=== 'sel' || !selectedDate  ) {
+    if (validation.required(values.solicitante.trim())  
+    || validation.required(values.descricao.trim())) {
       setShowErrors(true);
     } else {
-      if(isEdit(keyItem)) {
-        dispatch(actions.editInsumo(values, selectedDate),[])
+      if(isEdit(keyManutencao)) {
+        dispatch(actions.editManutencao(values, selectedDate),[])
       }else{  
-        dispatch(actions.insertInsumo(values, selectedDate),[])
+        dispatch(actions.insertManutencao(values, keyInsumo),[])
         setValues({   
           id:  '',
-          descricao: '',
-          tipo: 'sel',
-          marca: 'sel',
-          status:'sel',           
+          solicitante: '',
+          descricao: '',           
         });        
       }
       setShowErrors(false);
@@ -152,8 +139,8 @@ const InsumoForm = props => {
         onSubmit={handleSubmit}
       >
         <CardHeader
-          subheader={isEdit(keyItem) ? 'ALTERAÇÃO' : 'CADASTRO'}
-          title="Insumo"
+          subheader={isEdit(keyManutencao) ? 'ALTERAÇÃO' : 'CADASTRO'}
+          title="Manutencao"
         />
         <Divider />
         <CardContent>
@@ -166,7 +153,7 @@ const InsumoForm = props => {
             container
             spacing={3}
           >
-            { isEdit(keyItem) &&
+            { isEdit(keyManutencao) &&
             <Grid
               item
               md={2}
@@ -190,18 +177,54 @@ const InsumoForm = props => {
               xs={12}
             >
               <TextField
-                error={!values.descricao && showErrors}
+                error={validation.required(values.solicitante.trim()) && showErrors}
                 fullWidth
-                helperText={!values.descricao && showErrors && 'Por favor, preencha o nome.'}
-                label="Nome"
+                helperText={showErrors && validation.required(values.solicitante.trim())}
+                label="Solicitante"
                 margin="dense"
-                name="descricao"
+                name="solicitante"
                 onChange={handleChange}
                 required
-                value={values.descricao}
+                value={values.solicitante}
                 variant="outlined"
               />
             </Grid>
+
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <Typography variant="body2">Descrição</Typography>
+              
+              <TextareaAutosize
+                aria-label="maximum height"               
+                className={classes.textArea}
+                label="Descrição"
+                name="descricao"
+                onChange={handleChange}
+                placeholder="Descrição"
+                style={{width:'100%', borderRadius: '5px', minHeight: '80px',maxHeight: '200px',
+                  borderColor: validation.required(values.descricao.trim()) && showErrors && '#e53935'}}
+                value={values.descricao}
+              />
+              { validation.required(values.descricao.trim()) && showErrors && (
+                <Typography
+                  style={{color:'#e53935'}}
+                  variant="caption"
+                >&nbsp;&nbsp;&nbsp;&nbsp;{showErrors && validation.required(values.descricao.trim())}</Typography>
+              )}
+            </Grid>
+
+                        
+          </Grid>
+        </CardContent>
+        { isEdit(keyManutencao) &&
+        <CardContent>
+          <Grid
+            container
+            spacing={3}
+          >
             <Grid
               item
               md={6}
@@ -237,80 +260,11 @@ const InsumoForm = props => {
                 ))}
               </TextField>
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                error={values.marca === 'sel' && showErrors}
-                fullWidth
-                helperText={values.marca === 'sel' && showErrors && 'Por favor, selecione uma marca.'}
-                label="Marca"
-                margin="dense"
-                name="marca"
-                onChange={handleChange}
-                required
-                // eslint-disable-next-line react/jsx-sort-props
-                select
-                SelectProps={{ native: true }}
-                value={values.marca}
-                variant="outlined"
-              >
-                <option
-                  value="sel"
-                >
-                  Selecione
-                </option>
-                {marcas.map(option => (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                  >
-                    {option.nome}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                error={values.status === 'sel' && showErrors}
-                fullWidth
-                helperText={values.status === 'sel' && showErrors && 'Por favor, selecione um status.'}
-                label="Status"
-                margin="dense"
-                name="status"
-                onChange={handleChange}
-                required
-                // eslint-disable-next-line react/jsx-sort-props
-                select
-                SelectProps={{ native: true }}
-                value={values.status}
-                variant="outlined"
-              >
-                <option
-                  value="sel"
-                >
-                  Selecione
-                </option>
-                {status.map(option => (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                  >
-                    {option.nome}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
+            
             
             <MuiPickersUtilsProvider
-              locale={locale}
-              utils={MomentUtils}
+              locale={ptBrLocale}
+              utils={DateFnsUtils}
             >
               <Grid
                 item
@@ -320,7 +274,7 @@ const InsumoForm = props => {
                 <KeyboardDatePicker
                   cancelLabel="Cancelar"
                   error={!selectedDate  && showErrors}
-                  format="DD/MM/YYYY"
+                  format="dd/MM/yyyy"
                   fullWidth
                   helperText={!selectedDate && showErrors && 'Por favor, preencha a data.'}
                   id="date-picker-dialog" 
@@ -334,9 +288,10 @@ const InsumoForm = props => {
                 />
               </Grid>
             </MuiPickersUtilsProvider>
-            
           </Grid>
+          
         </CardContent>
+        }
         <Divider />
         <CardActions>
           <Button
@@ -345,9 +300,10 @@ const InsumoForm = props => {
             type="submit"
             variant="contained"
           >
-            {isEdit(keyItem) ? 'Editar' : 'Salvar'}
+            {isEdit(keyManutencao) ? 'Editar' : 'Salvar'}
           </Button>
-          <RouterLink to="/insumo">
+          
+          <RouterLink to={isEdit(keyManutencao) ? '/manutencao' : '/insumo'}>
             <Button
               className={classes.button}
               color="primary"
@@ -371,8 +327,8 @@ const useFetching = (dispatch, action) => {
   }, array)
 }
 
-InsumoForm.propTypes = {
+ManutencaoForm.propTypes = {
   className: PropTypes.string
 };
 
-export default InsumoForm;
+export default ManutencaoForm;

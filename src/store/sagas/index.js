@@ -1,10 +1,11 @@
 import { all } from 'redux-saga/effects';
 
-import  { watchMarca } from './marca';
+import { watchMarca } from './marca';
 import { watchAuth } from './auth';
 import { watchInsumo } from './insumo';
 import { watchFornecedor } from './fornecedor';
 import { watchPedido } from './pedido';
+import { watchManutencao } from './manutencao';
 
 export default function* rootSaga() {
   return yield all([
@@ -13,5 +14,6 @@ export default function* rootSaga() {
     watchInsumo(),
     watchFornecedor(),
     watchPedido(),
+    watchManutencao(),
   ])
 }

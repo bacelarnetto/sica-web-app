@@ -32,7 +32,7 @@ const Footer = props => {
         . 2020
       </Typography>
       <Typography variant="caption">
-      Todos os direitos reservados simbolo
+      Todos os direitos reservados.
       </Typography>
     </div>
   );

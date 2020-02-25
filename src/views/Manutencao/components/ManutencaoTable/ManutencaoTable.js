@@ -38,7 +38,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import BuildIcon from '@material-ui/icons/Build';
 
-import { Creators as actions } from './../../../../store/actions/insumo';
+import { Creators as actions } from './../../../../store/actions/manutencao';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -95,11 +95,12 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent:'center'
-  },  
+  },
+  
 
 }));
 
-const InsumoTable = props => {
+const ManutencaoTable = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -116,11 +117,11 @@ const InsumoTable = props => {
 
   
   const dispatch = useDispatch();
-  useFetching(dispatch, actions.buscaListInsumos(values, page, rowsPerPage, order, orderBy));
+  useFetching(dispatch, actions.buscaListManutencoes(values, page, rowsPerPage, order, orderBy));
 
-  const insumos = useSelector( state  => state.insumo.data );
-  const totalElements = useSelector( state  => state.insumo.totalElements );
-  const loading = useSelector( state  => state.insumo.loading );
+  const manutencaos = useSelector( state  => state.manutencao.data );
+  const totalElements = useSelector( state  => state.manutencao.totalElements );
+  const loading = useSelector( state  => state.manutencao.loading );
 
   const handleChange = event => {
     setValues({
@@ -131,18 +132,18 @@ const InsumoTable = props => {
 
   const handlePageChange = (event, page) => {
     setPage(page);
-    dispatch(actions.buscaListInsumos(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListManutencoes(values, page, rowsPerPage, order, orderBy),[])
   };
 
   const handleRowsPerPageChange = event => {
     setRowsPerPage(event.target.value);
     setPage(0);
-    dispatch(actions.buscaListInsumos(values, page, event.target.value, order, orderBy),[])
+    dispatch(actions.buscaListManutencoes(values, page, event.target.value, order, orderBy),[])
   };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';    
-    dispatch(actions.buscaListInsumos(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
+    dispatch(actions.buscaListManutencoes(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
     let valorOrder = isAsc ? 'desc' : 'asc'
     setOrder(valorOrder);
     setOrderBy(property);
@@ -150,7 +151,7 @@ const InsumoTable = props => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(actions.buscaListInsumos(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListManutencoes(values, page, rowsPerPage, order, orderBy),[])
   }
 
   const handleClickOpen = value => {
@@ -165,7 +166,7 @@ const InsumoTable = props => {
 
   const handleRemove = event => {
     event.preventDefault();
-    dispatch(actions.deleteInsumo(id, values, page, rowsPerPage, order, orderBy),[])  
+    dispatch(actions.deleteManutencao(id, values, page, rowsPerPage, order, orderBy),[])  
     setOpen(false);
   };
 
@@ -179,12 +180,6 @@ const InsumoTable = props => {
       color ='#C68441'
     }
     return color
-  }
-
-  const isManutencao = id =>{
-    if(id!==3)
-      return true
-    return false
   }
 
   const headCells = [
@@ -245,7 +240,7 @@ const InsumoTable = props => {
         >
           <CardHeader
             subheader="Pesquisar"
-            title="Insumos"
+            title="Manutencões"
           />
           <Divider />
           <CardContent>
@@ -289,7 +284,7 @@ const InsumoTable = props => {
       </Card>
       <br/>
       <div className={classes.contentActionTop}>
-        < RouterLink to="/insumo/new">
+        < RouterLink to="/manutencao/new">
           <Fab
             aria-label="add"
             className={classes.button}
@@ -318,11 +313,11 @@ const InsumoTable = props => {
                   orderBy={orderBy}
                 />
                 <TableBody>
-                  { !loading && (insumos.map(insumo => (
+                  { !loading && (manutencaos.map(manutencao => (
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={insumo.id}
+                      key={manutencao.id}
                     > 
                       <TableCell
                         style={{ width: 165 }}
@@ -334,11 +329,11 @@ const InsumoTable = props => {
                           <IconButton
                             aria-label="Excluir"
                             className={classes.buttonDelete}
-                            onClick={() => handleClickOpen(insumo.id)}
+                            onClick={() => handleClickOpen(manutencao.id)}
                           >
                             <DeleteIcon />
                           </IconButton>
-                          < RouterLink to={'insumo/'+ insumo.id}>
+                          < RouterLink to={'manutencao/'+ manutencao.id}>
                             <IconButton
                               aria-label="Editar"
                               className={classes.buttonLabel}
@@ -346,24 +341,20 @@ const InsumoTable = props => {
                               <EditIcon />
                             </IconButton>
                           </ RouterLink>
-                          {isManutencao(insumo.status.codigo) &&(
-                            < RouterLink to={`insumo/${insumo.id}/manutencao/new`}>
-                              <IconButton>
-                                <BuildIcon />
-                              </IconButton>
-                            </ RouterLink>
-                          )}
-                          
+
+                          <IconButton>
+                            <BuildIcon />
+                          </IconButton>
                         </div>
                       </TableCell>            
-                      <TableCell>{insumo.descricao}</TableCell>
-                      <TableCell>{insumo.dataCompra}</TableCell>
-                      <TableCell>{insumo.dataHoraCadastro}</TableCell>
-                      <TableCell>{insumo.marca.nome}</TableCell>
-                      <TableCell>{insumo.tipo.nome}</TableCell>
+                      <TableCell>{manutencao.descricao}</TableCell>
+                      <TableCell>{manutencao.dataCompra}</TableCell>
+                      <TableCell>{manutencao.dataHoraCadastro}</TableCell>
+                      <TableCell>{manutencao.marca.nome}</TableCell>
+                      <TableCell>{manutencao.tipo.nome}</TableCell>
                       <TableCell
-                        style={{color: colorStatus(insumo.status.codigo), fontWeight: 'bold'}}
-                      >{insumo.status.descricao}</TableCell>                     
+                        style={{color: colorStatus(manutencao.status.codigo), fontWeight: 'bold'}}
+                      >{manutencao.status.descricao}</TableCell>                     
                     </TableRow>
                   )))}
 
@@ -454,8 +445,8 @@ const useFetching = (dispatch, action) => {
   }, array)
 }
 
-InsumoTable.propTypes = {
+ManutencaoTable.propTypes = {
   className: PropTypes.string
 };
 
-export default InsumoTable;
+export default ManutencaoTable;

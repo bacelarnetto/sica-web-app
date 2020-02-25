@@ -14,6 +14,7 @@ export { default as Pedido} from './Pedido/Pedido';
 export { default as PedidoInsertEdit} from './Pedido/PedidoInsertEdit';
 export { default as Morador } from './Morador/Morador';
 export { default as MoradorInsertEdit} from './Morador/MoradorInsertEdit';
-
+export { default as Manutencao } from './Manutencao/Manutencao';
+export { default as ManutencaoInsertEdit} from './Manutencao/ManutencaoInsertEdit';
 
 export { default as Logout} from './Logout';

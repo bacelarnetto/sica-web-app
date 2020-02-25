@@ -14,18 +14,18 @@ import {
   MarcaInsertEdit as MarcaInsertEditView,
   Insumo as InsumoView,
   InsumoInsertEdit as InsumoInsertEditView,
+  ManutencaoInsertEdit as ManutencaoInsertEditView,
   Fornecedor as FornecedorView,
   FornecedorInsertEdit as FornecedorInsertEditView,
   Pedido as PedidoView,
   PedidoInsertEdit as PedidoInsertEditView,
-
-  ProductList as ProductListView,
-  UserList as UserListView,
-  Icons as IconsView,
-  Account as AccountView,
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
+
+
+  Account as AccountView,
+
   Logout
 } from './views';
 
@@ -87,6 +87,18 @@ const Routes = () => {
           layout={MainLayout}
           path="/insumo/:id"
         />
+        <RouteWithLayout
+          component={ManutencaoInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/insumo/:id_insumo/manutencao/:id_manutencao"
+        />
+        <RouteWithLayout
+          component={ManutencaoInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/manutencao/:id"
+        />
 
         <RouteWithLayout
           component={FornecedorView}
@@ -106,7 +118,6 @@ const Routes = () => {
           layout={MainLayout}
           path="/pedidos/fornecedor/:id_fornecedor"
         />
-
         <RouteWithLayout
           component={PedidoInsertEditView}
           exact

@@ -25,6 +25,10 @@ const url = {
   ATIVO_PEDIDO: '/ativo/pedido/',
   ATIVO_PEDIDO_STATUS: '/ativo/pedido/status',
 
+  ATIVO_MANUTENCAO_LIST_PAGE: '/ativo/manutencao/list-page?',
+  ATIVO_MANUTENCAO: '/ativo/manutencao/',
+  ATIVO_MANUTENCAO_TIPOS: '/ativo/manutencao/types',
+
   USER: '/auth/user',
 }
 
