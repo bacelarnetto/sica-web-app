@@ -14,6 +14,7 @@ import {
   MarcaInsertEdit as MarcaInsertEditView,
   Insumo as InsumoView,
   InsumoInsertEdit as InsumoInsertEditView,
+  Manutencao as ManutencaoView,
   ManutencaoInsertEdit as ManutencaoInsertEditView,
   Fornecedor as FornecedorView,
   FornecedorInsertEdit as FornecedorInsertEditView,
@@ -97,7 +98,13 @@ const Routes = () => {
           component={ManutencaoInsertEditView}
           exact
           layout={MainLayout}
-          path="/manutencao/:id"
+          path="/manutencao/:id_manutencao"
+        />
+        <RouteWithLayout
+          component={ManutencaoView}
+          exact
+          layout={MainLayout}
+          path="/manutencao"
         />
 
         <RouteWithLayout
@@ -140,7 +147,7 @@ const Routes = () => {
           layout={MinimalLayout}
           path="/not-found"
         />
-        <Redirect to="/" />
+        <Redirect to="/manutencao" />
       </Switch>
     );
 

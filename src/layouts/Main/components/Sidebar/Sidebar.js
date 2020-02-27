@@ -71,8 +71,8 @@ const Sidebar = props => {
       icon: <ShoppingBasketIcon />,
     },
     {
-      title: 'Agendamento',
-      href: '/agendamento',
+      title: 'Agendamentos',
+      href: '/manutencao',
       icon: <ScheduleIcon/>,
     },
     {

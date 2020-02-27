@@ -35,8 +35,6 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
-import BuildIcon from '@material-ui/icons/Build';
 
 import { Creators as actions } from './../../../../store/actions/manutencao';
 
@@ -96,7 +94,6 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'row',
     justifyContent:'center'
   },
-  
 
 }));
 
@@ -106,7 +103,7 @@ const ManutencaoTable = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    descricao: ''
+    solicitante: ''
   })
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -170,26 +167,10 @@ const ManutencaoTable = props => {
     setOpen(false);
   };
 
-  const colorStatus = id => {
-    let color = ''
-    if (id === 1){
-      color = '#107B2D'
-    } else if (id === 2){
-      color = '#BA1717'
-    } else {
-      color ='#C68441'
-    }
-    return color
-  }
 
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
-    { id: 'descricao', numeric: false, disablePadding: false, label: 'Nome' } ,
-    { id: 'dataCompra', numeric: false, disablePadding: false, label: 'Data de Aquisição' } ,
-    { id: 'dataHoraCadastro', numeric: false, disablePadding: false, label: 'Data de cadastro' } ,
-    { id: 'marca', numeric: false, disablePadding: false, label: 'Marca' } ,
-    { id: 'tipo', numeric: false, disablePadding: false, label: 'Tipo' } ,
-    { id: 'status', numeric: false, disablePadding: false, label: 'Status' } ,     
+    { id: 'solicitante', numeric: false, disablePadding: false, label: 'Solicitante' } ,     
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -240,7 +221,7 @@ const ManutencaoTable = props => {
         >
           <CardHeader
             subheader="Pesquisar"
-            title="Manutencões"
+            title="Agendamento de Manutencões"
           />
           <Divider />
           <CardContent>
@@ -255,12 +236,12 @@ const ManutencaoTable = props => {
               >
                 <TextField
                   fullWidth
-                  label="Nome:"
+                  label="Solicitante:"
                   margin="dense"
-                  name="descricao"
+                  name="solicitante"
                   onChange={handleChange}
                   required
-                  value={values.descricao}
+                  value={values.solicitante}
                   variant="outlined"
                 />
               </Grid>  
@@ -282,21 +263,7 @@ const ManutencaoTable = props => {
           </CardContent>
         </form>
       </Card>
-      <br/>
-      <div className={classes.contentActionTop}>
-        < RouterLink to="/manutencao/new">
-          <Fab
-            aria-label="add"
-            className={classes.button}
-            color="primary"
-            size="medium"
-            variant="extended"
-          >
-            <AddIcon />
-          Cadastrar
-          </Fab>
-        </ RouterLink>
-      </div>
+
       <br/>
       <Card
         {...rest}
@@ -342,19 +309,10 @@ const ManutencaoTable = props => {
                             </IconButton>
                           </ RouterLink>
 
-                          <IconButton>
-                            <BuildIcon />
-                          </IconButton>
                         </div>
                       </TableCell>            
-                      <TableCell>{manutencao.descricao}</TableCell>
-                      <TableCell>{manutencao.dataCompra}</TableCell>
-                      <TableCell>{manutencao.dataHoraCadastro}</TableCell>
-                      <TableCell>{manutencao.marca.nome}</TableCell>
-                      <TableCell>{manutencao.tipo.nome}</TableCell>
-                      <TableCell
-                        style={{color: colorStatus(manutencao.status.codigo), fontWeight: 'bold'}}
-                      >{manutencao.status.descricao}</TableCell>                     
+                      <TableCell>{manutencao.solicitante}</TableCell>
+                                         
                     </TableRow>
                   )))}
 

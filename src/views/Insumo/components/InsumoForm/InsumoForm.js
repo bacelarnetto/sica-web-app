@@ -86,17 +86,17 @@ const InsumoForm = props => {
         let codTipo = 
                     insumo.tipo !== null && 
                     insumo.tipo !== '' && 
-                    insumo.tipo !== undefined ? insumo.tipo.id : ''
+                    insumo.tipo !== undefined ? insumo.tipo.id : 'sel'
 
         let codMarca = 
                       insumo.marca !== null && 
                       insumo.marca !== '' && 
-                      insumo.marca !== undefined ? insumo.marca.id :''
+                      insumo.marca !== undefined ? insumo.marca.id :'sel'
 
         let codStatus = 
                       insumo.status !== null && 
                       insumo.status !== '' && 
-                      insumo.status !== undefined ? insumo.status.codigo :''
+                      insumo.status !== undefined ? insumo.status.codigo :'sel'
       
         setValues({
           id:  insumo.id || '',
@@ -109,7 +109,7 @@ const InsumoForm = props => {
         setSelectedDate(dateFormt)
       }
     }
-  }, [insumo, keyItem])
+  }, [insumo, types, status, keyItem])
 
 
   const handleChange = event => {

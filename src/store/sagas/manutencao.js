@@ -3,6 +3,7 @@ import { toastr } from 'react-redux-toastr'
 
 import { Types as types, Creators as actions } from '../actions/manutencao';
 import { ManutencaoService as service }  from './../../servers/manutencao'
+import { InsumoService as insumoService }  from './../../servers/insumo'
 
 import {  isEdit }  from './../../common/util';
 
@@ -26,13 +27,20 @@ function* buscaDetailManutencaoSaga(action) {
   yield put(actions.buscaDetailManutencaoStart())
   try {    
     let manutencao = null
+    let rspInsumo = null
     if (isEdit(action.itemSelected)){
       let rspManutencao = yield service.findManutencaoById(action.itemSelected);
       manutencao = rspManutencao.data;
+      rspInsumo = yield insumoService.findInsumoById(manutencao.insumo.id); 
+    }else{
+      rspInsumo = yield insumoService.findInsumoById(action.idInsumo);
     }
+    const insumo = rspInsumo.data;    
     let rspTypes = yield service.findTypesManutencao();
     const types = rspTypes.data;  
-    yield put(actions.buscaDetailManutencaoSucess(manutencao, types)) 
+    let rspStatus = yield insumoService.findStatusInsumo();    
+    const status = rspStatus.data;  
+    yield put(actions.buscaDetailManutencaoSucess(manutencao, types, insumo, status)) 
   } catch (error) {
     yield put(actions.buscaDetailManutencaoError())
     toastr.error('Erro:', error.message)

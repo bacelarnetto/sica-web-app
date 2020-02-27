@@ -7,10 +7,13 @@ const INITIAL_STATE = {
   itemsCountPerPage: 0,
   totalElements: 0,  
   itemSelected: 0,
+  idInsumo: 0,
+  insumo: '', 
   erro: false,
   showMessage: '',
   manutencao:'',
   typesManutencao:[],
+  status: [],
 }
   
 export default (state = INITIAL_STATE, action) => {      
@@ -54,6 +57,8 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
         manutencao: action.manutencao,
         typesManutencao: action.typesManutencao,
+        insumo: action.insumo,
+        status: action.status,
       };
 
     case types.INSERT_MANUTENCAO_SUCCESS:

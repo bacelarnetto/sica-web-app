@@ -26,6 +26,4 @@ const Manutencao = () => {
   );
 };
 
-
-
 export default Manutencao ;

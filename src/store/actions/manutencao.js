@@ -122,19 +122,23 @@ export const Creators = {
   }),
 
   /** EDITAR A MANUTENCAO **/
-  editManutencao: (result, dataCompra) => ({
-    type: Types.EDIT_MANUTENCAO,
+  editManutencao: (result, dataInicio, dataFim, idInsumo) => ({
+    type: Types.EDIT_MANUTENCAO,    
     manutencao: { 
       id: result.id,
-      dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
-      descricao: result.descricao,
-      marca: {
-        id: result.marca
-      },
-      status: result.status,
+      dataFim: moment(dataFim).format('DD/MM/YYYY HH:mm'),
+      dataInicio: moment(dataInicio).format('DD/MM/YYYY HH:mm'),
+      descricao: result.descricao,    
+      insumo:{
+        id: idInsumo,
+        status: result.status,
+      },  
+      parecerResponsavel: result.parecerResponsavel,
+      responsavel: result.responsavel,
+      solicitante: result. solicitante,
       tipo: {
         id: result.tipo
-      }   
+      }        
     }
   }),
 
@@ -157,9 +161,10 @@ export const Creators = {
   }),
 
   /** BUSCA A DETALHE DO MANUTENCAO **/
-  buscaDetailManutencao : itemSelected  => ({  
+  buscaDetailManutencao : (itemSelected , idInsumo)=> ({  
     type: Types.BUSCA_DETAIL_MANUTENCAO,
-    itemSelected 
+    itemSelected ,
+    idInsumo,
   }),
 
   buscaDetailManutencaoStart : () => ({  
@@ -168,9 +173,11 @@ export const Creators = {
     erro: false
   }),
 
-  buscaDetailManutencaoSucess : (manutencao , typesManutencao)=> ({
+  buscaDetailManutencaoSucess : (manutencao , typesManutencao, insumo, status)=> ({
     type: Types.BUSCA_DETAIL_MANUTENCAO_SUCCESS,
     manutencao,
+    insumo,
+    status,
     typesManutencao,
     loading: false,
     erro: false

@@ -22,17 +22,17 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDateTimePicker
 } from '@material-ui/pickers';
-
-import moment from 'moment';
-
-import ptBrLocale from 'date-fns/locale/pt-BR';
-import DateFnsUtils from '@date-io/date-fns';
 
 import { Creators as actions } from './../../../../store/actions/manutencao';
 import {  isEdit }  from './../../../../common/util';
 import validation from './../../../../common/validationUtil';
+
+import moment from 'moment';
+import MomentUtils from '@date-io/moment';
+import 'moment/locale/pt-br';
+moment.locale('pt-br');
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -62,42 +62,82 @@ const useStyles = makeStyles(() => ({
 
 const ManutencaoForm = props => {
   const { className, keyManutencao, keyInsumo, ...rest } = props;
-
-  const classes = useStyles();
-
+  const locale = 'pt-br'
+  const classes = useStyles()
+  
   const [values, setValues] = useState({
     id:  '',
     solicitante: '',
     descricao: '',
+    tipo: 'sel',
+    status:'sel', 
+    responsavel: '',
+    parecerResponsavel: '',  
   });
 
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedDateStart, setSelectedDateStart] = useState(new Date());
 
-  const handleDateChange = date => {
-    setSelectedDate(date);
+  const handleDateChangeStart = date => {
+    setSelectedDateStart(date);
+  };
+
+  const [selectedDateEnd, setSelectedDateEnd] = useState(new Date());
+
+  const handleDateChangeEnd = date => {
+    setSelectedDateEnd(date);
   };
 
   const [showErrors, setShowErrors] = useState(false);
 
   const dispatch = useDispatch();  
-  useFetching(dispatch, actions.buscaDetailManutencao(keyManutencao));
+  useFetching(dispatch, actions.buscaDetailManutencao(keyManutencao, keyInsumo));
   const manutencao = useSelector( state  => state.manutencao.manutencao );
   const types = useSelector( state  => state.manutencao.typesManutencao );
+  const insumo = useSelector( state  => state.manutencao.insumo );
+  const status= useSelector( state  => state.manutencao.status );
   const loading = useSelector( state  => state.manutencao.loading );
   
   useEffect(() => {
     if(isEdit(keyManutencao)){
-      if(manutencao !== null && manutencao !== '' &&  manutencao !== undefined ){      
+      if(manutencao !== null && manutencao !== '' &&  manutencao !== undefined ){             
+        let codTipo = 
+          manutencao.tipo !== null && 
+          manutencao.tipo !== '' && 
+          manutencao.tipo !== undefined ? manutencao.tipo.id : 'sel'
+
+        let codStatus = 
+          insumo.status !== null && 
+          insumo.status !== '' && 
+          insumo.status !== undefined ? insumo.status.codigo : 'sel'
+
+        let dataInicio = 
+          manutencao.dataInicio !== null && 
+          manutencao.dataInicio !== '' && 
+          manutencao.dataInicio !== undefined ? manutencao.dataInicio : new Date()
+        
+        let dataFim = 
+          manutencao.dataFim !== null && 
+          manutencao.dataFim !== '' && 
+          manutencao.dataFim !== undefined ? manutencao.dataFim : new Date()
+          
         setValues({
-          id:  manutencao.id || '',
+          id: manutencao.id || '',
           solicitante: manutencao.solicitante ||'', 
+          descricao: manutencao.descricao ||'', 
+          responsavel: manutencao.responsavel ||'', 
+          parecerResponsavel: manutencao.parecerResponsavel ||'',
+          tipo: codTipo,
+          status: codStatus,  
         });
-        const dateFormt = moment(manutencao.dataCompra).format('DD/MM/YYYY');
-        setSelectedDate(new Date(dateFormt))
+        
+        const dateFormtStart = moment(dataInicio,'DD/MM/YYYY HH:mm').locale(locale);
+        setSelectedDateStart(dateFormtStart)
+        const dateFormtEnd = moment(dataFim,'DD/MM/YYYY HH:mm').locale(locale);
+        setSelectedDateEnd(dateFormtEnd)
       }
     }
-  }, [manutencao, keyManutencao])
+  }, [manutencao, types, insumo, status, keyManutencao])
 
 
   const handleChange = event => {
@@ -115,13 +155,17 @@ const ManutencaoForm = props => {
       setShowErrors(true);
     } else {
       if(isEdit(keyManutencao)) {
-        dispatch(actions.editManutencao(values, selectedDate),[])
+        dispatch(actions.editManutencao(values, selectedDateStart, selectedDateEnd, insumo.id),[])
       }else{  
         dispatch(actions.insertManutencao(values, keyInsumo),[])
         setValues({   
           id:  '',
           solicitante: '',
-          descricao: '',           
+          descricao: '',
+          tipo: 'sel',
+          status:'sel', 
+          responsavel: '',
+          parecerResponsavel: '',           
         });        
       }
       setShowErrors(false);
@@ -153,6 +197,16 @@ const ManutencaoForm = props => {
             container
             spacing={3}
           >
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <Typography variant="h6">Cod. Insumo: {insumo.id} &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Nome Insumo: {insumo.descricao}</Typography>  
+              <br/>
+              <Divider />
+            </Grid>
+           
             { isEdit(keyManutencao) &&
             <Grid
               item
@@ -195,8 +249,7 @@ const ManutencaoForm = props => {
               md={12}
               xs={12}
             >
-              <Typography variant="body2">Descrição</Typography>
-              
+              <Typography variant="body2">Descrição do problema</Typography>              
               <TextareaAutosize
                 aria-label="maximum height"               
                 className={classes.textArea}
@@ -219,78 +272,175 @@ const ManutencaoForm = props => {
                         
           </Grid>
         </CardContent>
-        { isEdit(keyManutencao) &&
-        <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
+        { isEdit(keyManutencao) &&(
+         
+          <CardContent>
+            <Divider />
+            <br/>
             <Grid
-              item
-              md={6}
-              xs={12}
+              container
+              spacing={3}
             >
-              <TextField
-                error={values.tipo === 'sel' && showErrors}
-                fullWidth
-                helperText={values.tipo === 'sel' && showErrors && 'Por favor, selecione um tipo.'}
-                label="Tipo"
-                margin="dense"
-                name="tipo"
-                onChange={handleChange}
-                required
-                // eslint-disable-next-line react/jsx-sort-props
-                select
-                SelectProps={{ native: true }}
-                value={values.tipo}
-                variant="outlined"
-              >
-                <option
-                  value="sel"
-                >
-                  Selecione
-                </option>
-                {types.map(option => (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                  >
-                    {option.nome}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-            
-            
-            <MuiPickersUtilsProvider
-              locale={ptBrLocale}
-              utils={DateFnsUtils}
-            >
+              
               <Grid
                 item
-                md={6}
+                md={4}
                 xs={12}
               >
-                <KeyboardDatePicker
-                  cancelLabel="Cancelar"
-                  error={!selectedDate  && showErrors}
-                  format="dd/MM/yyyy"
+                <TextField
+                  error={values.tipo === 'sel' && showErrors}
                   fullWidth
-                  helperText={!selectedDate && showErrors && 'Por favor, preencha a data.'}
-                  id="date-picker-dialog" 
-                  inputVariant="outlined"
-                  KeyboardButtonProps={{ 'aria-label': 'change date', }}
-                  label="Data de Aquisição"
-                  locale="pt-br"
+                  helperText={values.tipo === 'sel' && showErrors && 'Por favor, selecione um tipo.'}
+                  label="Tipo"
                   margin="dense"
-                  onChange={handleDateChange}
-                  value={selectedDate}
+                  name="tipo"
+                  onChange={handleChange}
+                  required
+                  // eslint-disable-next-line react/jsx-sort-props
+                  select
+                  SelectProps={{ native: true }}
+                  value={values.tipo}
+                  variant="outlined"
+                >
+                  <option
+                    value="sel"
+                  >
+                  Selecione
+                  </option>
+                  {types.map(option => (
+                    <option
+                      key={option.id}
+                      value={option.id}
+                    >
+                      {option.nome}
+                    </option>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid
+                item
+                md={8}
+                xs={12}
+              >
+                <TextField              
+                  fullWidth
+                  label="Responsável Técnico"
+                  margin="dense"
+                  name="responsavel"                 
+                  onChange={handleChange}
+                  value={values.responsavel}               
+                  variant="outlined"
                 />
               </Grid>
-            </MuiPickersUtilsProvider>
-          </Grid>
+       
+            
+              <MuiPickersUtilsProvider
+                locale={locale}
+                utils={MomentUtils}
+              >
+                <Grid
+                  item
+                  md={4}
+                  xs={12}
+                >
+                  <KeyboardDateTimePicker 
+                    ampm={false}     
+                    cancelLabel="Cancelar"            
+                    disablePast
+                    format="DD/MM/YYYY HH:mm"
+                    fullWidth
+                    id="date-start-picker-dialog" 
+                    inputVariant="outlined"
+                    KeyboardButtonProps={{ 'aria-label': 'change date', }}
+                    label="Data de Inicio"
+                    locale="pt-br"
+                    margin="dense"
+                    onChange={handleDateChangeStart}
+                    value={selectedDateStart}
+                  />
+                </Grid>
+
+                <Grid
+                  item
+                  md={4}
+                  xs={12}
+                >
+                  <KeyboardDateTimePicker   
+                    ampm={false}   
+                    cancelLabel="Cancelar"                
+                    disablePast
+                    format="DD/MM/YYYY HH:mm" 
+                    fullWidth
+                    id="date-end-picker-dialog"
+                    inputVariant="outlined"
+                    KeyboardButtonProps={{ 'aria-label': 'change date', }}
+                    label="Data Fim"
+                    locale="pt-br"
+                    margin="dense"
+                    onChange={handleDateChangeEnd}
+                    value={selectedDateEnd}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+              <Grid
+                item
+                md={4}
+                xs={12}
+              >
+                <TextField    
+                  fullWidth
+                  label="Status"
+                  margin="dense"
+                  name="status"
+                  // eslint-disable-next-line react/jsx-sort-props
+                  onChange={handleChange}
+                  required
+                  select
+                  SelectProps={{ native: true }}
+                  value={values.status}
+                  variant="outlined"
+                >
+                  <option
+                    value="sel"
+                  >
+                  Selecione
+                  </option>
+                  {status.map(option => (
+                    <option
+                      key={option.id}
+                      value={option.id}
+                    >
+                      {option.nome}
+                    </option>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid
+                item
+                md={12}
+                xs={12}
+              >
+                <Typography variant="body2">Parecer do Responsável</Typography>              
+                <TextareaAutosize
+                  aria-label="maximum height"               
+                  className={classes.textArea}
+                  name="parecerResponsavel"
+                  onChange={handleChange}
+                  placeholder="Parecer do Responsável Técnico"
+                  style={{width:'100%', borderRadius: '5px', minHeight: '80px',maxHeight: '200px'}}
+                  value={values.parecerResponsavel}
+                />
+        
+              </Grid>
+
+              
+            </Grid>
+
           
-        </CardContent>
+          
+          </CardContent>
+        )
         }
         <Divider />
         <CardActions>

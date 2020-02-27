@@ -2,7 +2,7 @@
 const required = value => (
   value ||
   typeof value === 'number' || 
-  value.length !== 0   ?     undefined : 'Preenchimento obrigatório'
+  value.length !== 0   ?  undefined : 'Preenchimento obrigatório'
 )
 
 const maxLength = max => value =>
