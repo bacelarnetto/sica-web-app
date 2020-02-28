@@ -31,11 +31,12 @@ export const Creators = {
   /** BUSCA A LISTA DE MANUTENCAOS **/
   buscaListManutencoes : (filter, page, rowsPerPage, order, orderBy ) => ({  
     type: Types.BUSCA_LIST_MANUTENCAO,
-    query: {       
+    query: {            
       page, 
       lines_per_page: rowsPerPage, 
       direction: order.toUpperCase(), 
-      order_by: orderBy
+      order_by: orderBy,
+      solicitante: filter.solicitante, 
     }
   }),
 

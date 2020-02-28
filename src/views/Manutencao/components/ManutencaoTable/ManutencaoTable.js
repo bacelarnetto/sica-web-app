@@ -170,7 +170,10 @@ const ManutencaoTable = props => {
 
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
-    { id: 'solicitante', numeric: false, disablePadding: false, label: 'Solicitante' } ,     
+    { id: 'solicitante', numeric: false, disablePadding: false, label: 'Solicitante' } ,  
+    { id: 'instante', numeric: false, disablePadding: false, label: 'Data de cadastro' } , 
+    { id: 'insumo', numeric: false, disablePadding: false, label: 'Insumo' } , 
+    { id: 'descricao', numeric: false, disablePadding: false, label: 'Descrição do problema' } ,     
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -287,11 +290,11 @@ const ManutencaoTable = props => {
                       key={manutencao.id}
                     > 
                       <TableCell
-                        style={{ width: 165 }}
+                        style={{ width: 135 }}
                       >
                         <div
                           className={classes.colAction}
-                          style={{ width: 150 }}
+                          style={{ width: 120 }}
                         >
                           <IconButton
                             aria-label="Excluir"
@@ -312,7 +315,9 @@ const ManutencaoTable = props => {
                         </div>
                       </TableCell>            
                       <TableCell>{manutencao.solicitante}</TableCell>
-                                         
+                      <TableCell>{manutencao.instante}</TableCell>
+                      <TableCell>{manutencao.insumo.descricao}</TableCell>
+                      <TableCell>{manutencao.descricao}</TableCell>            
                     </TableRow>
                   )))}
 

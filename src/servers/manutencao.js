@@ -11,6 +11,7 @@ export const ManutencaoService = {
   findListPagination: async (query) => {
     try {
       return await api.get(globalTypes.url.ATIVO_MANUTENCAO_LIST_PAGE + serializeQuery({
+        solicitante: query.solicitante, 
         lines_per_page: query.lines_per_page,
         page: query.page,
         order_by: query.order_by,
