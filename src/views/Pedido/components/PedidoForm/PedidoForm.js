@@ -167,7 +167,7 @@ const PedidoForm = props => {
           })    
 
           setValues({   
-            ... values,
+            ...values,
             status:'sel',           
           }); 
 

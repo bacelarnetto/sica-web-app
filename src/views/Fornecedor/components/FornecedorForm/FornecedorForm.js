@@ -19,7 +19,7 @@ import {
 import InputMask from 'react-input-mask'
 
 import { Creators as actions } from './../../../../store/actions/fornecedor';
-import {  isEdit }  from './../../../../common/util';
+import { isEdit }  from './../../../../common/util';
 import validation from './../../../../common/validationUtil';
 import estados  from './../../../../common/UF';
 

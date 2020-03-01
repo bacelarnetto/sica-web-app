@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import marca from './marca';
-import auth from './auth';
-import insumo from './insumo';
-import fornecedor from './fornecedor';
-import pedido from './pedido';
-import manutencao from './manutencao';
+import marca from './marca'
+import auth from './auth'
+import insumo from './insumo'
+import fornecedor from './fornecedor'
+import pedido from './pedido'
+import manutencao from './manutencao'
+import barragem from './barragem'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   fornecedor,
   pedido,
   manutencao,
+  barragem,
 });
 
 export default rootReducer;

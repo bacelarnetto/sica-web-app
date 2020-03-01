@@ -20,6 +20,8 @@ import {
   FornecedorInsertEdit as FornecedorInsertEditView,
   Pedido as PedidoView,
   PedidoInsertEdit as PedidoInsertEditView,
+  Barragem as BarragemView,
+  BarragemInsertEdit as BarragemInsertEditView,
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
@@ -62,6 +64,18 @@ const Routes = () => {
           exact
           layout={MainLayout}
           path="/dashboard"
+        />
+        <RouteWithLayout
+          component={BarragemView}
+          exact
+          layout={MainLayout}
+          path="/barragem"
+        />
+        <RouteWithLayout
+          component={BarragemInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/barragem/:id"
         />
         <RouteWithLayout
           component={MarcaView}
@@ -147,7 +161,7 @@ const Routes = () => {
           layout={MinimalLayout}
           path="/not-found"
         />
-        <Redirect to="/manutencao" />
+        <Redirect to="/" />
       </Switch>
     );
 

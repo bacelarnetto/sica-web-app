@@ -9,7 +9,7 @@ export const InsumoService = {
 
   findListPagination: async (query) => {
     try {
-      return await api.get(globalTypes.url.ATIVO_INSUMO_LIST + serializeQuery({
+      return await api.get(globalTypes.url.ATIVO_INSUMO_LIST_PAGE + serializeQuery({
         description: query.description,
         lines_per_page: query.lines_per_page,
         page: query.page,

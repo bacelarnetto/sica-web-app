@@ -136,7 +136,7 @@ export const Creators = {
       },  
       parecerResponsavel: result.parecerResponsavel,
       responsavel: result.responsavel,
-      solicitante: result. solicitante,
+      solicitante: result.solicitante,
       tipo: {
         id: result.tipo
       }        
