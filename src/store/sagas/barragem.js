@@ -64,13 +64,13 @@ function* deleteBarragemSaga(action) {
       yield put(actions.deleteBarragemSucess())
       toastr.success('Sucesso:', 'Exclusão realizada com sucesso.') 
       //busca a lista apos a exclusao
-      yield put(actions.buscaListBarragemsStart()) 
+      yield put(actions.buscaListBarragensStart()) 
       const responseList = yield service.findListPagination(action.query);
       const barragems = responseList.data.content;
       const totalPages = responseList.data.totalPages;
       const itemsCountPerPage = responseList.data.size;
       const totalElements = responseList.data.totalElements;
-      yield put(actions.buscaListBarragemsSucess(barragems, totalPages, itemsCountPerPage, totalElements ))
+      yield put(actions.buscaListBarragensSucess(barragems, totalPages, itemsCountPerPage, totalElements ))
     }else{
       throw new Error('Erro ao tentar realizar a exclusão'); // gera uma exceção
     }

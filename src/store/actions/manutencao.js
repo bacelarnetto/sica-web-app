@@ -123,7 +123,7 @@ export const Creators = {
   }),
 
   /** EDITAR A MANUTENCAO **/
-  editManutencao: (result, dataInicio, dataFim, idInsumo) => ({
+  editManutencao: (result, dataInicio, dataFim, idInsumo, finalizar) => ({
     type: Types.EDIT_MANUTENCAO,    
     manutencao: { 
       id: result.id,
@@ -140,7 +140,8 @@ export const Creators = {
       tipo: {
         id: result.tipo
       }        
-    }
+    },
+    finalizar
   }),
 
   editManutencaoStart : () => ({  
@@ -191,4 +192,3 @@ export const Creators = {
   }),
 
 }
-

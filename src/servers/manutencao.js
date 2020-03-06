@@ -38,6 +38,16 @@ export const ManutencaoService = {
       return await api[method](globalTypes.url.ATIVO_MANUTENCAO + id, value)
     } catch (error) {
       console.error('Erro: ' + JSON.stringify(error.response.data))
+      throw new Error(error.response.data.message);
+    }
+  },
+
+  finalizarManutencao: async (value) => {
+    try {    
+      return await api[globalTypes.method.PUT](globalTypes.url.ATIVO_MANUTENCAO_FINALIZAR + value.id, value)
+    } catch (error) {
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+      throw new Error(error.response.data.message);
     }
   },
 
@@ -45,7 +55,7 @@ export const ManutencaoService = {
     try {
       return await api.get(globalTypes.url.ATIVO_MANUTENCAO + id)
     } catch (error) {
-      console.error('Erro: ' + JSON.stringify(error.response.data))
+      console.error('Erro: ' + JSON.stringify(error.response.data)) 
     }
   },
 

@@ -1,3 +1,4 @@
+import moment from 'moment';
 export const Types = {
   BUSCA_LIST_BARRAGEM: 'list/BUSCA_BARRAGEM',
   BUSCA_LIST_BARRAGEM_START: 'list/BUSCA_BARRAGEM_START',
@@ -93,11 +94,27 @@ export const Creators = {
   }),
 
   /** CADASTRAR A BARRAGEMS **/
-  insertBarragem: (result) => ({
+  insertBarragem: (result, dataConstrucao) => ({
     type: Types.INSERT_BARRAGEM,
     barragem: { 
       descricao: result.descricao,
-      status: result.status,     
+      empreendedor: result.empreendedor,
+      cnpjEmpreendedor: result.cnpjEmpreendedor,
+      minerio: result.minerio,
+      tipo: {
+        id: result.tipo
+      } ,
+      alimentadoUsina: result.alimentadoUsina,
+      codigoCategoriaRisco: result.codigoCategoriaRisco,
+      codigoDanoPotencial: result.codigoDanoPotencial,
+      codigoObjetivoContencao: result.codigoObjetivoContencao,
+      codigoSituacaoOperacional: result.codigoSituacaoOperacional, 
+      cidade: result.cidade,
+      uf: result.uf,
+      latitude: result.latitude,
+      longitude: result.longitude,
+      vidaUtilQuantidadeAnos: result.vidaUtilQuantidadeAnos,
+      dataConstrucao: moment(dataConstrucao).format('DD/MM/YYYY')   
     }
   }),
 
@@ -120,12 +137,28 @@ export const Creators = {
   }),
 
   /** EDITAR A BARRAGEM **/
-  editBarragem: (result) => ({
+  editBarragem: (result, dataConstrucao) => ({
     type: Types.EDIT_BARRAGEM,
     barragem: { 
       id: result.id,
       descricao: result.descricao,
-      status: result.status,       
+      empreendedor: result.empreendedor,
+      cnpjEmpreendedor: result.cnpjEmpreendedor,
+      minerio: result.minerio,
+      tipo: {
+        id: result.tipo
+      } ,
+      alimentadoUsina: result.alimentadoUsina,
+      codigoCategoriaRisco: result.codigoCategoriaRisco,
+      codigoDanoPotencial: result.codigoDanoPotencial,
+      codigoObjetivoContencao: result.codigoObjetivoContencao,
+      codigoSituacaoOperacional: result.codigoSituacaoOperacional, 
+      cidade: result.cidade,
+      uf: result.uf,
+      latitude: result.latitude,
+      longitude: result.longitude,
+      vidaUtilQuantidadeAnos: result.vidaUtilQuantidadeAnos,  
+      dataConstrucao: moment(dataConstrucao).format('DD/MM/YYYY')  
     }
   }),
 

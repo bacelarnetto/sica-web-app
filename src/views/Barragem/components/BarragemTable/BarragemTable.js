@@ -166,13 +166,21 @@ const BarragemTable = props => {
 
   const handleRemove = event => {
     event.preventDefault();
-    dispatch(actions.deleteBarragens(id, values, page, rowsPerPage, order, orderBy),[])  
+    dispatch(actions.deleteBarragem(id, values, page, rowsPerPage, order, orderBy),[])  
     setOpen(false);
   };
 
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
     { id: 'descricao', numeric: false, disablePadding: false, label: 'Nome' } ,
+    { id: 'minerio', numeric: false, disablePadding: false, label: 'Minerio' } ,
+    { id: 'tipo', numeric: false, disablePadding: false, label: 'Tipo' } ,
+    { id: 'categoriaRisco', numeric: false, disablePadding: false, label: 'Risco' } ,
+    { id: 'danoPotencialAssociado', numeric: false, disablePadding: false, label: 'Dano em Potencial' } ,
+    { id: 'objetivoContencao', numeric: false, disablePadding: false, label: 'Contenção' } ,
+    { id: 'situacaoOperacional', numeric: false, disablePadding: false, label: 'Situação Operacional' } ,
+    { id: 'alimentadoUsina', numeric: false, disablePadding: false, label: 'Alimentado por Usina' } ,
+    { id: 'empreendedor', numeric: false, disablePadding: false, label: 'Empreendedor' } ,
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -208,6 +216,21 @@ const BarragemTable = props => {
         </TableRow>
       </TableHead>
     );
+  }
+
+  const colorStatus = id => {
+    let color = ''
+    if (id === 1 ){
+      //Baixo
+      color = '#107B2D'
+    } else if (id === 2) {
+      //Medio
+      color = '#ff8000'
+    } else {
+      //Alto
+      color = '#BA1717'
+    } 
+    return color
   }
  
   return (
@@ -325,7 +348,18 @@ const BarragemTable = props => {
                         </div>
                       </TableCell>            
                       <TableCell>{barragem.descricao}</TableCell>
-                     
+                      <TableCell>{barragem.minerio}</TableCell>
+                      <TableCell>{barragem.tipo.nome}</TableCell>
+                      <TableCell 
+                        style={{color: colorStatus(barragem.categoriaRisco.codigo), fontWeight: 'bold'}}
+                      >{barragem.categoriaRisco.descricao}</TableCell>
+                      <TableCell
+                        style={{color: colorStatus(barragem.danoPotencialAssociado.codigo), fontWeight: 'bold'}}
+                      >{barragem.danoPotencialAssociado.descricao}</TableCell>
+                      <TableCell>{barragem.objetivoContencao.descricao}</TableCell>
+                      <TableCell>{barragem.situacaoOperacional.descricao}</TableCell>
+                      <TableCell>{barragem.alimentadoUsina}</TableCell>
+                      <TableCell>{barragem.empreendedor}</TableCell>
                     </TableRow>
                   )))}
 

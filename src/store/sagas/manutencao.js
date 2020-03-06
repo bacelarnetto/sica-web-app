@@ -74,15 +74,19 @@ function* deleteManutencaoSaga(action) {
   }
 }
 
-
 function* editManutencaoSaga(action) {
   yield put(actions.editManutencaoStart())
   try {    
-    const response = yield service.submitManutencao(action.manutencao); 
+    let response = null;
+    if(action.finalizar){
+      response = yield service.finalizarManutencao(action.manutencao);      
+    }else{
+      response = yield service.submitManutencao(action.manutencao);
+    }
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 204)) {
       yield put(actions.editManutencaoSucess())
-      toastr.success('Sucesso:', 'Alteração realizada com sucesso.') 
+      toastr.success('Sucesso:', action.finalizar ? 'Finalização realizada com sucesso.':'Alteração realizada com sucesso.') 
     }else{
       throw new Error('Erro ao tentar realizar a alteração'); // gera uma exceção
     }
@@ -106,10 +110,12 @@ function* insertManutencaoSaga(action) {
     }
   } catch (error) {
     yield put(actions.insertManutencaoError())
-    toastr.error('Erro:', error.message)
+    toastr.error('Erro: ', error.message )
     console.error(error) // eslint-disable-line
   }
 }
+
+
 
 export function* watchManutencao() {
   yield all([

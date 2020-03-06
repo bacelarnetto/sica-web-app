@@ -3,7 +3,7 @@ import { useSelector,  useDispatch } from 'react-redux';
 
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Link  as RouterLink } from 'react-router-dom';
+import { Link  as RouterLink , Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -63,6 +63,11 @@ const useStyles = makeStyles(() => ({
 const ManutencaoForm = props => {
   const { className, keyManutencao, keyInsumo, ...rest } = props;
   const locale = 'pt-br'
+  
+  const [redirectList, setRedirectList] = useState(false);
+
+  let finalizar = false;
+
   const classes = useStyles()
   
   const [values, setValues] = useState({
@@ -147,6 +152,9 @@ const ManutencaoForm = props => {
     });   
   };
 
+  const handleFinalizar = isFinalizar => {
+    finalizar = isFinalizar;
+  }
   
   const handleSubmit = event => {
     event.preventDefault();
@@ -155,7 +163,11 @@ const ManutencaoForm = props => {
       setShowErrors(true);
     } else {
       if(isEdit(keyManutencao)) {
-        dispatch(actions.editManutencao(values, selectedDateStart, selectedDateEnd, insumo.id),[])
+        dispatch(actions.editManutencao(values, selectedDateStart, selectedDateEnd, insumo.id, finalizar),[])
+        if(finalizar){
+          dispatch(actions.buscaListManutencoes({valor:{solicitante: ''}} , 0, 10, 'asc', 'id'),[])
+          setRedirectList(finalizar)
+        }
       }else{  
         dispatch(actions.insertManutencao(values, keyInsumo),[])
         setValues({   
@@ -171,6 +183,7 @@ const ManutencaoForm = props => {
       setShowErrors(false);
     }
   }
+  
 
   return (
     <Card
@@ -463,8 +476,27 @@ const ManutencaoForm = props => {
             Cancelar
             </Button>
           </RouterLink >
+          {isEdit(keyManutencao) && (
+           
+            <Button
+              className={classes.button}
+              color="primary"             
+              onClick={() => handleFinalizar(true)}
+              type="submit"
+              variant="contained"
+            >
+              Finalizar
+            </Button>
+           
+          )}
+
+          { redirectList && (
+            <Redirect to={'/manutencao'}/>
+          )}
+
         </CardActions>
       </form>
+     
     </Card>
   );
 };

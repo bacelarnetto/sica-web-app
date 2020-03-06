@@ -28,6 +28,7 @@ const url = {
   ATIVO_MANUTENCAO_LIST_PAGE: '/ativo/manutencao/list-page?',
   ATIVO_MANUTENCAO: '/ativo/manutencao/',
   ATIVO_MANUTENCAO_TIPOS: '/ativo/manutencao/types',
+  ATIVO_MANUTENCAO_FINALIZAR: '/ativo/manutencao/finalizar/',
 
   BARRAGEM_LIST_PAGE: '/barragem/barragem/list-page?',
   BARRAGEM: '/barragem/barragem/',
