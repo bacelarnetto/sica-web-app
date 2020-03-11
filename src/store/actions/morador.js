@@ -1,38 +1,38 @@
 import moment from 'moment';
 export const Types = {
-  BUSCA_LIST_INSUMO: 'list/BUSCA_INSUMO',
-  BUSCA_LIST_INSUMO_START: 'list/BUSCA_INSUMO_START',
-  BUSCA_LIST_INSUMO_SUCCESS: 'list/BUSCA_INSUMO_SUCCESS',
-  BUSCA_LIST_INSUMO_ERROR: 'list/BUSCA_INSUMO_ERROR',
+  BUSCA_LIST_MORADOR: 'list/BUSCA_MORADOR',
+  BUSCA_LIST_MORADOR_START: 'list/BUSCA_MORADOR_START',
+  BUSCA_LIST_MORADOR_SUCCESS: 'list/BUSCA_MORADOR_SUCCESS',
+  BUSCA_LIST_MORADOR_ERROR: 'list/BUSCA_MORADOR_ERROR',
 
-  BUSCA_DETAIL_INSUMO: 'detail/BUSCA_INSUMO',
-  BUSCA_DETAIL_INSUMO_START: 'detail/BUSCA_INSUMO_START',
-  BUSCA_DETAIL_INSUMO_SUCCESS: 'detail/BUSCA_INSUMO_SUCCESS',
-  BUSCA_DETAIL_INSUMO_ERROR: 'detail/BUSCA_INSUMO_ERROR',
+  BUSCA_DETAIL_MORADOR: 'detail/BUSCA_MORADOR',
+  BUSCA_DETAIL_MORADOR_START: 'detail/BUSCA_MORADOR_START',
+  BUSCA_DETAIL_MORADOR_SUCCESS: 'detail/BUSCA_MORADOR_SUCCESS',
+  BUSCA_DETAIL_MORADOR_ERROR: 'detail/BUSCA_MORADOR_ERROR',
 
-  DELETE_INSUMO: 'list/DELETE_INSUMO',
-  DELETE_INSUMO_START: 'list/DELETE_INSUMO_START',
-  DELETE_INSUMO_SUCCESS: 'list/DELETE_INSUMO_SUCCESS',
-  DELETE_INSUMO_ERROR: 'list/DELETE_INSUMO_ERROR',
+  DELETE_MORADOR: 'list/DELETE_MORADOR',
+  DELETE_MORADOR_START: 'list/DELETE_MORADOR_START',
+  DELETE_MORADOR_SUCCESS: 'list/DELETE_MORADOR_SUCCESS',
+  DELETE_MORADOR_ERROR: 'list/DELETE_MORADOR_ERROR',
 
-  INSERT_INSUMO: 'form/INSERT_INSUMO',
-  INSERT_INSUMO_START: 'form/INSERT_INSUMO_START',
-  INSERT_INSUMO_SUCCESS: 'form/INSERT_INSUMO_SUCCESS',
-  INSERT_INSUMO_ERROR: 'form/INSERT_INSUMO_ERROR',
+  INSERT_MORADOR: 'form/INSERT_MORADOR',
+  INSERT_MORADOR_START: 'form/INSERT_MORADOR_START',
+  INSERT_MORADOR_SUCCESS: 'form/INSERT_MORADOR_SUCCESS',
+  INSERT_MORADOR_ERROR: 'form/INSERT_MORADOR_ERROR',
 
-  EDIT_INSUMO: 'form/EDIT_INSUMO',
-  EDIT_INSUMO_START: 'form/EDIT_INSUMO_START',
-  EDIT_INSUMO_SUCCESS: 'form/EDIT_INSUMO_SUCCESS',
-  EDIT_INSUMO_ERROR: 'form/EDIT_INSUMO_ERROR',
+  EDIT_MORADOR: 'form/EDIT_MORADOR',
+  EDIT_MORADOR_START: 'form/EDIT_MORADOR_START',
+  EDIT_MORADOR_SUCCESS: 'form/EDIT_MORADOR_SUCCESS',
+  EDIT_MORADOR_ERROR: 'form/EDIT_MORADOR_ERROR',
 }
 
 export const Creators = {
   
-  /** BUSCA A LISTA DE INSUMOS **/
-  buscaListInsumos : (filter, page, rowsPerPage, order, orderBy ) => ({  
-    type: Types.BUSCA_LIST_INSUMO,
+  /** BUSCA A LISTA DE MORADORS **/
+  buscaListMoradores : (filter, page, rowsPerPage, order, orderBy ) => ({  
+    type: Types.BUSCA_LIST_MORADOR,
     query: { 
-      description: filter.descricao,
+      nome: filter.nome,
       page, 
       lines_per_page: rowsPerPage, 
       direction: order.toUpperCase(), 
@@ -40,14 +40,14 @@ export const Creators = {
     }
   }),
 
-  buscaListInsumosStart : () => ({  
-    type: Types.BUSCA_LIST_INSUMO_START,
+  buscaListMoradoresStart : () => ({  
+    type: Types.BUSCA_LIST_MORADOR_START,
     loading: true,
     erro: false
   }),
 
-  buscaListInsumosSucess : (data, totalPages, itemsCountPerPage, totalElements) => ({
-    type: Types.BUSCA_LIST_INSUMO_SUCCESS,
+  buscaListMoradoresSucess : (data, totalPages, itemsCountPerPage, totalElements) => ({
+    type: Types.BUSCA_LIST_MORADOR_SUCCESS,
     data,
     totalPages,
     itemsCountPerPage,
@@ -56,18 +56,18 @@ export const Creators = {
     erro: false
   }),
 
-  buscaListInsumosError : () => ({
-    type: Types.BUSCA_LIST_INSUMO_ERROR,
+  buscaListMoradoresError : () => ({
+    type: Types.BUSCA_LIST_MORADOR_ERROR,
     loading: false,
     erro: true
   }),
 
-  /** DELETA A INSUMOS DA LISTA **/
-  deleteInsumo: (itemSelected , filter, page, rowsPerPage, order, orderBy )=> ({
-    type: Types.DELETE_INSUMO,
+  /** DELETA A MORADORS DA LISTA **/
+  deleteMorador: (itemSelected , filter, page, rowsPerPage, order, orderBy )=> ({
+    type: Types.DELETE_MORADOR,
     itemSelected,
     query: { 
-      description: filter.descricao,
+      description: filter.nome,
       page, 
       lines_per_page: rowsPerPage, 
       direction: order.toUpperCase(), 
@@ -75,30 +75,30 @@ export const Creators = {
     }
   }),
 
-  deleteInsumoStart : () => ({  
-    type: Types.DELETE_INSUMO_START,
+  deleteMoradorStart : () => ({  
+    type: Types.DELETE_MORADOR_START,
     loading: true,
     erro: false
   }),
 
-  deleteInsumoSucess: () => ({
-    type: Types.DELETE_INSUMO_SUCCESS,
+  deleteMoradorSucess: () => ({
+    type: Types.DELETE_MORADOR_SUCCESS,
     loading: false,
     erro: false
   }),
 
-  deleteInsumoError: () => ({
-    type: Types.DELETE_INSUMO_ERROR,
+  deleteMoradorError: () => ({
+    type: Types.DELETE_MORADOR_ERROR,
     loading: false,
     erro: true
   }),
 
-  /** CADASTRAR A INSUMOS **/
-  insertInsumo: (result, dataCompra) => ({
-    type: Types.INSERT_INSUMO,
-    insumo: { 
+  /** CADASTRAR A MORADORS **/
+  insertMorador: (result, dataCompra) => ({
+    type: Types.INSERT_MORADOR,
+    morador: { 
       dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
-      descricao: result.descricao,
+      nome: result.nome,
       marca: {
         id: result.marca
       },
@@ -109,31 +109,31 @@ export const Creators = {
     }
   }),
 
-  insertInsumoStart : () => ({  
-    type: Types.INSERT_INSUMO_START,
+  insertMoradorStart : () => ({  
+    type: Types.INSERT_MORADOR_START,
     loading: true,
     erro: false
   }),
 
-  insertInsumoSucess: () => ({
-    type: Types.INSERT_INSUMO_SUCCESS,
+  insertMoradorSucess: () => ({
+    type: Types.INSERT_MORADOR_SUCCESS,
     loading: false,
     erro: false
   }),
 
-  insertInsumoError: () => ({
-    type: Types.INSERT_INSUMO_ERROR,
+  insertMoradorError: () => ({
+    type: Types.INSERT_MORADOR_ERROR,
     loading: false,
     erro: true
   }),
 
-  /** EDITAR A INSUMO **/
-  editInsumo: (result, dataCompra) => ({
-    type: Types.EDIT_INSUMO,
-    insumo: { 
+  /** EDITAR A MORADOR **/
+  editMorador: (result, dataCompra) => ({
+    type: Types.EDIT_MORADOR,
+    morador: { 
       id: result.id,
       dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
-      descricao: result.descricao,
+      nome: result.nome,
       marca: {
         id: result.marca
       },
@@ -144,48 +144,45 @@ export const Creators = {
     }
   }),
 
-  editInsumoStart : () => ({  
-    type: Types.EDIT_INSUMO_START,
+  editMoradorStart : () => ({  
+    type: Types.EDIT_MORADOR_START,
     loading: true,
     erro: false
   }),
 
-  editInsumoSucess: () => ({
-    type: Types.EDIT_INSUMO_SUCCESS,
+  editMoradorSucess: () => ({
+    type: Types.EDIT_MORADOR_SUCCESS,
     loading: false,
     erro: false
   }),
 
-  editInsumoError: () => ({
-    type: Types.EDIT_INSUMO_ERROR,
+  editMoradorError: () => ({
+    type: Types.EDIT_MORADOR_ERROR,
     loading: false,
     erro: true
   }),
 
-  /** BUSCA A DETALHE DO INSUMO **/
-  buscaDetailInsumo : itemSelected  => ({  
-    type: Types.BUSCA_DETAIL_INSUMO,
+  /** BUSCA A DETALHE DO MORADOR **/
+  buscaDetailMorador : itemSelected  => ({  
+    type: Types.BUSCA_DETAIL_MORADOR,
     itemSelected 
   }),
 
-  buscaDetailInsumoStart : () => ({  
-    type: Types.BUSCA_DETAIL_INSUMO_START,
+  buscaDetailMoradorStart : () => ({  
+    type: Types.BUSCA_DETAIL_MORADOR_START,
     loading: true,
     erro: false
   }),
 
-  buscaDetailInsumoSucess : (insumo , typesInsumo, marcas, status)=> ({
-    type: Types.BUSCA_DETAIL_INSUMO_SUCCESS,
-    insumo,
-    typesInsumo,
-    marcas,
-    status,
+  buscaDetailMoradorSucess : (morador)=> ({
+    type: Types.BUSCA_DETAIL_MORADOR_SUCCESS,
+    morador,
     loading: false,
     erro: false
   }),
 
-  buscaDetailInsumoError : () => ({
-    type: Types.BUSCA_DETAIL_INSUMO_ERROR,
+  buscaDetailMoradorError : () => ({
+    type: Types.BUSCA_DETAIL_MORADOR_ERROR,
     loading: false,
     erro: true
   }),

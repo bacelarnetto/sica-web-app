@@ -36,6 +36,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Creators as actions } from './../../../../store/actions/marca';
 
@@ -306,21 +307,24 @@ const MarcaTable = props => {
                         <div
                           className={classes.colAction}
                           style={{ width: 110 }}
-                        >
-                          <IconButton
-                            aria-label="Excluir"
-                            className={classes.buttonDelete}
-                            onClick={() => handleClickOpen(marca.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          < RouterLink to={'marca/'+ marca.id}>
+                        > <Tooltip title="Excluir">
                             <IconButton
-                              aria-label="Editar"
-                              className={classes.buttonLabel}
+                              aria-label="Excluir"
+                              className={classes.buttonDelete}
+                              onClick={() => handleClickOpen(marca.id)}
                             >
-                              <EditIcon />
+                              <DeleteIcon />
                             </IconButton>
+                          </Tooltip>
+                          < RouterLink to={'marca/'+ marca.id}>
+                            <Tooltip title="Editar">
+                              <IconButton
+                                aria-label="Editar"
+                                className={classes.buttonLabel}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
                           </ RouterLink>
                         </div>
                       </TableCell>            

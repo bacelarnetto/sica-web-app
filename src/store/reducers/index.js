@@ -6,6 +6,7 @@ import fornecedor from './fornecedor'
 import pedido from './pedido'
 import manutencao from './manutencao'
 import barragem from './barragem'
+import morador from './morador'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   pedido,
   manutencao,
   barragem,
+  morador
 });
 
 export default rootReducer;

@@ -6,7 +6,7 @@ const url = {
   BASE: 'http://localhost:8080/gateway',
 
   LOGIN: '/auth/login',
-
+  // API DE ATIVOS
   ATIVO_MARCA_LIST_PAGE: '/ativo/marca/list-page?',
   ATIVO_MARCA_LIST: '/ativo/marca/list',
   ATIVO_MARCA: '/ativo/marca/',
@@ -29,7 +29,7 @@ const url = {
   ATIVO_MANUTENCAO: '/ativo/manutencao/',
   ATIVO_MANUTENCAO_TIPOS: '/ativo/manutencao/types',
   ATIVO_MANUTENCAO_FINALIZAR: '/ativo/manutencao/finalizar/',
-
+  // API DE BARRAGEM
   BARRAGEM_LIST_PAGE: '/barragem/barragem/list-page?',
   BARRAGEM: '/barragem/barragem/',
   BARRAGEM_TIPOS: 'barragem/barragem/types',
@@ -37,6 +37,9 @@ const url = {
   BARRAGEM_LIST_DANOS_POTENCIAIS: '/barragem/barragem/lista-danos-potenciais',
   BARRAGEM_LIST_OBJETIVOS_CONTENCAO: '/barragem/barragem/lista-objetivos-contencao',
   BARRAGEM_LIST_SITUACOES_OPERACIONAIS: '/barragem/barragem/lista-situacoes-operacionais', 
+
+  BARRAGEM_MORADOR_LIST_PAGE: '/barragem/morador/list-page?',
+  BARRAGEM_MORADOR: '/barragem/morador/',
 
   USER: '/auth/user',
 }

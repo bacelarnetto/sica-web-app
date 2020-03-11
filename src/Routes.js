@@ -25,6 +25,8 @@ import {
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
+  Morador as MoradorView,
+  MoradorInsertEdit as MoradorInsertEditView,
 
 
   Account as AccountView,
@@ -64,6 +66,18 @@ const Routes = () => {
           exact
           layout={MainLayout}
           path="/dashboard"
+        />
+        <RouteWithLayout
+          component={MoradorView}
+          exact
+          layout={MainLayout}
+          path="/morador"
+        />
+        <RouteWithLayout
+          component={MoradorInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/morador/:id"
         />
         <RouteWithLayout
           component={BarragemView}

@@ -37,6 +37,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import BuildIcon from '@material-ui/icons/Build';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Creators as actions } from './../../../../store/actions/insumo';
 
@@ -331,26 +332,32 @@ const InsumoTable = props => {
                           className={classes.colAction}
                           style={{ width: 150 }}
                         >
-                          <IconButton
-                            aria-label="Excluir"
-                            className={classes.buttonDelete}
-                            onClick={() => handleClickOpen(insumo.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          < RouterLink to={'insumo/'+ insumo.id}>
+                          <Tooltip title="Excluir">
                             <IconButton
-                              aria-label="Editar"
-                              className={classes.buttonLabel}
+                              aria-label="Excluir"
+                              className={classes.buttonDelete}
+                              onClick={() => handleClickOpen(insumo.id)}
                             >
-                              <EditIcon />
+                              <DeleteIcon />
                             </IconButton>
+                          </Tooltip>
+                          < RouterLink to={'insumo/'+ insumo.id}>
+                            <Tooltip title="Excluir">
+                              <IconButton
+                                aria-label="Editar"
+                                className={classes.buttonLabel}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
                           </ RouterLink>
                           {isManutencao(insumo.status.codigo) &&(
                             < RouterLink to={`insumo/${insumo.id}/manutencao/new`}>
-                              <IconButton>
-                                <BuildIcon />
-                              </IconButton>
+                              <Tooltip title="Agendar Manutenção">
+                                <IconButton>
+                                  <BuildIcon />
+                                </IconButton>
+                              </Tooltip>
                             </ RouterLink>
                           )}
                           

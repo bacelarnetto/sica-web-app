@@ -1,4 +1,4 @@
-import { Types as types} from '../actions/insumo';
+import { Types as types} from '../actions/morador';
 
 const INITIAL_STATE = {
   loading: false, 
@@ -9,38 +9,35 @@ const INITIAL_STATE = {
   itemSelected: 0,
   erro: false,
   showMessage: '',
-  insumo:'',
-  typesInsumo:[],
-  marcas:[],
-  status:[],
+  morador:''
 }
   
 export default (state = INITIAL_STATE, action) => {      
   switch (action.type) {
 
-    case types.INSERT_INSUMO_START:
-    case types.EDIT_INSUMO_START:    
-    case types.DELETE_INSUMO_START:
-    case types.DELETE_INSUMO_SUCCESS:// loading é true porque ainda tem que carregar a lista    
-    case types.BUSCA_DETAIL_INSUMO_START:
-    case types.BUSCA_LIST_INSUMO_START:
+    case types.INSERT_MORADOR_START:
+    case types.EDIT_MORADOR_START:    
+    case types.DELETE_MORADOR_START:
+    case types.DELETE_MORADOR_SUCCESS:// loading é true porque ainda tem que carregar a lista    
+    case types.BUSCA_DETAIL_MORADOR_START:
+    case types.BUSCA_LIST_MORADOR_START:
       return {
         ...state,
         loading: true
       };
 
-    case types.INSERT_INSUMO_ERROR:
-    case types.EDIT_INSUMO_ERROR:    
-    case types.DELETE_INSUMO_ERROR:
-    case types.BUSCA_DETAIL_INSUMO_ERROR:
-    case types.BUSCA_LIST_INSUMO_ERROR:
+    case types.INSERT_MORADOR_ERROR:
+    case types.EDIT_MORADOR_ERROR:    
+    case types.DELETE_MORADOR_ERROR:
+    case types.BUSCA_DETAIL_MORADOR_ERROR:
+    case types.BUSCA_LIST_MORADOR_ERROR:
       return {
         ...state,
         loading: false,
         erro: true
       };
 
-    case types.BUSCA_LIST_INSUMO_SUCCESS:
+    case types.BUSCA_LIST_MORADOR_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -50,18 +47,18 @@ export default (state = INITIAL_STATE, action) => {
         totalElements: action.totalElements,
       };
 
-    case types.BUSCA_DETAIL_INSUMO_SUCCESS:
+    case types.BUSCA_DETAIL_MORADOR_SUCCESS:
       return {
         ...state,
         loading: false,
-        insumo: action.insumo,
-        typesInsumo: action.typesInsumo,
+        morador: action.morador,
+        typesMorador: action.typesMorador,
         marcas: action.marcas,
         status: action.status,
       };
 
-    case types.INSERT_INSUMO_SUCCESS:
-    case types.EDIT_INSUMO_SUCCESS:
+    case types.INSERT_MORADOR_SUCCESS:
+    case types.EDIT_MORADOR_SUCCESS:
       return {
         ...state,
         loading: false,

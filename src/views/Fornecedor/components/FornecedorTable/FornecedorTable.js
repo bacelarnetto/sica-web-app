@@ -37,6 +37,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Creators as actions } from './../../../../store/actions/fornecedor';
 
@@ -315,27 +316,33 @@ const FornecedorTable = props => {
                           className={classes.colAction}
                           style={{ width: 150 }}
                         >
-                          <IconButton
-                            aria-label="Excluir"
-                            className={classes.buttonDelete}
-                            onClick={() => handleClickOpen(fornecedor.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          < RouterLink to={'fornecedor/'+ fornecedor.id}>
+                          <Tooltip title="Excluir">
                             <IconButton
-                              aria-label="Editar"
-                              className={classes.buttonLabel}
+                              aria-label="Excluir"
+                              className={classes.buttonDelete}
+                              onClick={() => handleClickOpen(fornecedor.id)}
                             >
-                              <EditIcon />
+                              <DeleteIcon />
                             </IconButton>
+                          </Tooltip>
+                          < RouterLink to={'fornecedor/'+ fornecedor.id}>
+                            <Tooltip title="Editar">
+                              <IconButton
+                                aria-label="Editar"
+                                className={classes.buttonLabel}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
                           </ RouterLink>
                           < RouterLink to={'pedidos/fornecedor/'+ fornecedor.id}>
-                            <IconButton
-                              aria-label="Pedido"                      
-                            >
-                              <ShoppingCartIcon />
-                            </IconButton>
+                            <Tooltip title="Fazer Pedido">
+                              <IconButton
+                                aria-label="Pedido"                      
+                              >
+                                <ShoppingCartIcon />
+                              </IconButton>
+                            </Tooltip>
                           </ RouterLink>
                           
                         </div>

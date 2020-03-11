@@ -36,7 +36,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
-import BuildIcon from '@material-ui/icons/Build';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Creators as actions } from './../../../../store/actions/morador';
 
@@ -106,7 +106,7 @@ const MoradorTable = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    descricao: ''
+    nome: ''
   })
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -117,7 +117,7 @@ const MoradorTable = props => {
 
   
   const dispatch = useDispatch();
-  useFetching(dispatch, actions.buscaListMoradors(values, page, rowsPerPage, order, orderBy));
+  useFetching(dispatch, actions.buscaListMoradores(values, page, rowsPerPage, order, orderBy));
 
   const moradors = useSelector( state  => state.morador.data );
   const totalElements = useSelector( state  => state.morador.totalElements );
@@ -132,18 +132,18 @@ const MoradorTable = props => {
 
   const handlePageChange = (event, page) => {
     setPage(page);
-    dispatch(actions.buscaListMoradors(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListMoradores(values, page, rowsPerPage, order, orderBy),[])
   };
 
   const handleRowsPerPageChange = event => {
     setRowsPerPage(event.target.value);
     setPage(0);
-    dispatch(actions.buscaListMoradors(values, page, event.target.value, order, orderBy),[])
+    dispatch(actions.buscaListMoradores(values, page, event.target.value, order, orderBy),[])
   };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';    
-    dispatch(actions.buscaListMoradors(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
+    dispatch(actions.buscaListMoradores(values, page, rowsPerPage, isAsc ? 'desc' : 'asc', property),[])
     let valorOrder = isAsc ? 'desc' : 'asc'
     setOrder(valorOrder);
     setOrderBy(property);
@@ -151,7 +151,7 @@ const MoradorTable = props => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(actions.buscaListMoradors(values, page, rowsPerPage, order, orderBy),[])
+    dispatch(actions.buscaListMoradores(values, page, rowsPerPage, order, orderBy),[])
   }
 
   const handleClickOpen = value => {
@@ -170,26 +170,18 @@ const MoradorTable = props => {
     setOpen(false);
   };
 
-  const colorStatus = id => {
-    let color = ''
-    if (id === 1){
-      color = '#107B2D'
-    } else if (id === 2){
-      color = '#BA1717'
-    } else {
-      color ='#C68441'
-    }
-    return color
-  }
 
   const headCells = [
     { id: 'acao', numeric: false, disablePadding: false, label: '' },
-    { id: 'descricao', numeric: false, disablePadding: false, label: 'Nome' } ,
-    { id: 'dataCompra', numeric: false, disablePadding: false, label: 'Data de Aquisição' } ,
-    { id: 'dataHoraCadastro', numeric: false, disablePadding: false, label: 'Data de cadastro' } ,
-    { id: 'marca', numeric: false, disablePadding: false, label: 'Marca' } ,
-    { id: 'tipo', numeric: false, disablePadding: false, label: 'Tipo' } ,
-    { id: 'status', numeric: false, disablePadding: false, label: 'Status' } ,     
+    { id: 'nome', numeric: false, disablePadding: false, label: 'Nome' } ,   
+    { id: 'idade', numeric: false, disablePadding: false, label: 'Idade' } ,
+    { id: 'endereco', numeric: false, disablePadding: false, label: 'Endereço' } ,
+    { id: 'bairro', numeric: false, disablePadding: false, label: 'Bairro' } ,
+    { id: 'numero', numeric: true, disablePadding: false, label: 'Numero' } ,
+    { id: 'cidade', numeric: false, disablePadding: false, label: 'Cidade' } ,
+    { id: 'uf', numeric: false, disablePadding: false, label: 'UF' } ,
+    { id: 'email', numeric: false, disablePadding: false, label: 'E-mail' } ,                     
+    { id: 'telefone', numeric: false, disablePadding: false, label: 'Telefone' } ,  
   ];
   /* eslint-disable react/prop-types */
   /* eslint-disable react/no-multi-comp */
@@ -240,7 +232,7 @@ const MoradorTable = props => {
         >
           <CardHeader
             subheader="Pesquisar"
-            title="Moradors"
+            title="Moradores"
           />
           <Divider />
           <CardContent>
@@ -257,10 +249,10 @@ const MoradorTable = props => {
                   fullWidth
                   label="Nome:"
                   margin="dense"
-                  name="descricao"
+                  name="nome"
                   onChange={handleChange}
                   required
-                  value={values.descricao}
+                  value={values.nome}
                   variant="outlined"
                 />
               </Grid>  
@@ -320,41 +312,44 @@ const MoradorTable = props => {
                       key={morador.id}
                     > 
                       <TableCell
-                        style={{ width: 165 }}
+                        style={{ width: 105 }}
                       >
                         <div
                           className={classes.colAction}
-                          style={{ width: 150 }}
+                          style={{ width: 100 }}
                         >
-                          <IconButton
-                            aria-label="Excluir"
-                            className={classes.buttonDelete}
-                            onClick={() => handleClickOpen(morador.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          < RouterLink to={'morador/'+ morador.id}>
+                          <Tooltip title="Excluir">
                             <IconButton
-                              aria-label="Editar"
-                              className={classes.buttonLabel}
+                              aria-label="Excluir"
+                              className={classes.buttonDelete}
+                              onClick={() => handleClickOpen(morador.id)}
                             >
-                              <EditIcon />
+                              <DeleteIcon />                            
                             </IconButton>
+                          </Tooltip>
+                          < RouterLink to={'morador/'+ morador.id}>
+                            <Tooltip title="Editar">
+                              <IconButton
+                                aria-label="Editar"
+                                className={classes.buttonLabel}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
                           </ RouterLink>
 
-                          <IconButton>
-                            <BuildIcon />
-                          </IconButton>
                         </div>
                       </TableCell>            
-                      <TableCell>{morador.descricao}</TableCell>
-                      <TableCell>{morador.dataCompra}</TableCell>
-                      <TableCell>{morador.dataHoraCadastro}</TableCell>
-                      <TableCell>{morador.marca.nome}</TableCell>
-                      <TableCell>{morador.tipo.nome}</TableCell>
-                      <TableCell
-                        style={{color: colorStatus(morador.status.codigo), fontWeight: 'bold'}}
-                      >{morador.status.descricao}</TableCell>                     
+                      <TableCell>{morador.nome}</TableCell>
+                      <TableCell>{morador.idade}</TableCell>
+                      <TableCell>{morador.endereco}</TableCell>
+                      <TableCell>{morador.bairro}</TableCell>
+                      <TableCell>{morador.numero}</TableCell>
+                      <TableCell>{morador.cidade}</TableCell>
+                      <TableCell>{morador.uf}</TableCell>
+                      <TableCell>{morador.email}</TableCell>                     
+                      <TableCell>{morador.telefone}</TableCell> 
+                         
                     </TableRow>
                   )))}
 

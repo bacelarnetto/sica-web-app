@@ -1,119 +1,112 @@
 import { takeLatest, takeEvery, put, all } from 'redux-saga/effects'
 import { toastr } from 'react-redux-toastr'
 
-import { Types as types, Creators as actions } from '../actions/insumo';
-import { InsumoService as service }  from './../../servers/insumo'
-import { MarcaService as marcaService }  from './../../servers/marca'
+import { Types as types, Creators as actions } from '../actions/morador';
+import { MoradorService as service }  from './../../servers/morador'
 
 import {  isEdit }  from './../../common/util';
 
-function* buscaListInsumosSaga(action) {
-  yield put(actions.buscaListInsumosStart())
+function* buscaListMoradoresSaga(action) {
+  yield put(actions.buscaListMoradoresStart())
   try {    
     const response = yield service.findListPagination(action.query);
-    const insumos = response.data.content;
+    const moradores = response.data.content;
     const totalPages = response.data.totalPages;
     const itemsCountPerPage = response.data.size;
     const totalElements = response.data.totalElements;
-    yield put(actions.buscaListInsumosSucess(insumos, totalPages, itemsCountPerPage, totalElements )) 
+    yield put(actions.buscaListMoradoresSucess(moradores, totalPages, itemsCountPerPage, totalElements )) 
   } catch (error) {
-    yield put(actions.buscaListInsumosError())
+    yield put(actions.buscaListMoradoresError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
 }
 
-function* buscaDetailInsumoSaga(action) {
-  yield put(actions.buscaDetailInsumoStart())
+function* buscaDetailMoradorSaga(action) {
+  yield put(actions.buscaDetailMoradorStart())
   try {    
-    let insumo = null
+    let morador = null
     if (isEdit(action.itemSelected)){
-      let rspInsumo = yield service.findInsumoById(action.itemSelected);
-      insumo = rspInsumo.data;
-    }
-    let rspTypes = yield service.findTypesInsumo();
-    const types = rspTypes.data;
-    let rspMarcas = yield marcaService.findAllMarca();    
-    const marcas = rspMarcas.data;  
-    let rspStatus = yield service.findStatusInsumo();    
-    const status = rspStatus.data;   
-    yield put(actions.buscaDetailInsumoSucess(insumo, types, marcas, status)) 
+      let rspMorador = yield service.findMoradorById(action.itemSelected);
+      morador = rspMorador.data;
+    }   
+    yield put(actions.buscaDetailMoradorSucess(morador)) 
   } catch (error) {
-    yield put(actions.buscaDetailInsumoError())
+    yield put(actions.buscaDetailMoradorError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
 }
 
-function* deleteInsumoSaga(action) {
-  yield put(actions.deleteInsumoStart())
+function* deleteMoradorSaga(action) {
+  yield put(actions.deleteMoradorStart())
   try {    
-    const responseDelete = yield service.deleteInsumo(action.itemSelected); 
+    const responseDelete = yield service.deleteMorador(action.itemSelected); 
     if(responseDelete !== undefined && responseDelete !== null &&
     (responseDelete.status === 200 || responseDelete.status === 204)) {
-      yield put(actions.deleteInsumoSucess())
+      yield put(actions.deleteMoradorSucess())
       toastr.success('Sucesso:', 'Exclusão realizada com sucesso.') 
       //busca a lista apos a exclusao
-      yield put(actions.buscaListInsumosStart()) 
+      yield put(actions.buscaListMoradoresStart()) 
       const responseList = yield service.findListPagination(action.query);
-      const insumos = responseList.data.content;
+      const moradores = responseList.data.content;
       const totalPages = responseList.data.totalPages;
       const itemsCountPerPage = responseList.data.size;
       const totalElements = responseList.data.totalElements;
-      yield put(actions.buscaListInsumosSucess(insumos, totalPages, itemsCountPerPage, totalElements ))
+      yield put(actions.buscaListMoradoresSucess(moradores, totalPages, itemsCountPerPage, totalElements ))
     }else{
       throw new Error('Erro ao tentar realizar a exclusão'); // gera uma exceção
     }
   } catch (error) {
-    yield put(actions.deleteInsumoError())
+    yield put(actions.deleteMoradorError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
 }
 
 
-function* editInsumoSaga(action) {
-  yield put(actions.editInsumoStart())
+function* editMoradorSaga(action) {
+  yield put(actions.editMoradorStart())
   try {    
-    const response = yield service.submitInsumo(action.insumo); 
+    const response = yield service.submitMorador(action.morador); 
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 204)) {
-      yield put(actions.editInsumoSucess())
+      yield put(actions.editMoradorSucess())
       toastr.success('Sucesso:', 'Alteração realizada com sucesso.') 
     }else{
       throw new Error('Erro ao tentar realizar a alteração'); // gera uma exceção
     }
   } catch (error) {
-    yield put(actions.editInsumoError())
+    yield put(actions.editMoradorError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
 }
 
-function* insertInsumoSaga(action) {
-  yield put(actions.insertInsumoStart())
+function* insertMoradorSaga(action) {
+  yield put(actions.insertMoradorStart())
   try {    
-    const response = yield service.submitInsumo(action.insumo); 
+    const response = yield service.submitMorador(action.morador); 
     if(response !== undefined && response !== null &&
     (response.status === 200 || response.status === 201)) {
-      yield put(actions.insertInsumoSucess())
+      yield put(actions.insertMoradorSucess())
       toastr.success('Sucesso:', 'Cadastro realizado com sucesso.') 
     }else{
       throw new Error('Erro ao tentar realizar o cadastro'); // gera uma exceção
     }
   } catch (error) {
-    yield put(actions.insertInsumoError())
+    yield put(actions.insertMoradorError())
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
 }
 
-export function* watchInsumo() {
+export function* watchMorador() {
   yield all([
-    takeEvery(types.BUSCA_LIST_INSUMO, buscaListInsumosSaga),
-    takeEvery(types.BUSCA_DETAIL_INSUMO, buscaDetailInsumoSaga) ,
-    takeLatest(types.INSERT_INSUMO, insertInsumoSaga),
-    takeLatest(types.DELETE_INSUMO, deleteInsumoSaga),
-    takeLatest(types.EDIT_INSUMO, editInsumoSaga),   
+    takeEvery(types.BUSCA_LIST_MORADOR, buscaListMoradoresSaga),
+    takeEvery(types.BUSCA_DETAIL_MORADOR, buscaDetailMoradorSaga) ,
+    takeLatest(types.INSERT_MORADOR, insertMoradorSaga),
+    takeLatest(types.DELETE_MORADOR, deleteMoradorSaga),
+    takeLatest(types.EDIT_MORADOR, editMoradorSaga),   
   ]);
 }

@@ -35,6 +35,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Creators as actions } from './../../../../store/actions/manutencao';
 
@@ -295,21 +296,25 @@ const ManutencaoTable = props => {
                         <div
                           className={classes.colAction}
                           style={{ width: 120 }}
-                        >
-                          <IconButton
-                            aria-label="Excluir"
-                            className={classes.buttonDelete}
-                            onClick={() => handleClickOpen(manutencao.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          < RouterLink to={'manutencao/'+ manutencao.id}>
+                        >   
+                          <Tooltip title="Excluir">
                             <IconButton
-                              aria-label="Editar"
-                              className={classes.buttonLabel}
+                              aria-label="Excluir"
+                              className={classes.buttonDelete}
+                              onClick={() => handleClickOpen(manutencao.id)}
                             >
-                              <EditIcon />
+                              <DeleteIcon />
                             </IconButton>
+                          </Tooltip>
+                          < RouterLink to={'manutencao/'+ manutencao.id}>
+                            <Tooltip title="Editar">
+                              <IconButton
+                                aria-label="Editar"
+                                className={classes.buttonLabel}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
                           </ RouterLink>
 
                         </div>
