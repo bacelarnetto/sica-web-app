@@ -17,18 +17,12 @@ import {
   TextField,
 } from '@material-ui/core';
 
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers';
-
-import moment from 'moment';
-
-import ptBrLocale from 'date-fns/locale/pt-BR';
-import DateFnsUtils from '@date-io/date-fns';
+import InputMask from 'react-input-mask'
 
 import { Creators as actions } from './../../../../store/actions/morador';
 import {  isEdit }  from './../../../../common/util';
+import validation from './../../../../common/validationUtil';
+import estados  from './../../../../common/UF';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -54,58 +48,53 @@ const MoradorForm = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    id:  '',
-    descricao: '',
-    tipo: 'sel',
-    marca: 'sel',
-    status:'sel', 
+    id: '',   
+    nome: '',
+    idade: '',
+    email: '',
+    cidade: '',
+    endereco: '',
+    bairro: '',
+    numero: '',
+    telefone: '',
+    uf: 'sel',
+    idBarragem : 'sel'  
   });
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-  const handleDateChange = date => {
-    setSelectedDate(date);
-  };
+  const UFs = estados;
 
   const [showErrors, setShowErrors] = useState(false);
 
   const dispatch = useDispatch();  
   useFetching(dispatch, actions.buscaDetailMorador(keyItem));
   const morador = useSelector( state  => state.morador.morador );
-  const types = useSelector( state  => state.morador.typesMorador );
-  const marcas = useSelector( state  => state.morador.marcas );
-  const status= useSelector( state  => state.morador.status );
+  const barragens = useSelector( state  => state.morador.barragens );
   const loading = useSelector( state  => state.morador.loading );
   
   useEffect(() => {
     if(isEdit(keyItem)){
 
-      if(morador !== null && morador !== '' &&  morador !== undefined ){
-      
-        let codTipo = 
-                    morador.tipo !== null && 
-                    morador.tipo !== '' && 
-                    morador.tipo !== undefined ? morador.tipo.id : ''
+      if(morador !== null && morador !== '' &&  morador !== undefined ){   
 
-        let codMarca = 
-                      morador.marca !== null && 
-                      morador.marca !== '' && 
-                      morador.marca !== undefined ? morador.marca.id :''
-
-        let codStatus = 
-                      morador.status !== null && 
-                      morador.status !== '' && 
-                      morador.status !== undefined ? morador.status.codigo :''
+        let codBarragem = 
+                    morador.barragem !== null && 
+                    morador.barragem !== '' && 
+                    morador.barragem !== undefined ? morador.barragem.id : 'sel'
       
         setValues({
-          id:  morador.id || '',
-          descricao: morador.descricao ||'',
-          tipo: codTipo,
-          marca: codMarca,
-          status: codStatus,    
+          id:  morador.id || '',  
+          nome: morador.nome || '',
+          idade: morador.idade || '',
+          email: morador.email || '',
+          cidade: morador.cidade || '',
+          endereco: morador.endereco || '',
+          bairro: morador.bairro || '',
+          numero: morador.numero || '',
+          telefone: morador.telefone || '',
+          uf:  morador.uf || 'sel',
+          idBarragem : codBarragem,    
         });
-        const dateFormt = moment(morador.dataCompra).format('DD/MM/YYYY');
-        setSelectedDate(new Date(dateFormt))
+        
       }
     }
   }, [morador, keyItem])
@@ -120,21 +109,35 @@ const MoradorForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if (!values.descricao || !values.tipo || values.tipo === 'sel' 
-      || values.marca === 'sel'||  values.status=== 'sel' || !selectedDate  ) {
+    if (validation.required(values.nome.trim()) 
+      || validation.email(values.email) 
+      || validation.required(values.endereco.trim()) 
+      || validation.required(values.bairro.trim())
+      || validation.number(values.idade)
+      || validation.number(values.numero)
+      || values.idBarragem === 'sel'
+      || values.uf === 'sel' 
+      || validation.required(values.cidade.trim())
+    ) {
       setShowErrors(true);
     } else {
       if(isEdit(keyItem)) {
-        dispatch(actions.editMorador(values, selectedDate),[])
+        dispatch(actions.editMorador(values),[])
       }else{  
-        dispatch(actions.insertMorador(values, selectedDate),[])
-        setValues({   
-          id:  '',
-          descricao: '',
-          tipo: 'sel',
-          marca: 'sel',
-          status:'sel',           
-        });        
+        dispatch(actions.insertMorador(values),[])
+        setValues({  
+          id: '',   
+          nome: '',
+          idade: '',
+          email: '',
+          cidade: '',
+          endereco: '',
+          bairro: '',
+          numero: '',
+          telefone: '',
+          uf: 'sel',
+          idBarragem : 'sel' 
+        });            
       }
       setShowErrors(false);
     }
@@ -185,40 +188,130 @@ const MoradorForm = props => {
             </Grid>}
             <Grid
               item
-              md={10}
-              xs={12}
+              xs={10}
             >
               <TextField
-                error={!values.descricao && showErrors}
+                error={validation.required(values.nome.trim()) && showErrors}
                 fullWidth
-                helperText={!values.descricao && showErrors && 'Por favor, preencha o nome.'}
+                helperText={showErrors && validation.required(values.nome.trim())}
                 label="Nome"
                 margin="dense"
-                name="descricao"
+                name="nome"
                 onChange={handleChange}
                 required
-                value={values.descricao}
+                value={values.nome}
                 variant="outlined"
               />
             </Grid>
             <Grid
               item
-              md={6}
+              md={3}
               xs={12}
             >
               <TextField
-                error={values.tipo === 'sel' && showErrors}
+                error={validation.email(values.idade) && showErrors}
                 fullWidth
-                helperText={values.tipo === 'sel' && showErrors && 'Por favor, selecione um tipo.'}
-                label="Tipo"
+                helperText={showErrors && validation.number(values.idade)}
+                inputProps={{ min: '1', max: '200', step: '1' }}
+                label="Idade"
                 margin="dense"
-                name="tipo"
+                name="idade"
+                onChange={handleChange}
+                required
+                type="number" 
+                value={values.idade}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={9}
+              xs={12}
+            >
+              <TextField
+                error={validation.email(values.email) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.email(values.email)}
+                label="E-mail"
+                margin="dense"
+                name="email"
+                onChange={handleChange}
+                required
+                type="email"
+                value={values.email}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.endereco.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.endereco.trim())}
+                label="Endereço"
+                margin="dense"
+                name="endereco"
+                onChange={handleChange}
+                required
+                value={values.endereco}
+                variant="outlined"
+              />
+            </Grid> 
+            <Grid
+              item
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.bairro.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.bairro.trim())}
+                label="Bairro"
+                margin="dense"
+                name="bairro"
+                onChange={handleChange}
+                required
+                value={values.bairro}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              sm={6}
+              xs={12}
+            >
+              <TextField
+                error={validation.required(values.cidade.trim()) && showErrors}
+                fullWidth
+                helperText={showErrors && validation.required(values.cidade.trim())}
+                label="Cidade"
+                margin="dense"
+                name="cidade"
+                onChange={handleChange}
+                required
+                value={values.cidade}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              sm={6}
+              xs={12}
+            >
+              <TextField
+                error={values.uf === 'sel' && showErrors}
+                fullWidth
+                helperText={values.uf === 'sel' && showErrors && 'Por favor, selecione um UF.'}
+                label="Estado"
+                margin="dense"
+                name="uf"
                 onChange={handleChange}
                 required
                 // eslint-disable-next-line react/jsx-sort-props
                 select
                 SelectProps={{ native: true }}
-                value={values.tipo}
+                value={values.uf}
                 variant="outlined"
               >
                 <option
@@ -226,12 +319,12 @@ const MoradorForm = props => {
                 >
                   Selecione
                 </option>
-                {types.map(option => (
+                {UFs.map(option => (
                   <option
-                    key={option.id}
-                    value={option.id}
+                    key={option.key}
+                    value={option.key}
                   >
-                    {option.nome}
+                    {option.value}
                   </option>
                 ))}
               </TextField>
@@ -242,97 +335,78 @@ const MoradorForm = props => {
               xs={12}
             >
               <TextField
-                error={values.marca === 'sel' && showErrors}
+                error={validation.number(values.numero.trim()) && showErrors}
                 fullWidth
-                helperText={values.marca === 'sel' && showErrors && 'Por favor, selecione uma marca.'}
-                label="Marca"
+                helperText={showErrors && validation.number(values.numero.trim())}
+                inputProps={{ min: '1', max: '200', step: '1' }}
+                label="Numero"
                 margin="dense"
-                name="marca"
+                name="numero"
                 onChange={handleChange}
                 required
-                // eslint-disable-next-line react/jsx-sort-props
-                select
-                SelectProps={{ native: true }}
-                value={values.marca}
-                variant="outlined"
-              >
-                <option
-                  value="sel"
-                >
-                  Selecione
-                </option>
-                {marcas.map(option => (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                  >
-                    {option.nome}
-                  </option>
-                ))}
-              </TextField>
+                type="number"
+                value={values.numero}
+                variant="outlined" 
+              />
             </Grid>
+
             <Grid
               item
               md={6}
               xs={12}
+            >  
+              <InputMask
+                mask="(99) 99999-9999"
+                onChange={handleChange}
+                value={values.telefone}
+              >
+                {(inputProps) => 
+                  <TextField
+                    {...inputProps}
+                    fullWidth
+                    label="Telefone"
+                    margin="dense"
+                    name="telefone"
+                    variant="outlined"
+                  />}
+              </InputMask>
+            </Grid>
+
+            
+            <Grid
+              item
+              xs={12}
             >
               <TextField
-                error={values.status === 'sel' && showErrors}
+                error={values.idBarragem === 'sel' && showErrors}
                 fullWidth
-                helperText={values.status === 'sel' && showErrors && 'Por favor, selecione um status.'}
-                label="Status"
+                helperText={values.idBarragem === 'sel' && showErrors && 'Por favor, selecione uma Barragem.'}
+                id="idBarragem"
+                label="Barragem próxima da sua residência"
                 margin="dense"
-                name="status"
+                name="idBarragem"
                 onChange={handleChange}
                 required
-                // eslint-disable-next-line react/jsx-sort-props
                 select
                 SelectProps={{ native: true }}
-                value={values.status}
+                value={values.idBarragem}
                 variant="outlined"
-              >
-                <option
-                  value="sel"
-                >
+              > 
+                <option value="sel" >
                   Selecione
                 </option>
-                {status.map(option => (
+                {barragens.map(option => (
                   <option
                     key={option.id}
                     value={option.id}
                   >
-                    {option.nome}
+                    {option.descricao}
                   </option>
                 ))}
               </TextField>
+
             </Grid>
             
-            <MuiPickersUtilsProvider
-              locale={ptBrLocale}
-              utils={DateFnsUtils}
-            >
-              <Grid
-                item
-                md={6}
-                xs={12}
-              >
-                <KeyboardDatePicker
-                  cancelLabel="Cancelar"
-                  error={!selectedDate  && showErrors}
-                  format="dd/MM/yyyy"
-                  fullWidth
-                  helperText={!selectedDate && showErrors && 'Por favor, preencha a data.'}
-                  id="date-picker-dialog" 
-                  inputVariant="outlined"
-                  KeyboardButtonProps={{ 'aria-label': 'change date', }}
-                  label="Data de Aquisição"
-                  locale="pt-br"
-                  margin="dense"
-                  onChange={handleDateChange}
-                  value={selectedDate}
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
             
           </Grid>
         </CardContent>

@@ -89,5 +89,14 @@ export const BarragemService = {
       console.error('Erro: ' + JSON.stringify(error.response.data))
     }
   },
+
+  findList: async () => {
+    try {
+      const response = await api.get(globalTypes.url.BARRAGEM_LIST)
+      return response.data
+    } catch (error) {
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+    }
+  },
     
 }

@@ -37,6 +37,7 @@ const url = {
   BARRAGEM_LIST_DANOS_POTENCIAIS: '/barragem/barragem/lista-danos-potenciais',
   BARRAGEM_LIST_OBJETIVOS_CONTENCAO: '/barragem/barragem/lista-objetivos-contencao',
   BARRAGEM_LIST_SITUACOES_OPERACIONAIS: '/barragem/barragem/lista-situacoes-operacionais', 
+  BARRAGEM_LIST: '/barragem/public/barragem/',
 
   BARRAGEM_MORADOR_LIST_PAGE: '/barragem/morador/list-page?',
   BARRAGEM_MORADOR: '/barragem/morador/',

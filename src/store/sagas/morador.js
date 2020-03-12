@@ -3,6 +3,7 @@ import { toastr } from 'react-redux-toastr'
 
 import { Types as types, Creators as actions } from '../actions/morador';
 import { MoradorService as service }  from './../../servers/morador'
+import { BarragemService as barragemService }  from './../../servers/barragem'
 
 import {  isEdit }  from './../../common/util';
 
@@ -29,8 +30,9 @@ function* buscaDetailMoradorSaga(action) {
     if (isEdit(action.itemSelected)){
       let rspMorador = yield service.findMoradorById(action.itemSelected);
       morador = rspMorador.data;
-    }   
-    yield put(actions.buscaDetailMoradorSucess(morador)) 
+    } 
+    const barragens = yield barragemService.findList()
+    yield put(actions.buscaDetailMoradorSucess(morador, barragens)) 
   } catch (error) {
     yield put(actions.buscaDetailMoradorError())
     toastr.error('Erro:', error.message)

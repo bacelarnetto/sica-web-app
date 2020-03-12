@@ -1,4 +1,3 @@
-import moment from 'moment';
 export const Types = {
   BUSCA_LIST_MORADOR: 'list/BUSCA_MORADOR',
   BUSCA_LIST_MORADOR_START: 'list/BUSCA_MORADOR_START',
@@ -94,18 +93,19 @@ export const Creators = {
   }),
 
   /** CADASTRAR A MORADORS **/
-  insertMorador: (result, dataCompra) => ({
+  insertMorador: (result) => ({
     type: Types.INSERT_MORADOR,
     morador: { 
-      dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
       nome: result.nome,
-      marca: {
-        id: result.marca
-      },
-      status: result.status,
-      tipo: {
-        id: result.tipo
-      }   
+      idade: result.idade,
+      email: result.email,
+      cidade: result.cidade,
+      endereco: result.endereco,
+      bairro: result.bairro,
+      numero: result.numero,
+      telefone: result.telefone,
+      uf:  result.uf,
+      idBarragem:  result.idBarragem,      
     }
   }),
 
@@ -128,19 +128,21 @@ export const Creators = {
   }),
 
   /** EDITAR A MORADOR **/
-  editMorador: (result, dataCompra) => ({
+  editMorador: (result) => ({
     type: Types.EDIT_MORADOR,
     morador: { 
       id: result.id,
-      dataCompra: moment(dataCompra).format('DD/MM/YYYY'),
       nome: result.nome,
-      marca: {
-        id: result.marca
-      },
-      status: result.status,
-      tipo: {
-        id: result.tipo
-      }   
+      idade: result.idade,
+      email: result.email,
+      cidade: result.cidade,
+      endereco: result.endereco,
+      bairro: result.bairro,
+      numero: result.numero,
+      telefone: result.telefone,
+      uf:  result.uf,
+      idBarragem:  result.idBarragem,  
+     
     }
   }),
 
@@ -174,9 +176,10 @@ export const Creators = {
     erro: false
   }),
 
-  buscaDetailMoradorSucess : (morador)=> ({
+  buscaDetailMoradorSucess : (morador, barragens)=> ({
     type: Types.BUSCA_DETAIL_MORADOR_SUCCESS,
     morador,
+    barragens,
     loading: false,
     erro: false
   }),

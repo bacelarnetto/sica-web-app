@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   itemSelected: 0,
   erro: false,
   showMessage: '',
-  morador:''
+  morador:'',
+  barragens:[]
 }
   
 export default (state = INITIAL_STATE, action) => {      
@@ -52,9 +53,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         morador: action.morador,
-        typesMorador: action.typesMorador,
-        marcas: action.marcas,
-        status: action.status,
+        barragens: action.barragens,
       };
 
     case types.INSERT_MORADOR_SUCCESS:
