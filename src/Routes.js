@@ -25,13 +25,12 @@ import {
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
+  NotUnauthorized as NotUnauthorizedView,
   Morador as MoradorView,
   MoradorInsertEdit as MoradorInsertEditView,
-
-
   Account as AccountView,
+  Logout as LogoutView
 
-  Logout
 } from './views';
 
 import { Creators as actions } from './store/actions/auth';
@@ -166,8 +165,14 @@ const Routes = () => {
           path="/account"
         />
         <Route
-          component={Logout}
+          component={LogoutView}
           path="/logout"
+        />
+        <RouteWithLayout
+          component={NotUnauthorizedView}
+          exact
+          layout={MinimalLayout}
+          path="/not-unauthorized"
         />
         <RouteWithLayout
           component={NotFoundView}
@@ -175,7 +180,7 @@ const Routes = () => {
           layout={MinimalLayout}
           path="/not-found"
         />
-        <Redirect to="/" />
+        <Redirect to="/not-found" />
       </Switch>
     );
 

@@ -51,7 +51,19 @@ const method = {
   PUT: 'put',
 }
 
+const role = {
+  ADMIN: 'ROLE_ADMIN', 
+  USER: 'ROLE_USER',
+  ENGINEER: 'ROLE_ENGINEER',
+  PROVIFER: 'ROLE_PROVIDER',
+  RESIDENT: 'ROLE_RESIDENT',
+  MECHANICAL: 'ROLE_MECHANICAL'
+}
+
 export default {
   url,
-  method
+  method,
+  role
 }
+
+

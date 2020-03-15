@@ -17,7 +17,7 @@ function* buscaListMoradoresSaga(action) {
     const totalElements = response.data.totalElements;
     yield put(actions.buscaListMoradoresSucess(moradores, totalPages, itemsCountPerPage, totalElements )) 
   } catch (error) {
-    yield put(actions.buscaListMoradoresError())
+    yield put(actions.buscaListMoradoresError(error.codigoErro))
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }

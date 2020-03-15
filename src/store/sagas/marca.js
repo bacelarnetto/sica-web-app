@@ -13,7 +13,7 @@ function* buscaListMarcasSaga(action) {
     const totalElements = response.data.totalElements;
     yield put(actions.buscaListMarcasSucess(marcas, totalPages, itemsCountPerPage, totalElements )) 
   } catch (error) {
-    yield put(actions.buscaListMarcasError())
+    yield put(actions.buscaListMarcasError(error.codigoErro))
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }

@@ -15,4 +15,15 @@ export const updateObject = (oldObject, updatedProperties) => {
   };
 };
 
+export function temAcesso(roles = [], role = null) {  
+  if( role !== null &&  role !== '' &&  role.length !== 0  && roles !== '' &&
+    roles !== null && roles  !== [] && roles.length !== 0 ){
+    let idx = roles.indexOf(role)
+    while (idx !== -1) {
+      return true
+    }
+  }
+  return false
+}
+
 

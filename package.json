@@ -38,6 +38,7 @@
     "clsx": "^1.0.4",
     "date-fns": "^2.9.0",
     "history": "^4.9.0",
+    "jwt-decode": "^2.2.0",
     "material-table": "^1.57.2",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",

@@ -1,4 +1,5 @@
 import { put, call, all, takeEvery, delay } from 'redux-saga/effects';
+import decodeJwt from 'jwt-decode';
 import { AuthService as service }  from './../../servers/auth'
 import { actionTypes, Creators as actions } from '../actions/auth';
 import { toastr } from 'react-redux-toastr'
@@ -8,6 +9,7 @@ export function* logoutSaga() {
   yield call([localStorage, 'removeItem'], 'expirationDate');
   yield call([localStorage, 'removeItem'], 'userId');
   yield call([localStorage, 'removeItem'], 'username');
+  yield call([localStorage, 'removeItem'], 'permissions');
   yield put(actions.logoutSucceed());
 }
 
@@ -22,12 +24,16 @@ export function* authUserSaga(action) {
     email: action.email,
     senha: action.senha
   };  
+  
   try {
     const response = yield service.authUser(authData);
+    const decodedToken = yield decodeJwt(response.headers.authorization);
+    
     const expirationDate = yield new Date(
       new Date().getTime() + response.headers.expires_in * 1000
     );
     yield localStorage.setItem('token', response.headers.authorization );
+    yield localStorage.setItem('permissions', decodedToken.authorities);
     yield localStorage.setItem('expirationDate', expirationDate);
     yield localStorage.setItem('userId', response.headers.user_id); 
     yield localStorage.setItem('username', action.email);  

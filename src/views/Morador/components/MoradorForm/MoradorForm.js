@@ -209,7 +209,7 @@ const MoradorForm = props => {
               xs={12}
             >
               <TextField
-                error={validation.email(values.idade) && showErrors}
+                error={validation.required(values.idade) && showErrors}
                 fullWidth
                 helperText={showErrors && validation.number(values.idade)}
                 inputProps={{ min: '1', max: '200', step: '1' }}

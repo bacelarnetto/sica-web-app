@@ -42,7 +42,8 @@ export const Creators = {
   buscaListMarcasStart : () => ({  
     type: Types.BUSCA_LIST_MARCA_START,
     loading: true,
-    erro: false
+    erro: false,
+    codigoErro: 0
   }),
 
   buscaListMarcasSucess : (data, totalPages, itemsCountPerPage, totalElements) => ({
@@ -52,13 +53,15 @@ export const Creators = {
     itemsCountPerPage,
     totalElements,
     loading: false,
-    erro: false
+    erro: false,
+    codigoErro: 0
   }),
 
-  buscaListMarcasError : () => ({
+  buscaListMarcasError : (codigoErro) => ({
     type: Types.BUSCA_LIST_MARCA_ERROR,
     loading: false,
-    erro: true
+    erro: true,
+    codigoErro
   }),
 
   /** DELETA A MARCAS DA LISTA **/

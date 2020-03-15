@@ -56,10 +56,11 @@ export const Creators = {
     erro: false
   }),
 
-  buscaListBarragensError : () => ({
+  buscaListBarragensError : (codigoErro) => ({
     type: Types.BUSCA_LIST_BARRAGEM_ERROR,
     loading: false,
-    erro: true
+    erro: true,
+    codigoErro
   }),
 
   /** DELETA A BARRAGENS DA LISTA **/

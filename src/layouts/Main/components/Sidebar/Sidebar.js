@@ -12,8 +12,10 @@ import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
-
 import { Profile, SidebarNav } from './components';
+
+import { temAcesso }  from './../../../../common/util';
+import gTypes  from './../../../../common/constants/GlobalTypes'
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -43,47 +45,68 @@ const Sidebar = props => {
   const { open, variant, onClose, className, ...rest } = props;
 
   const classes = useStyles();
+  const permissions = localStorage.getItem('permissions')
 
   const pages = [
     {
       title: 'Dashboard',
       href: '/dashboard',
-      icon: <DashboardIcon />
+      icon: <DashboardIcon />,
+      permission: temAcesso(permissions, gTypes.role.ADMIN) 
+        || temAcesso(permissions, gTypes.role.USER)
+        || temAcesso(permissions, gTypes.role.ENGINEER)        
     },
     {
       title: 'Moradores',
       href: '/morador',
-      icon: <PeopleIcon />
+      icon: <PeopleIcon />,
+      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
+      || temAcesso(permissions, gTypes.role.ENGINEER)
     },
     {
       title: 'Account',
       href: '/account',
-      icon: <AccountBoxIcon />
+      icon: <AccountBoxIcon />,
+      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
     },
     {
       title: 'Marca',
       href: '/marca',
       icon: <BrandingWatermarkIcon/>,
+      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
+      || temAcesso(permissions, gTypes.role.ENGINEER)
     },
     {
       title: 'Insumo',
       href: '/insumo',
       icon: <ShoppingBasketIcon />,
+      permission: temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
     },
     {
       title: 'Agendamentos',
       href: '/manutencao',
       icon: <ScheduleIcon/>,
+      permission: temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
+      || temAcesso(permissions, gTypes.role.MECHANICAL)
     },
     {
       title: 'Fornecedor',
       href: '/fornecedor',
       icon: <LocalShippingIcon />,
+      permission: temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
     },
     {
       title: 'Barragem',
       href: '/barragem',
       icon: <WavesIcon />,
+      permission: temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
+      || temAcesso(permissions, gTypes.role.ENGINEER)
     }
   ];
 

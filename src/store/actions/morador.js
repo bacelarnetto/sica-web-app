@@ -55,10 +55,11 @@ export const Creators = {
     erro: false
   }),
 
-  buscaListMoradoresError : () => ({
+  buscaListMoradoresError : (codigoErro) => ({
     type: Types.BUSCA_LIST_MORADOR_ERROR,
     loading: false,
-    erro: true
+    erro: true,
+    codigoErro
   }),
 
   /** DELETA A MORADORS DA LISTA **/

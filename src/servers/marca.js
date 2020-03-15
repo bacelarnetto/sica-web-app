@@ -17,8 +17,20 @@ export const MarcaService = {
         order_by: query.order_by,
         direction: query.direction
       }))
-    } catch (error) {
-      console.error('Erro: ' + JSON.stringify(error.response.data))
+    } catch (error) {      
+      if(error.response.status === 401 || error.response.status === 403){
+        console.error('Erro 403: ' + JSON.stringify(error.response.data))
+        const erro = {codigoErro: 403, message: 'Não tem acesso a esse serviço'}
+        throw erro; 
+      } else if (error.response.status === 500){
+        console.error('Erro 500: ' + JSON.stringify(error.response.data))
+        const erro = {codigoErro: error.response.status, message: 'Erro no sistema! '
+        + error.response.message}
+        throw erro;
+      } else {
+        console.error('Erro: ' + JSON.stringify(error.response.data))
+      }    
+
     }
   },
 

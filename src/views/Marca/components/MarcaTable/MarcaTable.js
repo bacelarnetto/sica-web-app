@@ -1,7 +1,8 @@
 import React, { useState,  useEffect } from 'react';
 import { useSelector,  useDispatch } from 'react-redux';
 
-import { Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
+
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -123,6 +124,8 @@ const MarcaTable = props => {
   //const itemsCountPerPage = useSelector( state  => state.marca.itemsCountPerPage );
   const totalElements = useSelector( state  => state.marca.totalElements );
   const loading = useSelector( state  => state.marca.loading );
+  const erro = useSelector( state  => state.marca.erro );
+  const codigoErro = useSelector( state  => state.marca.codigoErro );
 
   const handleChange = event => {
     setValues({
@@ -405,7 +408,10 @@ const MarcaTable = props => {
           </Button>
         </DialogActions>
       </Dialog>
-
+      { erro && (
+        (codigoErro === 403 && (<Redirect to={'/not-unauthorized'}/>))||
+        (codigoErro === 500 && (<Redirect to={'/'}/>))
+      )}
     </div>
   );
 };

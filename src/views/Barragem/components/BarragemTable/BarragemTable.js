@@ -1,7 +1,7 @@
 import React, { useState,  useEffect } from 'react';
 import { useSelector,  useDispatch } from 'react-redux';
 
-import { Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink, Redirect} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -123,6 +123,8 @@ const BarragemTable = props => {
   //const itemsCountPerPage = useSelector( state  => state.barragem.itemsCountPerPage );
   const totalElements = useSelector( state  => state.barragem.totalElements );
   const loading = useSelector( state  => state.barragem.loading );
+  const erro = useSelector( state  => state.barragem.erro );
+  const codigoErro = useSelector( state  => state.barragem.codigoErro );
 
   const handleChange = event => {
     setValues({
@@ -440,6 +442,11 @@ const BarragemTable = props => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      { erro && (
+        (codigoErro === 403 && (<Redirect to={'/not-unauthorized'}/>))||
+        (codigoErro === 500 && (<Redirect to={'/'}/>))
+      )}
 
     </div>
   );

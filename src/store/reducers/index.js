@@ -9,7 +9,23 @@ import barragem from './barragem'
 import morador from './morador'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
-const rootReducer = combineReducers({
+import { actionTypes } from './../actions/auth';
+
+/*const rootReducer = combineReducers({
+  toastr: toastrReducer,
+  auth,
+  marca,
+  insumo,  
+  fornecedor,
+  pedido,
+  manutencao,
+  barragem,
+  morador
+});*/
+
+
+// Combine all reducers.
+const appReducer = combineReducers({
   toastr: toastrReducer,
   auth,
   marca,
@@ -20,5 +36,13 @@ const rootReducer = combineReducers({
   barragem,
   morador
 });
+
+const rootReducer = (state, action) => {   
+  // Clear all data in redux store to initial.
+  if(action.type === actionTypes.AUTH_LOGOUT)
+    state = undefined;
+  
+  return appReducer(state, action);
+};
 
 export default rootReducer;

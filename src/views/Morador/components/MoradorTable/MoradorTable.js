@@ -1,7 +1,7 @@
 import React, { useState,  useEffect } from 'react';
 import { useSelector,  useDispatch } from 'react-redux';
 
-import { Link as RouterLink} from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -122,6 +122,8 @@ const MoradorTable = props => {
   const moradors = useSelector( state  => state.morador.data );
   const totalElements = useSelector( state  => state.morador.totalElements );
   const loading = useSelector( state  => state.morador.loading );
+  const erro = useSelector( state  => state.morador.erro );
+  const codigoErro = useSelector( state  => state.morador.codigoErro );
 
   const handleChange = event => {
     setValues({
@@ -358,7 +360,7 @@ const MoradorTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={7} >
+                      <TableCell colSpan={10} >
                         <div className={classes.loadingContent}>
                           <CircularProgress />
                         </div>
@@ -371,7 +373,7 @@ const MoradorTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={7} >
+                      <TableCell colSpan={10} >
                         <div className={classes.loadingContent}>
                           <h5>Nenhum registro encontrado!</h5>
                         </div>
@@ -425,6 +427,11 @@ const MoradorTable = props => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      { erro && (
+        (codigoErro === 403 && (<Redirect to={'/not-unauthorized'}/>))||
+        (codigoErro === 500 && (<Redirect to={'/'}/>))
+      )}
 
     </div>
   );

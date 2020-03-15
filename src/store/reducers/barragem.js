@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   totalElements: 0,  
   itemSelected: 0,
   erro: false,
+  codigoErro: 0,
   showMessage: '',
   barragem:'',
   types: [],
@@ -39,7 +40,8 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        erro: true
+        erro: true,
+        codigoErro: action.codigoErro
       };
 
     case types.BUSCA_LIST_BARRAGEM_SUCCESS:

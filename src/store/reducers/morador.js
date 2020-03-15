@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   totalElements: 0,  
   itemSelected: 0,
   erro: false,
+  codigoErro: 0,
   showMessage: '',
   morador:'',
   barragens:[]
@@ -35,7 +36,8 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        erro: true
+        erro: true,
+        codigoErro: action.codigoErro
       };
 
     case types.BUSCA_LIST_MORADOR_SUCCESS:

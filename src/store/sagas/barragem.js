@@ -17,7 +17,7 @@ function* buscaListBarragemsSaga(action) {
     const totalElements = response.data.totalElements;
     yield put(actions.buscaListBarragensSucess(barragems, totalPages, itemsCountPerPage, totalElements )) 
   } catch (error) {
-    yield put(actions.buscaListBarragensError())
+    yield put(actions.buscaListBarragensError(error.codigoErro))
     toastr.error('Erro:', error.message)
     console.error(error) // eslint-disable-line
   }
