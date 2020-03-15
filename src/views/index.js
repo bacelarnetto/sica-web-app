@@ -1,6 +1,5 @@
-export { default as Account } from './Account';
-export { default as Dashboard } from './Dashboard';
 
+export { default as Dashboard } from './Dashboard';
 export { default as NotFound } from './NotFound';
 export { default as NotUnauthorized } from './NotUnauthorized';
 export { default as SignIn } from './SignIn';
@@ -19,5 +18,7 @@ export { default as Manutencao } from './Manutencao/Manutencao';
 export { default as ManutencaoInsertEdit} from './Manutencao/ManutencaoInsertEdit';
 export { default as Barragem } from './Barragem/Barragem';
 export { default as BarragemInsertEdit} from './Barragem/BarragemInsertEdit';
+export { default as Usuario } from './Usuario/Usuario';
+export { default as UsuarioInsertEdit} from './Usuario/UsuarioInsertEdit';
 
 export { default as Logout} from './Logout';

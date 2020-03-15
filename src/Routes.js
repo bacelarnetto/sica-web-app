@@ -28,7 +28,8 @@ import {
   NotUnauthorized as NotUnauthorizedView,
   Morador as MoradorView,
   MoradorInsertEdit as MoradorInsertEditView,
-  Account as AccountView,
+  Usuario as UsuarioView,
+  UsuarioInsertEdit as UsuarioInsertEditView,
   Logout as LogoutView
 
 } from './views';
@@ -159,11 +160,18 @@ const Routes = () => {
           path="/pedidos/fornecedor/:id_fornecedor/pedido/:id_pedido"
         />  
         <RouteWithLayout
-          component={AccountView}
+          component={UsuarioView}
           exact
           layout={MainLayout}
-          path="/account"
+          path="/usuario"
         />
+        <RouteWithLayout
+          component={UsuarioInsertEditView}
+          exact
+          layout={MainLayout}
+          path="/usuario/:id"
+        />
+
         <Route
           component={LogoutView}
           path="/logout"

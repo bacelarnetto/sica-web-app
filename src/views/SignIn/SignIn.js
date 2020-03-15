@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch,  useSelector } from 'react-redux';
 
-import { Link as RouterLink, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
@@ -9,7 +9,6 @@ import {
   Grid,
   Button,
   TextField,
-  Link,
   Typography,
   CircularProgress,
   Box
@@ -345,19 +344,7 @@ const SignIn = () => {
                   >
                   Entrar
                   </Button>
-                  <Typography
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                  Não possui uma conta?{' '}
-                    <Link
-                      component={RouterLink}
-                      to="/sign-up"
-                      variant="h6"
-                    >
-                    Inscrever-se
-                    </Link>
-                  </Typography>
+                  
                 </form>
               )}
               { loading &&  (

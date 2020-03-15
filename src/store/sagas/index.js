@@ -8,6 +8,7 @@ import { watchPedido } from './pedido'
 import { watchManutencao } from './manutencao'
 import { watchBarragem } from './barragem'
 import { watchMorador } from './morador'
+import { watchUsuario } from './usuario'
 
 export default function* rootSaga() {
   return yield all([
@@ -19,5 +20,6 @@ export default function* rootSaga() {
     watchManutencao(),
     watchBarragem(),
     watchMorador(),
+    watchUsuario(),
   ])
 }

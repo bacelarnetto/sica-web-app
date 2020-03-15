@@ -57,16 +57,8 @@ const Sidebar = props => {
         || temAcesso(permissions, gTypes.role.ENGINEER)        
     },
     {
-      title: 'Moradores',
-      href: '/morador',
-      icon: <PeopleIcon />,
-      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
-      || temAcesso(permissions, gTypes.role.USER)
-      || temAcesso(permissions, gTypes.role.ENGINEER)
-    },
-    {
-      title: 'Account',
-      href: '/account',
+      title: 'Usuario',
+      href: '/usuario',
       icon: <AccountBoxIcon />,
       permission:  temAcesso(permissions, gTypes.role.ADMIN) 
     },
@@ -99,6 +91,14 @@ const Sidebar = props => {
       icon: <LocalShippingIcon />,
       permission: temAcesso(permissions, gTypes.role.ADMIN) 
       || temAcesso(permissions, gTypes.role.USER)
+    },
+    {
+      title: 'Moradores',
+      href: '/morador',
+      icon: <PeopleIcon />,
+      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
+      || temAcesso(permissions, gTypes.role.ENGINEER)
     },
     {
       title: 'Barragem',

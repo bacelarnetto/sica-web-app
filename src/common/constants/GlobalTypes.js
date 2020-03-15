@@ -41,8 +41,11 @@ const url = {
 
   BARRAGEM_MORADOR_LIST_PAGE: '/barragem/morador/list-page?',
   BARRAGEM_MORADOR: '/barragem/morador/',
-
-  USER: '/auth/user',
+  // API AUTH
+  AUTH_USUARIO_LIST_PAGE: '/auth/user/list-page?',
+  AUTH_USUARIO_LIST: '/auth/user/list',
+  AUTH_USUARIO: '/auth/user/',
+  AUTH_USUARIO_BY_EMAIL: '/auth/user/email/',
 }
 
 const method = {

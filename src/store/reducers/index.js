@@ -7,6 +7,7 @@ import pedido from './pedido'
 import manutencao from './manutencao'
 import barragem from './barragem'
 import morador from './morador'
+import usuario from './usuario'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 import { actionTypes } from './../actions/auth';
@@ -34,7 +35,8 @@ const appReducer = combineReducers({
   pedido,
   manutencao,
   barragem,
-  morador
+  morador,
+  usuario
 });
 
 const rootReducer = (state, action) => {   
