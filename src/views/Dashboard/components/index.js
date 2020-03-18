@@ -1,6 +1,6 @@
-export { default as Budget } from './Budget';
+export { default as TotalInsumo } from './TotalInsumo';
 export { default as LatestSales } from './LatestSales';
-export { default as TasksProgress } from './TasksProgress';
-export { default as TotalProfit } from './TotalProfit';
-export { default as TotalUsers } from './TotalUsers';
-export { default as UsersByDevice } from './UsersByDevice';
+export { default as TotalManutencao } from './TotalManutencao';
+export { default as TotalBarragem } from './TotalBarragem';
+export { default as TotalMorador } from './TotalMorador';
+export { default as MoradorByBarragem } from './MoradorByBarragem';

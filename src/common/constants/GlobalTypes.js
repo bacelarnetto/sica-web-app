@@ -15,6 +15,7 @@ const url = {
   ATIVO_INSUMO: '/ativo/insumo/',
   ATIVO_INSUMO_TIPOS: '/ativo/insumo/types',
   ATIVO_INSUMO_STATUS: '/ativo/insumo/status',
+  ATIVO_INSUMO_QNT: '/ativo/insumo/qnt-insumo',     
 
   ATIVO_FORNECEDOR_LIST_PAGE: '/ativo/fornecedor/list-page?',
   ATIVO_FORNECEDOR_LIST: '/ativo/fornecedor/list',
@@ -29,6 +30,8 @@ const url = {
   ATIVO_MANUTENCAO: '/ativo/manutencao/',
   ATIVO_MANUTENCAO_TIPOS: '/ativo/manutencao/types',
   ATIVO_MANUTENCAO_FINALIZAR: '/ativo/manutencao/finalizar/',
+  ATIVO_MANUTENCAO_QNT: '/ativo/manutencao/qnt-manutencao',
+
   // API DE BARRAGEM
   BARRAGEM_LIST_PAGE: '/barragem/barragem/list-page?',
   BARRAGEM: '/barragem/barragem/',
@@ -38,14 +41,20 @@ const url = {
   BARRAGEM_LIST_OBJETIVOS_CONTENCAO: '/barragem/barragem/lista-objetivos-contencao',
   BARRAGEM_LIST_SITUACOES_OPERACIONAIS: '/barragem/barragem/lista-situacoes-operacionais', 
   BARRAGEM_LIST: '/barragem/public/barragem/',
+  BARRAGEM_QNT:'barragem/barragem/qnt-barragem',
+
+  BARRAGEM_MORADOR_RESUMO:'/barragem/barragem/list-barragem-morador',
 
   BARRAGEM_MORADOR_LIST_PAGE: '/barragem/morador/list-page?',
   BARRAGEM_MORADOR: '/barragem/morador/',
+  BARRAGEM_MORADOR_QNT:'/barragem/morador/qnt-morador',
+ 
   // API AUTH
   AUTH_USUARIO_LIST_PAGE: '/auth/user/list-page?',
   AUTH_USUARIO_LIST: '/auth/user/list',
   AUTH_USUARIO: '/auth/user/',
   AUTH_USUARIO_BY_EMAIL: '/auth/user/email/',
+
 }
 
 const method = {

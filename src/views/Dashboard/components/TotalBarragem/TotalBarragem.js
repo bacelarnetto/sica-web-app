@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import WavesIcon from '@material-ui/icons/Waves';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,8 +30,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalProfit = props => {
-  const { className, ...rest } = props;
+const TotalBarragem = props => {
+  const { className, qntBarragem, ...rest } = props;
 
   const classes = useStyles();
 
@@ -52,18 +52,18 @@ const TotalProfit = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL PROFIT
+              TOTAL DE BARRAGENS
             </Typography>
             <Typography
               color="inherit"
               variant="h3"
             >
-              $23,200
+              {qntBarragem}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <AttachMoneyIcon className={classes.icon} />
+              <WavesIcon  className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -72,8 +72,8 @@ const TotalProfit = props => {
   );
 };
 
-TotalProfit.propTypes = {
+TotalBarragem.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalProfit;
+export default TotalBarragem;

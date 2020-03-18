@@ -3,8 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 700
   },
   avatar: {
-    backgroundColor: theme.palette.success.main,
+    backgroundColor: theme.palette.error.main,
     height: 56,
     width: 56
   },
@@ -32,16 +31,16 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   differenceIcon: {
-    color: theme.palette.success.dark
+    color: theme.palette.error.dark
   },
   differenceValue: {
-    color: theme.palette.success.dark,
+    color: theme.palette.error.dark,
     marginRight: theme.spacing(1)
   }
 }));
 
-const TotalUsers = props => {
-  const { className, ...rest } = props;
+const TotalInsumo = props => {
+  const { className, qntInsumo, ...rest } = props;
 
   const classes = useStyles();
 
@@ -62,38 +61,23 @@ const TotalUsers = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL USERS
+              TOTAL DE INSUMOS
             </Typography>
-            <Typography variant="h3">1,600</Typography>
+            <Typography variant="h3">{qntInsumo}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon className={classes.icon} />
+              <ShoppingBasketIcon  className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
-        <div className={classes.difference}>
-          <ArrowUpwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            16%
-          </Typography>
-          <Typography
-            className={classes.caption}
-            variant="caption"
-          >
-            Since last month
-          </Typography>
-        </div>
       </CardContent>
     </Card>
   );
 };
 
-TotalUsers.propTypes = {
+TotalInsumo.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalUsers;
+export default TotalInsumo;

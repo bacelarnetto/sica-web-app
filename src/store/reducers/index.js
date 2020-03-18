@@ -8,6 +8,8 @@ import manutencao from './manutencao'
 import barragem from './barragem'
 import morador from './morador'
 import usuario from './usuario'
+import dashboard from './dashboard'
+
 import { reducer as toastrReducer } from 'react-redux-toastr'
 
 import { actionTypes } from './../actions/auth';
@@ -36,7 +38,8 @@ const appReducer = combineReducers({
   manutencao,
   barragem,
   morador,
-  usuario
+  usuario,
+  dashboard
 });
 
 const rootReducer = (state, action) => {   

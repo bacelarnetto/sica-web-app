@@ -9,12 +9,15 @@ import {
   CardContent,
   IconButton,
   Divider,
-  Typography
+  Grid,
+  Typography,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
 } from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import TabletMacIcon from '@material-ui/icons/TabletMac';
+import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,11 +38,21 @@ const useStyles = makeStyles(theme => ({
   },
   deviceIcon: {
     color: theme.palette.icon
+  },
+  icon: {
+    height: 48,
+    width: 48
+  },
+  actions: {
+    justifyContent: 'flex-end'
   }
 }));
 
-const UsersByDevice = props => {
-  const { className, ...rest } = props;
+const MoradorByBarragem = props => {
+  const { className, resumeBarragemMorador, 
+    listQntMoradores ,
+    listBarragem ,
+    listColor, ...rest } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -47,18 +60,14 @@ const UsersByDevice = props => {
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: [
-          theme.palette.primary.main,
-          theme.palette.error.main,
-          theme.palette.warning.main
-        ],
+        data: listQntMoradores,
+        backgroundColor: listColor,
         borderWidth: 8,
         borderColor: theme.palette.white,
         hoverBorderColor: theme.palette.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels:  listBarragem
   };
 
   const options = {
@@ -83,26 +92,7 @@ const UsersByDevice = props => {
     }
   };
 
-  const devices = [
-    {
-      title: 'Desktop',
-      value: '63',
-      icon: <LaptopMacIcon />,
-      color: theme.palette.primary.main
-    },
-    {
-      title: 'Tablet',
-      value: '15',
-      icon: <TabletMacIcon />,
-      color: theme.palette.error.main
-    },
-    {
-      title: 'Mobile',
-      value: '23',
-      icon: <PhoneIphoneIcon />,
-      color: theme.palette.warning.main
-    }
-  ];
+
 
   return (
     <Card
@@ -115,40 +105,65 @@ const UsersByDevice = props => {
             <RefreshIcon />
           </IconButton>
         }
-        title="Users By Device"
+        title="Morador Por Barragem"
       />
       <Divider />
       <CardContent>
-        <div className={classes.chartContainer}>
-          <Doughnut
-            data={data}
-            options={options}
-          />
-        </div>
-        <div className={classes.stats}>
-          {devices.map(device => (
-            <div
-              className={classes.device}
-              key={device.title}
-            >
-              <span className={classes.deviceIcon}>{device.icon}</span>
-              <Typography variant="body1">{device.title}</Typography>
-              <Typography
-                style={{ color: device.color }}
-                variant="h2"
-              >
-                {device.value}%
-              </Typography>
+        <Grid
+          container
+          spacing={3}
+        >
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xl={6}
+            xs={12}
+          >
+            <div className={classes.chartContainer}>
+              <Doughnut
+                data={data}
+                options={options}
+              />
             </div>
-          ))}
-        </div>
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            md={6}
+            xl={6}
+            xs={12}
+          >
+            <List>
+              {resumeBarragemMorador.map((resume, i)  => (
+                <ListItem
+                  divider="true"
+                  key={resume.idBarragem}
+                >
+                  <ListItemAvatar>
+                    <PeopleIcon
+                      className={classes.icon}
+                      style={{ color:  listColor[i] }}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={`Total de moradores: ${resume.totalMorador}`}
+                    secondary={`Barragem: ${resume.nomeBarragem}`}
+                  />                
+                 
+                </ListItem>
+              ))}
+            </List>
+
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );
 };
 
-UsersByDevice.propTypes = {
+MoradorByBarragem.propTypes = {
   className: PropTypes.string
 };
 
-export default UsersByDevice;
+export default MoradorByBarragem;

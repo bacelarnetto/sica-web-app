@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector,  useDispatch } from 'react-redux';
+
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
+import { Creators as actions } from './../../store/actions/dashboard'
+
 import {
-  Budget,
-  TotalUsers,
-  TasksProgress,
-  TotalProfit,
-  LatestSales,
-  UsersByDevice,
+  TotalInsumo,
+  TotalMorador,
+  TotalManutencao,
+  TotalBarragem,
+  MoradorByBarragem,
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -19,6 +22,18 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();  
+  useFetching(dispatch, actions.buscaDashboard());
+
+  const qntInsumo = useSelector( state  => state.dashboard.qntInsumo );
+  const qntManutencao = useSelector( state  => state.dashboard.qntManutencao );
+  const qntBarragem = useSelector( state  => state.dashboard.qntBarragem );
+  const qntMorador = useSelector( state  => state.dashboard.qntMorador );
+  const resumeBarragemMorador = useSelector( state  => state.dashboard.resumeBarragemMorador);
+  const listQntMoradores = useSelector( state  => state.dashboard.listQntMoradores);
+  const listBarragem = useSelector( state  => state.dashboard.listBarragem);
+  const listColor = useSelector( state  => state.dashboard.listColor);
 
   return (
     <div className={classes.root}>
@@ -33,7 +48,17 @@ const Dashboard = () => {
           xl={3}
           xs={12}
         >
-          <Budget />
+          <TotalInsumo qntInsumo={qntInsumo} />
+        </Grid>
+       
+        <Grid
+          item
+          lg={3}
+          sm={6}
+          xl={3}
+          xs={12}
+        >
+          <TotalManutencao qntManutencao={qntManutencao} />
         </Grid>
         <Grid
           item
@@ -42,7 +67,7 @@ const Dashboard = () => {
           xl={3}
           xs={12}
         >
-          <TotalUsers />
+          <TotalMorador qntMorador={qntMorador}/>
         </Grid>
         <Grid
           item
@@ -51,34 +76,22 @@ const Dashboard = () => {
           xl={3}
           xs={12}
         >
-          <TasksProgress />
+          <TotalBarragem qntBarragem={qntBarragem} />
         </Grid>
+        
         <Grid
           item
-          lg={3}
-          sm={6}
-          xl={3}
-          xs={12}
-        >
-          <TotalProfit />
-        </Grid>
-        <Grid
-          item
-          lg={8}
+          lg={12}
           md={12}
-          xl={9}
+          xl={12}
           xs={12}
         >
-          <LatestSales />
-        </Grid>
-        <Grid
-          item
-          lg={4}
-          md={6}
-          xl={3}
-          xs={12}
-        >
-          <UsersByDevice />
+          <MoradorByBarragem
+            listBarragem={listBarragem}
+            listColor={listColor}
+            listQntMoradores ={listQntMoradores}
+            resumeBarragemMorador={resumeBarragemMorador}
+          />
         </Grid>
 
        
@@ -86,5 +99,13 @@ const Dashboard = () => {
     </div>
   );
 };
+
+const useFetching = (dispatch, action) => {
+  const array = [];
+  useEffect(() => {
+    dispatch(action);   
+    /* eslint-disable-next-line */
+  }, array)
+}
 
 export default Dashboard;
