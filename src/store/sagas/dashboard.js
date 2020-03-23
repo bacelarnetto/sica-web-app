@@ -12,10 +12,15 @@ function* buscaDashboardSaga() {
     const qntManutencao = yield service.getQntManutencao()
     const qntBarragem = yield service.getQntBarragem()
     const qntMorador = yield service.getQntMorador()
-    const resumeBarragemMorador = yield service.getResumeBarragemMorador()
+    const resumeBarragemMorador = yield service.getResumeBarragemMorador()   
     const listQntMoradores = yield resumeBarragemMorador.map(qnt => qnt.totalMorador);
     const listBarragem = yield resumeBarragemMorador.map(bar => bar.nomeBarragem);
     const listColor = yield resumeBarragemMorador.map(bar => getRandomColor());
+
+    const resumeBarragemMoradorRiscoAlto = yield service.getResumeBarragemMoradorRiscoAlto()
+    const listQntMoradoresRiscoAlto  = yield resumeBarragemMoradorRiscoAlto.map(qnt => qnt.totalMorador);
+    const listBarragemRiscoAlto  = yield resumeBarragemMoradorRiscoAlto.map(bar => bar.nomeBarragem);
+    const listColorRiscoAlto  = yield resumeBarragemMoradorRiscoAlto.map(bar => getRandomColor());
 
     yield put(actions.buscaDashboardSucess(
       qntInsumo,
@@ -23,9 +28,13 @@ function* buscaDashboardSaga() {
       qntBarragem,
       qntMorador,
       resumeBarragemMorador,
+      resumeBarragemMoradorRiscoAlto,
       listQntMoradores,
       listBarragem,
       listColor,
+      listColorRiscoAlto,
+      listQntMoradoresRiscoAlto,
+      listBarragemRiscoAlto
     )) 
   } catch (error) {
     yield put(actions.buscaDashboardError())

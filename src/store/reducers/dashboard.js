@@ -7,9 +7,14 @@ const INITIAL_STATE = {
   qntBarragem: 0,
   qntMorador: 0,
   resumeBarragemMorador: [],
+  resumeBarragemMoradorRiscoAlto: [],
   listQntMoradores: [],
   listBarragem: [],
   listColor: [],
+  listColorRisco: [],
+  listColorRiscoAlto:[],
+  listQntMoradoresRiscoAlto:[],
+  listBarragemRiscoAlto:[],
   erro: false,
   codigoErro: 0,
 }
@@ -40,9 +45,13 @@ export default (state = INITIAL_STATE, action) => {
         qntBarragem: action.qntBarragem,
         qntMorador: action.qntMorador,
         resumeBarragemMorador: action.resumeBarragemMorador,
+        resumeBarragemMoradorRiscoAlto: action.resumeBarragemMoradorRiscoAlto,
         listQntMoradores: action.listQntMoradores,
         listBarragem: action.listBarragem,
         listColor: action.listColor,
+        listColorRiscoAlto: action.listColorRiscoAlto,
+        listQntMoradoresRiscoAlto: action.listQntMoradoresRiscoAlto,
+        listBarragemRiscoAlto: action.listBarragemRiscoAlto
       };
 
     default: return state;

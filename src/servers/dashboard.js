@@ -47,4 +47,13 @@ export const DashboardService = {
     }
   },
 
+  getResumeBarragemMoradorRiscoAlto: async () => {
+    try {
+      const response = await api.get(globalTypes.url.BARRAGEM_MORADOR_RESUMO_RISCO_ALTO)
+      return response.data
+    } catch (error) {
+      console.error('Erro: ' + JSON.stringify(error.response.data))
+    }
+  },
+
 }

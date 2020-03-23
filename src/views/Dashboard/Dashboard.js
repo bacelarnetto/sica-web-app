@@ -12,6 +12,7 @@ import {
   TotalManutencao,
   TotalBarragem,
   MoradorByBarragem,
+  AlertaBarragem,
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -34,6 +35,10 @@ const Dashboard = () => {
   const listQntMoradores = useSelector( state  => state.dashboard.listQntMoradores);
   const listBarragem = useSelector( state  => state.dashboard.listBarragem);
   const listColor = useSelector( state  => state.dashboard.listColor);
+  const resumeBarragemMoradorRiscoAlto = useSelector( state  => state.dashboard.resumeBarragemMoradorRiscoAlto);
+  const listColorRiscoAlto = useSelector( state  => state.dashboard.listColorRiscoAlto);
+  const listQntMoradoresRiscoAlto = useSelector( state => state.dashboard.listQntMoradoresRiscoAlto);
+  const listBarragemRiscoAlto = useSelector(state => state.dashboard.listBarragemRiscoAlto)
 
   return (
     <div className={classes.root}>
@@ -78,22 +83,49 @@ const Dashboard = () => {
         >
           <TotalBarragem qntBarragem={qntBarragem} />
         </Grid>
-        
-        <Grid
-          item
-          lg={12}
-          md={12}
-          xl={12}
-          xs={12}
-        >
-          <MoradorByBarragem
-            listBarragem={listBarragem}
-            listColor={listColor}
-            listQntMoradores ={listQntMoradores}
-            resumeBarragemMorador={resumeBarragemMorador}
-          />
-        </Grid>
 
+        { typeof listBarragemRiscoAlto != 'undefined'  
+                        && listBarragemRiscoAlto != null  
+                        && listBarragemRiscoAlto.length != null  
+                        && listBarragemRiscoAlto.length > 0 &&
+       ( 
+         <Grid
+           item
+           lg={12}
+           md={12}
+           xl={12}
+           xs={12}
+         >
+           <AlertaBarragem 
+             listBarragem={listBarragemRiscoAlto}
+             listColor={listColorRiscoAlto}
+             listQntMoradores ={listQntMoradoresRiscoAlto}
+             resumeBarragemMoradorRiscoAlto={resumeBarragemMoradorRiscoAlto}
+           />
+         </Grid>
+       )}
+        { typeof listBarragem != 'undefined'  
+                        && listBarragem != null  
+                        && listBarragem.length != null  
+                        && listBarragem.length > 0 &&
+       ( 
+         <Grid
+           item
+           lg={12}
+           md={12}
+           xl={12}
+           xs={12}
+         >
+           <MoradorByBarragem
+             listBarragem={listBarragem}
+             listColor={listColor}
+             listQntMoradores ={listQntMoradores}
+             resumeBarragemMorador={resumeBarragemMorador}
+           />
+         </Grid>
+       )}
+
+       
        
       </Grid>
     </div>

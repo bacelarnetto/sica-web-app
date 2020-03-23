@@ -44,6 +44,7 @@ const url = {
   BARRAGEM_QNT:'barragem/barragem/qnt-barragem',
 
   BARRAGEM_MORADOR_RESUMO:'/barragem/barragem/list-barragem-morador',
+  BARRAGEM_MORADOR_RESUMO_RISCO_ALTO: '/barragem/barragem/list-barragem-morador-risco-alto',
 
   BARRAGEM_MORADOR_LIST_PAGE: '/barragem/morador/list-page?',
   BARRAGEM_MORADOR: '/barragem/morador/',

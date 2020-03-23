@@ -14,9 +14,11 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Typography
 } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import WavesIcon from '@material-ui/icons/Waves';
+import ErrorIcon from '@material-ui/icons/Error';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,8 +49,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MoradorByBarragem = props => {
-  const { className, resumeBarragemMorador, 
+
+const AlertaBarragem =  props => {
+  const { className, 
+    resumeBarragemMoradorRiscoAlto, 
     listQntMoradores ,
     listBarragem ,
     listColor, ...rest } = props;
@@ -91,7 +95,20 @@ const MoradorByBarragem = props => {
     }
   };
 
-
+  const colorStatus = id => {
+    let color = ''
+    if (id === 1 ){
+      //Baixo
+      color = '#107B2D'
+    } else if (id === 2) {
+      //Medio
+      color = '#ff8000'
+    } else {
+      //Alto
+      color = '#BA1717'
+    } 
+    return color
+  }
 
   return (
     <Card
@@ -104,7 +121,7 @@ const MoradorByBarragem = props => {
             <RefreshIcon />
           </IconButton>
         }
-        title="Morador Por Barragem"
+        title="Barragens com alto risco de rompimento"
       />
       <Divider />
       <CardContent>
@@ -114,9 +131,9 @@ const MoradorByBarragem = props => {
         >
           <Grid
             item
-            lg={6}
-            md={6}
-            xl={6}
+            lg={5}
+            md={5}
+            xl={5}
             xs={12}
           >
             <div className={classes.chartContainer}>
@@ -128,28 +145,47 @@ const MoradorByBarragem = props => {
           </Grid>
           <Grid
             item
-            lg={6}
-            md={6}
-            xl={6}
+            lg={7}
+            md={7}
+            xl={7}
             xs={12}
           >
             <List>
-              {resumeBarragemMorador.map((resume, i)  => (
+              {resumeBarragemMoradorRiscoAlto.map((resume, i)  => (
                 <ListItem
                   divider
                   key={resume.idBarragem}
                 >
                   <ListItemAvatar>
-                    <PeopleIcon
+                    <WavesIcon
                       className={classes.icon}
                       style={{ color:  listColor[i] }}
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={`Total de moradores: ${resume.totalMorador}`}
-                    secondary={`Barragem: ${resume.nomeBarragem}`}
-                  />                
+                    primary={`Barragem: ${resume.nomeBarragem}`}
+                    secondary={`Total de moradores: ${resume.totalMorador}`}
+                  />   
+                  <ListItemText >   
+                    <Typography  variant="h6">
+                      {'Dano potencial: '}
+                    </Typography >
+                    <Typography 
+                      style={{color: colorStatus(resume.danoPotencialAssociado.codigo), textTransform: 'uppercase', fontWeight: 'bold'}}
+                      variant="h5"
+                    >
+                      {resume.danoPotencialAssociado.descricao}
+                    </Typography>
                  
+                  </ListItemText>
+
+
+                  <ListItemAvatar>
+                    <ErrorIcon
+                      className={classes.icon}
+                      style={{ color:  '#B22222' }}
+                    />
+                  </ListItemAvatar> 
                 </ListItem>
               ))}
             </List>
@@ -161,8 +197,8 @@ const MoradorByBarragem = props => {
   );
 };
 
-MoradorByBarragem.propTypes = {
+AlertaBarragem.propTypes = {
   className: PropTypes.string
 };
 
-export default MoradorByBarragem;
+export default AlertaBarragem;

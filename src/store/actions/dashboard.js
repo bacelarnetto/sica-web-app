@@ -26,9 +26,13 @@ export const Creators = {
     qntBarragem,
     qntMorador,
     resumeBarragemMorador,
+    resumeBarragemMoradorRiscoAlto,
     listQntMoradores,
     listBarragem,
     listColor,
+    listColorRiscoAlto,
+    listQntMoradoresRiscoAlto,
+    listBarragemRiscoAlto
   ) => ({
     type: Types.BUSCA_DASHBOARD_SUCCESS,
     qntInsumo,
@@ -36,9 +40,13 @@ export const Creators = {
     qntBarragem,
     qntMorador,
     resumeBarragemMorador,
+    resumeBarragemMoradorRiscoAlto,
     listQntMoradores,
     listBarragem,
     listColor,
+    listColorRiscoAlto,
+    listQntMoradoresRiscoAlto,
+    listBarragemRiscoAlto,
     loading: false,
     erro: false
   }),
