@@ -354,7 +354,7 @@ const BarragemTable = props => {
                           </ RouterLink>
                         </div>
                       </TableCell>            
-                      <TableCell>{barragem.descricao}</TableCell>
+                      <TableCell><div style={{minWidth: '160px'}}>{barragem.descricao}</div></TableCell>
                       <TableCell>{barragem.minerio}</TableCell>
                       <TableCell>{barragem.tipo.nome}</TableCell>
                       <TableCell 
@@ -375,7 +375,7 @@ const BarragemTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={3} >
+                      <TableCell colSpan={10} >
                         <div className={classes.loadingContent}>
                           <CircularProgress />
                         </div>
@@ -388,7 +388,7 @@ const BarragemTable = props => {
                       className={classes.tableRow}
                       hover
                     >
-                      <TableCell colSpan={3} >
+                      <TableCell colSpan={10} >
                         <div className={classes.loadingContent}>
                           <h5>Nenhum registro encontrado!</h5>
                         </div>

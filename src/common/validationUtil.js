@@ -5,6 +5,13 @@ const required = value => (
   value.length !== 0   ?  undefined : 'Preenchimento obrigatório'
 )
 
+
+const minLengthRequired = (min, value) => (
+  value ||
+  typeof value === 'number' || 
+  value.length !== 0   ?  undefined : 'Preenchimento obrigatório'
+) || (value.length < min ? `Deve ter no mínimo  ${min} caracteres ou mais` : undefined)
+
 const maxLength = max => value =>
   value && value.length > max ? `Deve ter no máximo ${max} caracteres ou menos` : undefined
 
@@ -12,6 +19,8 @@ const maxLength15 = maxLength(15)
 
 export const minLength = min => value =>
   value && value.length < min ? `Deve ter no mínimo  ${min} caracteres ou mais` : undefined
+
+export const minLength6 = minLength(6)
 
 export const minLength2 = minLength(2)
 
@@ -63,5 +72,6 @@ export default {
   tooYoung,
   aol,
   alphaNumeric,
-  phoneNumber
+  phoneNumber,
+  minLengthRequired
 }

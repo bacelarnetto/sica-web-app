@@ -363,7 +363,7 @@ const InsumoTable = props => {
                           
                         </div>
                       </TableCell>            
-                      <TableCell>{insumo.descricao}</TableCell>
+                      <TableCell><div style={{minWidth: '160px'}}>{insumo.descricao}</div></TableCell>
                       <TableCell>{insumo.dataCompra}</TableCell>
                       <TableCell>{insumo.dataHoraCadastro}</TableCell>
                       <TableCell>{insumo.marca.nome}</TableCell>

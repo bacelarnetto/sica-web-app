@@ -68,7 +68,6 @@ const Sidebar = props => {
       icon: <BrandingWatermarkIcon/>,
       permission:  temAcesso(permissions, gTypes.role.ADMIN) 
       || temAcesso(permissions, gTypes.role.USER)
-      || temAcesso(permissions, gTypes.role.ENGINEER)
     },
     {
       title: 'Insumo',
@@ -93,18 +92,18 @@ const Sidebar = props => {
       || temAcesso(permissions, gTypes.role.USER)
     },
     {
-      title: 'Moradores',
-      href: '/morador',
-      icon: <PeopleIcon />,
-      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
-      || temAcesso(permissions, gTypes.role.USER)
-      || temAcesso(permissions, gTypes.role.ENGINEER)
-    },
-    {
       title: 'Barragem',
       href: '/barragem',
       icon: <WavesIcon />,
       permission: temAcesso(permissions, gTypes.role.ADMIN) 
+      || temAcesso(permissions, gTypes.role.USER)
+      || temAcesso(permissions, gTypes.role.ENGINEER)
+    },
+    {
+      title: 'Moradores',
+      href: '/morador',
+      icon: <PeopleIcon />,
+      permission:  temAcesso(permissions, gTypes.role.ADMIN) 
       || temAcesso(permissions, gTypes.role.USER)
       || temAcesso(permissions, gTypes.role.ENGINEER)
     }

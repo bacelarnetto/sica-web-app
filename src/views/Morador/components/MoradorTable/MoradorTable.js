@@ -342,7 +342,7 @@ const MoradorTable = props => {
 
                         </div>
                       </TableCell>            
-                      <TableCell>{morador.nome}</TableCell>
+                      <TableCell><div style={{minWidth: '160px'}}>{morador.nome}</div></TableCell>
                       <TableCell>{morador.idade}</TableCell>
                       <TableCell>{morador.endereco}</TableCell>
                       <TableCell>{morador.bairro}</TableCell>

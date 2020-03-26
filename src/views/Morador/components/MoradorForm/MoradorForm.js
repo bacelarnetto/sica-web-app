@@ -110,6 +110,7 @@ const MoradorForm = props => {
   const handleSubmit = event => {
     event.preventDefault();
     if (validation.required(values.nome.trim()) 
+      || validation.minLengthRequired(6, values.nome)
       || validation.email(values.email) 
       || validation.required(values.endereco.trim()) 
       || validation.required(values.bairro.trim())
@@ -191,9 +192,9 @@ const MoradorForm = props => {
               xs={10}
             >
               <TextField
-                error={validation.required(values.nome.trim()) && showErrors}
+                error={validation.minLengthRequired(6, values.nome) && showErrors}
                 fullWidth
-                helperText={showErrors && validation.required(values.nome.trim())}
+                helperText={showErrors && validation.minLengthRequired(6, values.nome)}
                 label="Nome"
                 margin="dense"
                 name="nome"

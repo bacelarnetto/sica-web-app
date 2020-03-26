@@ -319,10 +319,10 @@ const ManutencaoTable = props => {
 
                         </div>
                       </TableCell>            
-                      <TableCell>{manutencao.solicitante}</TableCell>
+                      <TableCell><div style={{minWidth: '160px'}}>{manutencao.solicitante}</div></TableCell>
                       <TableCell>{manutencao.instante}</TableCell>
-                      <TableCell>{manutencao.insumo.descricao}</TableCell>
-                      <TableCell>{manutencao.descricao}</TableCell>            
+                      <TableCell><div style={{minWidth: '160px'}}>{manutencao.insumo.descricao}</div></TableCell>
+                      <TableCell><div style={{minWidth: '200px'}}>{manutencao.descricao}</div></TableCell>            
                     </TableRow>
                   )))}
 

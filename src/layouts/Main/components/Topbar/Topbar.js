@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,  useEffect } from 'react';
 import { Link as RouterLink,  NavLink  } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { withStyles, makeStyles } from '@material-ui/styles';
+
 import { 
   AppBar, 
   Toolbar, 
@@ -18,7 +19,11 @@ import {
   Button } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import InputIcon from '@material-ui/icons/Input';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import { GeralService as service } from '././../../../../servers/geral'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,13 +44,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const LightTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
+
 const Topbar = props => {
   const { className, onSidebarOpen, ...rest } = props;
   const [open, setOpen] = useState(false);
 
   const classes = useStyles();
 
-  const [notifications] = useState([]);
+  const [qntNotifications , setQntNotifications] = useState(0);
+
+  useEffect(() => {
+    async function loadtNotifications() {
+      const qnt = await service.getQntAlertBarragem()
+      setQntNotifications(qnt);
+    }
+    loadtNotifications();
+  }, []);
+
+  const handleAlert = async () => {       
+    const qnt = await service.getQntAlertBarragem()
+    setQntNotifications(qnt);   
+  };
+
+  setInterval(function() { handleAlert() }, 4000);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -79,15 +108,22 @@ const Topbar = props => {
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
+          <LightTooltip title="Alerta de risco de rompimento de barragem">
+            <IconButton
+              color="inherit"
+              onClick={() => handleAlert()}
             >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+              { qntNotifications > 0 ? (
+                <Badge
+                  badgeContent={qntNotifications}
+                  color="error"
+                >
+                  <NotificationsActiveIcon color="primary"/>
+                </Badge>) : (
+                <NotificationsIcon />
+              )}
+            </IconButton>
+          </LightTooltip>
           
           <IconButton
             className={classes.signOutButton}

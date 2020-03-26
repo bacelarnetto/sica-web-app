@@ -4,6 +4,7 @@
 
 const url = {
   BASE: 'http://localhost:8080/gateway',
+  //BASE: 'http://192.168.99.105/gateway',
 
   LOGIN: '/auth/login',
   // API DE ATIVOS
@@ -42,6 +43,7 @@ const url = {
   BARRAGEM_LIST_SITUACOES_OPERACIONAIS: '/barragem/barragem/lista-situacoes-operacionais', 
   BARRAGEM_LIST: '/barragem/public/barragem/',
   BARRAGEM_QNT:'barragem/barragem/qnt-barragem',
+  BARRAGEM_QNT_ALERT:'barragem/barragem/qnt-barragem-alert',
 
   BARRAGEM_MORADOR_RESUMO:'/barragem/barragem/list-barragem-morador',
   BARRAGEM_MORADOR_RESUMO_RISCO_ALTO: '/barragem/barragem/list-barragem-morador-risco-alto',

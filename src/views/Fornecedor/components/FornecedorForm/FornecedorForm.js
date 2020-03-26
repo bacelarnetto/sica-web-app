@@ -93,7 +93,7 @@ const FornecedorForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if (validation.required(values.nome.trim()) 
+    if (validation.minLengthRequired(6, values.nome.trim()) 
       || validation.email(values.email) 
       || validation.required(values.endereco.trim()) 
       || validation.required(values.bairro.trim())
@@ -172,9 +172,9 @@ const FornecedorForm = props => {
               xs={12}
             >
               <TextField
-                error={validation.required(values.nome.trim()) && showErrors}
+                error={validation.minLengthRequired(6, values.nome.trim()) && showErrors}
                 fullWidth
-                helperText={showErrors && validation.required(values.nome.trim())}
+                helperText={showErrors && validation.minLengthRequired(6, values.nome.trim())}
                 label="Nome"
                 margin="dense"
                 name="nome"

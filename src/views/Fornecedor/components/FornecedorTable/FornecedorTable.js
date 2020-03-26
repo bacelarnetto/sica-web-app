@@ -347,7 +347,7 @@ const FornecedorTable = props => {
                           
                         </div>
                       </TableCell>            
-                      <TableCell>{fornecedor.nome}</TableCell>
+                      <TableCell ><div style={{minWidth: '160px'}}>{fornecedor.nome}</div></TableCell>
                       <TableCell>{fornecedor.endereco}</TableCell>
                       <TableCell>{fornecedor.numero}</TableCell>
                       <TableCell>{fornecedor.bairro}</TableCell>

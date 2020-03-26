@@ -153,7 +153,7 @@ const BarragemForm = props => {
   
   const handleSubmit = event => {
     event.preventDefault();
-    if (validation.required(values.descricao.trim()
+    if (validation.minLengthRequired(6, values.descricao.trim()
         || validation.required(values.empreendedor.trim())
         || validation.required(values.cnpjEmpreendedor.trim()) 
         || validation.required(values.minerio.trim())    
@@ -250,9 +250,9 @@ const BarragemForm = props => {
                 xs={12}
               >
                 <TextField
-                  error={validation.required(values.descricao.trim()) && showErrors}
+                  error={validation.minLengthRequired(6, values.descricao.trim()) && showErrors}
                   fullWidth
-                  helperText={showErrors && validation.required(values.descricao.trim())}
+                  helperText={showErrors && validation.minLengthRequired(6, values.descricao.trim())}
                   label="Nome"
                   margin="dense"
                   name="descricao"
