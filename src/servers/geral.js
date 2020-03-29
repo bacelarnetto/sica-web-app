@@ -8,9 +8,14 @@ export const GeralService = {
   getQntAlertBarragem: async () => {
     try {
       const response = await api.get(globalTypes.url.BARRAGEM_QNT_ALERT)
-      return response.data
+      let qnt = 0
+      if(response.data !== undefined || response.data !== null){
+        qnt = response.data
+      }
+        
+      return qnt
     } catch (error) {
-      console.error('Erro: ' + JSON.stringify(error.response.data))
+      console.error('Erro: ' + JSON.stringify(error))
     }
   },
      

@@ -74,7 +74,7 @@ const Topbar = props => {
     setQntNotifications(qnt);   
   };
 
-  setInterval(function() { handleAlert() }, 4000);
+  setInterval(function() { handleAlert() }, 5000);
 
   const handleClickOpen = () => {
     setOpen(true);
